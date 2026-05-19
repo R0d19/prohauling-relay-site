@@ -967,6 +967,80 @@
     .guide-card-desc  { font-size: 14px; color: var(--muted); line-height: 1.7; flex: 1; }
     .guide-card-cta   { padding-top: 6px; font-size: 13.5px; font-weight: 700; color: var(--orange); }
 
+    /* Guide card thumbnail + lightbox */
+    .guide-thumb-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .guide-thumb {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      border-radius: 10px;
+      transition: transform .25s ease;
+    }
+    .guide-card-link:hover .guide-thumb { transform: scale(1.03); }
+    .guide-thumb-hint {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 20px;
+      letter-spacing: .4px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .guide-thumb-wrap:hover .guide-thumb-hint { opacity: 1; }
+    @media (hover: none) { .guide-thumb-hint { opacity: 1; } }
+
+    /* Lightbox overlay */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      cursor: zoom-out;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+      object-fit: contain;
+      touch-action: pinch-zoom;
+      cursor: default;
+    }
+    #lightbox-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      font-size: 22px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s;
+    }
+    #lightbox-close:hover { background: rgba(255,255,255,0.25); }
+
     /* ═══════════════════════════════════════
        SYSTEM LIGHT MODE
     ═══════════════════════════════════════ */
@@ -1343,7 +1417,10 @@
       <!-- Tutorial card -->
       <a href="tutorial.html" class="guide-card-link">
         <div class="guide-card-inner">
-          <div class="guide-card-icon">&#128247;</div>
+          <div class="guide-thumb-wrap">
+            <img src="tutorial/step4-overview.png" alt="Auto-Booking Setup Preview" class="guide-thumb" onclick="openLightbox(this,event)">
+            <div class="guide-thumb-hint">Tap to zoom</div>
+          </div>
           <div class="guide-card-title" id="guide1-title">Auto-Booking Setup Guide</div>
           <div class="guide-card-desc" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
           <div class="guide-card-cta" id="guide1-cta">View Setup Guide &rarr;</div>
@@ -1353,7 +1430,10 @@
       <!-- Visual Guide card -->
       <a href="slides.html" class="guide-card-link">
         <div class="guide-card-inner">
-          <div class="guide-card-icon">&#127916;</div>
+          <div class="guide-thumb-wrap">
+            <img src="tutorial/step3-slot-config.png" alt="Visual Guide Preview" class="guide-thumb" onclick="openLightbox(this,event)">
+            <div class="guide-thumb-hint">Tap to zoom</div>
+          </div>
           <div class="guide-card-title" id="guide2-title">Visual Guide</div>
           <div class="guide-card-desc" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
           <div class="guide-card-cta" id="guide2-cta">Open Visual Guide &rarr;</div>
@@ -2517,7 +2597,34 @@ document.getElementById('trialModal').addEventListener('click', function(e) {
 
 // Close on Escape key
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeTrialModal();
+  if (e.key === 'Escape') { closeTrialModal(); closeLightbox(); }
+});
+</script>
+
+<!-- ── Lightbox ── -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+function openLightbox(imgEl, e) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.getElementById('lightbox-img').src = imgEl.src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Show hint on mobile on first load
+document.addEventListener('DOMContentLoaded', function() {
+  var hints = document.querySelectorAll('.guide-thumb-hint');
+  if (window.matchMedia('(hover: none)').matches) {
+    hints.forEach(function(h) { h.style.opacity = '1'; });
+  }
 });
 </script>
 
