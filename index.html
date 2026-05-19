@@ -650,7 +650,7 @@
     /* ═══════════════════════════════════════
        FEATURES GRID
     ═══════════════════════════════════════ */
-    .features-grid {
+    .features-grid, .overview-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 20px;
@@ -1107,7 +1107,7 @@
 
       /* Section wrappers */
       section { background: transparent; }
-      #speed, #how-it-works, #autobook, #faq, #guides { background: rgba(200,100,20,0.07); border-top-color: rgba(200,100,20,0.1); border-bottom-color: rgba(200,100,20,0.1); }
+      #speed, #how-it-works, #autobook, #faq, #guides, #overview { background: rgba(200,100,20,0.07); border-top-color: rgba(200,100,20,0.1); border-bottom-color: rgba(200,100,20,0.1); }
       .section-label { color: var(--orange); }
       .section-title { color: #1a1410; }
       .section-sub { color: rgba(26,20,16,0.62); }
@@ -1229,7 +1229,7 @@
     html.force-light .stat-item { border-right-color:rgba(200,100,20,0.15); }
     /* Sections */
     html.force-light section { background:transparent; }
-    html.force-light #speed,html.force-light #how-it-works,html.force-light #autobook,html.force-light #faq,html.force-light #guides { background:rgba(200,100,20,0.07); border-top-color:rgba(200,100,20,0.1); border-bottom-color:rgba(200,100,20,0.1); }
+    html.force-light #speed,html.force-light #how-it-works,html.force-light #autobook,html.force-light #faq,html.force-light #guides,html.force-light #overview { background:rgba(200,100,20,0.07); border-top-color:rgba(200,100,20,0.1); border-bottom-color:rgba(200,100,20,0.1); }
     html.force-light .section-label { color:var(--orange); }
     html.force-light .section-title { color:#1a1410; }
     html.force-light .section-sub { color:rgba(26,20,16,0.62); }
@@ -1402,6 +1402,56 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     OVERVIEW
+══════════════════════════════════════ -->
+<section id="overview">
+  <div class="section-inner">
+    <span class="section-label reveal" id="overview-label">What It Does</span>
+    <h2 class="section-title reveal delay-1" id="overview-title">Everything on one screen. Running 24/7.</h2>
+    <p class="section-sub reveal delay-2" id="overview-sub">The most powerful load monitoring tool built for owner-operators, dispatchers, and trucking companies — runs directly on your load board and works completely automatically.</p>
+    <div class="overview-grid reveal delay-3">
+
+      <div class="feat-card">
+        <span class="feat-icon">⚡</span>
+        <div class="feat-card-title" id="ov1-title">Auto Book</div>
+        <div class="feat-card-desc" id="ov1-desc">Scans continuously and books matching loads automatically across up to <strong>5 independent slots</strong> — each with its own pay, route, trailer type, and schedule rules. No clicking, no waiting.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">📱</span>
+        <div class="feat-card-title" id="ov2-title">Instant Driver Notifications</div>
+        <div class="feat-card-desc" id="ov2-desc">The moment a load is booked, drivers get a <strong>Telegram message + automatic voice call</strong> with full load details. They confirm or cancel with one tap — no app required.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">👥</span>
+        <div class="feat-card-title" id="ov3-title">Built for Dispatchers &amp; Fleets</div>
+        <div class="feat-card-desc" id="ov3-desc">Manage <strong>unlimited drivers</strong>, each with their own trailer type, phone number, and preferred language. Set one active driver per session — all notifications go to them automatically.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🎯</span>
+        <div class="feat-card-title" id="ov4-title">Smart Load Filtering</div>
+        <div class="feat-card-desc" id="ov4-desc"><strong>Min $/hr</strong>, AI Score priority, deadhead check, and duplicate detection work together to make sure only the right loads get through.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🛡️</span>
+        <div class="feat-card-title" id="ov5-title">Ban Protection Built In</div>
+        <div class="feat-card-desc" id="ov5-desc">Random refresh intervals mimic natural browsing. <strong>Auto-pause</strong> when the tab is idle, auto-resume when you return. No GPS data used.</div>
+      </div>
+
+      <div class="feat-card">
+        <span class="feat-icon">🌎</span>
+        <div class="feat-card-title" id="ov6-title">English &amp; Spanish</div>
+        <div class="feat-card-desc" id="ov6-desc">Full bilingual support for your entire team. Driver notifications are sent in each driver's <strong>preferred language</strong> — automatically.</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1986,6 +2036,23 @@ var translations = {
     'step3-title':            'Best Loads Get Booked',
     'step3-desc':             'A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don\'t — the load is yours. Your phone rings. You drive.',
 
+    /* Overview */
+    'overview-label':  'What It Does',
+    'overview-title':  'Everything on one screen. Running 24/7.',
+    'overview-sub':    'The most powerful load monitoring tool built for owner-operators, dispatchers, and trucking companies — runs directly on your load board and works completely automatically.',
+    'ov1-title': 'Auto Book',
+    'ov1-desc':  'Scans continuously and books matching loads automatically across up to <strong>5 independent slots</strong> — each with its own pay, route, trailer type, and schedule rules. No clicking, no waiting.',
+    'ov2-title': 'Instant Driver Notifications',
+    'ov2-desc':  'The moment a load is booked, drivers get a <strong>Telegram message + automatic voice call</strong> with full load details. They confirm or cancel with one tap — no app required.',
+    'ov3-title': 'Built for Dispatchers &amp; Fleets',
+    'ov3-desc':  'Manage <strong>unlimited drivers</strong>, each with their own trailer type, phone number, and preferred language. Set one active driver per session — all notifications go to them automatically.',
+    'ov4-title': 'Smart Load Filtering',
+    'ov4-desc':  '<strong>Min $/hr</strong>, AI Score priority, deadhead check, and duplicate detection work together to make sure only the right loads get through.',
+    'ov5-title': 'Ban Protection Built In',
+    'ov5-desc':  'Random refresh intervals mimic natural browsing. <strong>Auto-pause</strong> when the tab is idle, auto-resume when you return. No GPS data used.',
+    'ov6-title': 'English &amp; Spanish',
+    'ov6-desc':  'Full bilingual support for your entire team. Driver notifications are sent in each driver\'s <strong>preferred language</strong> — automatically.',
+
     /* Guides */
     'guides-label':           'Learn &amp; Set Up',
     'guides-title':           'Everything you need to get started',
@@ -2150,6 +2217,23 @@ var translations = {
     'step2-desc':             'Abre el tablero de cargas y déjalo corriendo. Prohauling Relay intercepta cada respuesta de la API en segundo plano — escaneando cargas nuevas en el instante en que aparecen, las 24 horas.',
     'step3-title':            'Las Mejores Cargas se Reservan',
     'step3-desc':             'Una carga calificada activa los 5 canales de alerta a la vez y arranca la cuenta regresiva de auto-reserva. Los 4 pasos de reserva se ejecutan solos. Si quieres cancelar, tienes la ventana. Si no — la carga es tuya. Tu teléfono suena. Tú manejas.',
+
+    /* Overview */
+    'overview-label':  'Qué Hace',
+    'overview-title':  'Todo en una pantalla. Funcionando 24/7.',
+    'overview-sub':    'La herramienta de monitoreo de cargas más poderosa para propietarios-operadores, despachadores y empresas de transporte — funciona directamente en tu tablero de cargas, de forma completamente automática.',
+    'ov1-title': 'Auto-Reserva',
+    'ov1-desc':  'Escanea continuamente y reserva cargas que coincidan con tus criterios en hasta <strong>5 ranuras independientes</strong> — cada una con sus propias reglas de pago, ruta, tipo de remolque y horario.',
+    'ov2-title': 'Notificaciones Instantáneas',
+    'ov2-desc':  'En el momento en que se reserva una carga, el conductor recibe un <strong>mensaje de Telegram + llamada de voz automática</strong> con todos los detalles. Confirma o cancela con un toque — sin app adicional.',
+    'ov3-title': 'Hecho para Despachadores y Flotas',
+    'ov3-desc':  'Administra <strong>conductores ilimitados</strong>, cada uno con su propio tipo de remolque, número de teléfono e idioma preferido. Establece un conductor activo por sesión — todas las notificaciones van a él automáticamente.',
+    'ov4-title': 'Filtrado Inteligente de Cargas',
+    'ov4-desc':  '<strong>Mínimo $/hr</strong>, prioridad por puntaje IA, control de deadhead y detección de duplicados aseguran que solo pasen las cargas correctas.',
+    'ov5-title': 'Protección Anti-Ban Integrada',
+    'ov5-desc':  'Intervalos de refresco aleatorios imitan el comportamiento humano. <strong>Pausa automática</strong> cuando la pestaña está inactiva, reanuda al volver. Sin uso de GPS.',
+    'ov6-title': 'Inglés y Español',
+    'ov6-desc':  'Soporte bilingüe completo para todo tu equipo. Las notificaciones a conductores se envían en el <strong>idioma preferido</strong> de cada uno — automáticamente.',
 
     /* Guides */
     'guides-label':           'Aprende y Configura',
