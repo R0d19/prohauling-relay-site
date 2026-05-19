@@ -148,6 +148,30 @@
 
     .btn-lg { padding: 15px 32px; font-size: 16px; border-radius: 12px; }
 
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lang-btn {
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      transition: all .15s;
+      letter-spacing: .5px;
+    }
+    .lang-btn.active { background: var(--orange); color: #000; }
+    .lang-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
     /* Hamburger */
     .hamburger {
       display: none;
@@ -174,6 +198,7 @@
     @media (max-width: 680px) {
       .nav-links { display: none; }
       .nav-cta-desktop { display: none; }
+      .nav-lang-desktop { display: none; }
       .hamburger { display: flex; }
     }
 
@@ -220,6 +245,20 @@
       border-radius: 10px;
     }
     .mobile-menu .mobile-cta:hover { background: #ff9520; }
+
+    .mobile-lang-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mobile-lang-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
 
     /* ═══════════════════════════════════════
        HERO
@@ -374,7 +413,7 @@
     }
 
     .mock-load-card::before {
-      content: 'QUALIFYING LOAD DETECTED';
+      content: attr(data-label);
       position: absolute;
       top: -10px; left: 14px;
       background: var(--orange);
@@ -388,7 +427,7 @@
     }
 
     .mock-load-card.booked { border-color: var(--green); }
-    .mock-load-card.booked::before { content: 'LOAD BOOKED'; background: var(--green); }
+    .mock-load-card.booked::before { background: var(--green); }
 
     .mock-load-price {
       font-size: 26px;
@@ -871,12 +910,16 @@
       </div>
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#speed"        data-section="speed">How It Works</a></li>
-      <li><a href="#features"     data-section="features">Features</a></li>
-      <li><a href="#pricing"      data-section="pricing">Pricing</a></li>
-      <li><a href="#faq"          data-section="faq">FAQ</a></li>
+      <li><a href="#speed"        data-section="speed"        id="nav-how-it-works">How It Works</a></li>
+      <li><a href="#features"     data-section="features"     id="nav-features">Features</a></li>
+      <li><a href="#pricing"      data-section="pricing"      id="nav-pricing">Pricing</a></li>
+      <li><a href="#faq"          data-section="faq"          id="nav-faq">FAQ</a></li>
     </ul>
-    <a href="checkout.html" class="btn btn-primary nav-cta-desktop" style="font-size:13px;padding:9px 18px;">Get Started Free</a>
+    <div class="lang-toggle nav-lang-desktop" id="langToggleDesktop">
+      <button class="lang-btn active" id="langBtnEnDesktop" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn"        id="langBtnEsDesktop" onclick="setLanguage('es')">ES</button>
+    </div>
+    <a href="checkout.html" class="btn btn-primary nav-cta-desktop" style="font-size:13px;padding:9px 18px;" id="nav-cta">Get Started Free</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -885,32 +928,39 @@
 
 <!-- Mobile nav -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#speed"    class="mobile-nav-link">How It Works</a>
-  <a href="#features" class="mobile-nav-link">Features</a>
-  <a href="#pricing"  class="mobile-nav-link">Pricing</a>
-  <a href="#faq"      class="mobile-nav-link">FAQ</a>
-  <a href="checkout.html" class="mobile-cta">Get Started Free</a>
+  <a href="#speed"    class="mobile-nav-link" id="mobile-nav-how-it-works">How It Works</a>
+  <a href="#features" class="mobile-nav-link" id="mobile-nav-features">Features</a>
+  <a href="#pricing"  class="mobile-nav-link" id="mobile-nav-pricing">Pricing</a>
+  <a href="#faq"      class="mobile-nav-link" id="mobile-nav-faq">FAQ</a>
+  <div class="mobile-lang-row">
+    <span class="mobile-lang-label" id="mobile-lang-label">Language:</span>
+    <div class="lang-toggle" id="langToggleMobile">
+      <button class="lang-btn active" id="langBtnEnMobile" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn"        id="langBtnEsMobile" onclick="setLanguage('es')">ES</button>
+    </div>
+  </div>
+  <a href="checkout.html" class="mobile-cta" id="mobile-cta">Get Started Free</a>
 </div>
 
 <!-- ══════════════════════════════════════
      HERO
 ══════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-eyebrow reveal">
+  <div class="hero-eyebrow reveal" id="hero-eyebrow">
     <span>&#9889;</span> Network-Level Speed · Auto-Booking · Amazon Relay
   </div>
 
-  <h1 class="reveal delay-1">Stop Watching the Load Board.<br><span>Let It Book Itself.</span></h1>
+  <h1 class="reveal delay-1" id="hero-h1">Stop Watching the Load Board.<br><span>Let It Book Itself.</span></h1>
 
-  <p class="hero-sub reveal delay-2">
-    Prohauling Relay intercepts Amazon Relay's API at the network level — before anything renders on screen — and automatically books the loads that match your rates, routes, and schedule. Hands-free hauling starts here.
+  <p class="hero-sub reveal delay-2" id="hero-sub">
+    Set your rates, your routes, and your schedule — then step away from the screen. Prohauling Relay watches the load board for you around the clock and books the right loads automatically. You focus on driving.
   </p>
 
   <div class="hero-ctas reveal delay-3">
-    <a href="checkout.html" class="btn btn-primary btn-lg">Start 7-Day Free Trial</a>
-    <a href="#pricing" class="btn btn-outline btn-lg">See Pricing</a>
+    <button onclick="openTrialModal()" class="btn btn-primary btn-lg" id="hero-cta-primary">Start 7-Day Free Trial</button>
+    <a href="#pricing" class="btn btn-outline btn-lg" id="hero-cta-secondary">See Pricing</a>
   </div>
-  <p class="hero-note reveal delay-3">No credit card required &nbsp;·&nbsp; 7-day free trial &nbsp;·&nbsp; Cancel any time</p>
+  <p class="hero-note reveal delay-3" id="hero-note">No credit card required &nbsp;·&nbsp; 7-day free trial &nbsp;·&nbsp; Cancel any time</p>
 
   <!-- Mock UI -->
   <div class="mock-ui reveal delay-4">
@@ -925,18 +975,18 @@
         <div class="mock-banner">
           <div class="mock-banner-left">
             <div class="mock-pulse"></div>
-            <div class="mock-banner-text"><strong>Prohauling Relay</strong> — Monitoring active</div>
+            <div class="mock-banner-text"><strong>Prohauling Relay</strong> — <span id="mock-monitoring">Monitoring active</span></div>
           </div>
-          <div class="mock-badge">LIVE</div>
+          <div class="mock-badge" id="mock-live">LIVE</div>
         </div>
-        <div class="mock-load-card" id="mockLoadCard">
+        <div class="mock-load-card" id="mockLoadCard" data-label="QUALIFYING LOAD DETECTED">
           <div class="mock-load-price" id="mockLoadPrice">$2,840</div>
           <div class="mock-load-route" id="mockLoadRoute">Chicago, IL &rarr; Dallas, TX &nbsp;·&nbsp; 487 mi</div>
           <div class="mock-load-tags">
             <span class="mock-tag" id="mockLoadRate">$5.82/mi</span>
             <span class="mock-tag">Dry Van</span>
             <span class="mock-tag">IL origin</span>
-            <span class="mock-tag-green">&#10003; Meets filters</span>
+            <span class="mock-tag-green">&#10003; <span id="mock-meets-filters">Meets filters</span></span>
           </div>
           <div class="mock-countdown" id="mockCountdown">
             <div>
@@ -958,23 +1008,23 @@
   <div class="stats-inner">
     <div class="stat-item reveal">
       <div class="stat-number" data-target="9">0</div>
-      <div class="stat-label">Filter Dimensions</div>
+      <div class="stat-label" id="stat-filter">Filter Dimensions</div>
     </div>
     <div class="stat-item reveal delay-1">
       <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label">Alert Channels</div>
+      <div class="stat-label" id="stat-alert">Alert Channels</div>
     </div>
     <div class="stat-item reveal delay-2">
       <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label">Schedule Windows</div>
+      <div class="stat-label" id="stat-schedule">Schedule Windows</div>
     </div>
     <div class="stat-item reveal delay-3">
       <div class="stat-number" data-target="25">0</div>
-      <div class="stat-label">Color Themes</div>
+      <div class="stat-label" id="stat-themes">Color Themes</div>
     </div>
     <div class="stat-item reveal delay-4">
       <div class="stat-number" data-target="7">0</div>
-      <div class="stat-label">Days Free Trial</div>
+      <div class="stat-label" id="stat-trial">Days Free Trial</div>
     </div>
   </div>
 </div>
@@ -985,57 +1035,57 @@
 <section id="speed">
   <div class="section-inner">
     <div class="text-center" style="margin-bottom:56px;">
-      <span class="section-label reveal">Speed Advantage</span>
-      <h2 class="section-title reveal delay-1">Sees the load before the page does</h2>
-      <p class="section-sub reveal delay-2" style="margin: 0 auto;">Amazon sends load data from its servers to your browser. DOM-scraping tools wait for the page to fully render before they can read a single number. Prohauling Relay overrides the browser's native <strong style="color:rgba(255,255,255,0.7)">fetch() and XMLHttpRequest APIs</strong> to intercept the raw JSON payload the moment the server response arrives — before the rendering pipeline even starts.</p>
+      <span class="section-label reveal" id="speed-label">Speed Advantage</span>
+      <h2 class="section-title reveal delay-1" id="speed-title">Why you get the load first</h2>
+      <p class="section-sub reveal delay-2" style="margin: 0 auto;" id="speed-sub">Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the moment Amazon sends it to your computer, before anything appears on screen.</p>
     </div>
 
     <div class="speed-grid">
 
       <div class="speed-card bad reveal reveal-left">
-        <div class="speed-card-label">Other Extensions</div>
-        <div class="speed-card-title">DOM Scraping</div>
+        <div class="speed-card-label" id="speed-bad-label">Other Extensions</div>
+        <div class="speed-card-title" id="speed-bad-title">The Slow Way</div>
         <div class="speed-step">
           <div class="speed-step-num">1</div>
-          <div class="speed-step-text">Amazon server sends load data to browser</div>
+          <div class="speed-step-text" id="speed-bad-step1">Amazon sends new load data to your computer</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">2</div>
-          <div class="speed-step-text">Browser parses and renders HTML elements</div>
+          <div class="speed-step-text" id="speed-bad-step2">The page has to fully load before anything can happen</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">3</div>
-          <div class="speed-step-text">Extension scans DOM, reads text from screen</div>
+          <div class="speed-step-text" id="speed-bad-step3">The extension reads the load info off the finished page</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">4</div>
-          <div class="speed-step-text">Extension runs filter logic, triggers action</div>
+          <div class="speed-step-text" id="speed-bad-step4">Finally checks if the load matches your settings</div>
         </div>
-        <div class="speed-result">&#10005; Multiple render cycles of latency — load may already be gone</div>
+        <div class="speed-result" id="speed-bad-result">&#10005; By the time it reads the load, other drivers already booked it</div>
       </div>
 
       <div class="speed-vs">VS</div>
 
       <div class="speed-card good reveal reveal-right">
-        <div class="speed-card-label">Prohauling Relay</div>
-        <div class="speed-card-title">Network Interception</div>
+        <div class="speed-card-label" id="speed-good-label">Prohauling Relay</div>
+        <div class="speed-card-title" id="speed-good-title">The Fast Way</div>
         <div class="speed-step">
           <div class="speed-step-num">1</div>
-          <div class="speed-step-text">Amazon server sends load data to browser</div>
+          <div class="speed-step-text" id="speed-good-step1">Amazon sends new load data to your computer</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">2</div>
-          <div class="speed-step-text">Extension intercepts the raw API response — before rendering starts</div>
+          <div class="speed-step-text" id="speed-good-step2">Prohauling Relay picks up the load data instantly — before the page even starts loading</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">3</div>
-          <div class="speed-step-text">Filter logic runs instantly on clean JSON data</div>
+          <div class="speed-step-text" id="speed-good-step3">Checks your filters in less than a second</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">4</div>
-          <div class="speed-step-text">Auto-booking fires while the page is still loading</div>
+          <div class="speed-step-text" id="speed-good-step4">Books the load while other extensions are still waiting for the page to load</div>
         </div>
-        <div class="speed-result">&#10003; Fastest possible reaction — same moment as the server response</div>
+        <div class="speed-result" id="speed-good-result">&#10003; You get the load before anyone else even sees it</div>
       </div>
 
     </div>
@@ -1047,58 +1097,58 @@
 ══════════════════════════════════════ -->
 <section id="features">
   <div class="section-inner">
-    <span class="section-label reveal">Full Feature Set</span>
-    <h2 class="section-title reveal delay-1">Everything a serious carrier needs</h2>
-    <p class="section-sub reveal delay-2">Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.</p>
+    <span class="section-label reveal" id="features-label">Full Feature Set</span>
+    <h2 class="section-title reveal delay-1" id="features-title">Everything a serious carrier needs</h2>
+    <p class="section-sub reveal delay-2" id="features-sub">Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.</p>
 
     <div class="features-grid">
 
       <div class="feat-card reveal delay-1">
         <span class="feat-icon">&#9889;</span>
-        <div class="feat-card-title">4-Step Auto-Booking Engine</div>
-        <div class="feat-card-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon's secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
+        <div class="feat-card-title" id="feat1-title">4-Step Auto-Booking Engine</div>
+        <div class="feat-card-desc" id="feat1-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon's secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
       </div>
 
       <div class="feat-card reveal delay-2">
         <span class="feat-icon">&#127919;</span>
-        <div class="feat-card-title">9-Dimension Real-Time Filtering</div>
-        <div class="feat-card-desc">Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.</div>
+        <div class="feat-card-title" id="feat2-title">9-Dimension Real-Time Filtering</div>
+        <div class="feat-card-desc" id="feat2-desc">Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.</div>
       </div>
 
       <div class="feat-card reveal delay-3">
         <span class="feat-icon">&#128242;</span>
-        <div class="feat-card-title">5-Channel Alert System</div>
-        <div class="feat-card-desc">All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you're watching the screen or not.</div>
+        <div class="feat-card-title" id="feat3-title">5-Channel Alert System</div>
+        <div class="feat-card-desc" id="feat3-desc">All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you're watching the screen or not.</div>
       </div>
 
       <div class="feat-card reveal delay-4">
         <span class="feat-icon">&#128264;</span>
-        <div class="feat-card-title">Voice Announcements</div>
-        <div class="feat-card-desc">The extension uses the browser's built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.</div>
+        <div class="feat-card-title" id="feat4-title">Voice Announcements</div>
+        <div class="feat-card-desc" id="feat4-desc">The extension uses the browser's built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.</div>
       </div>
 
       <div class="feat-card reveal delay-1">
         <span class="feat-icon">&#128197;</span>
-        <div class="feat-card-title">Schedule &amp; Shift Hours</div>
-        <div class="feat-card-desc">Define up to <strong>5 time windows per week</strong>. Auto-booking activates only during your configured shift hours. Outside your schedule, the monitor still watches and alerts — it just won't book without you.</div>
+        <div class="feat-card-title" id="feat5-title">Schedule &amp; Shift Hours</div>
+        <div class="feat-card-desc" id="feat5-desc">Define up to <strong>5 time windows per week</strong>. Auto-booking activates only during your configured shift hours. Outside your schedule, the monitor still watches and alerts — it just won't book without you.</div>
       </div>
 
       <div class="feat-card reveal delay-2">
         <span class="feat-icon">&#128101;</span>
-        <div class="feat-card-title">Fleet &amp; Multi-Driver Management</div>
-        <div class="feat-card-desc">Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.</div>
+        <div class="feat-card-title" id="feat6-title">Fleet &amp; Multi-Driver Management</div>
+        <div class="feat-card-desc" id="feat6-desc">Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.</div>
       </div>
 
       <div class="feat-card reveal delay-3">
         <span class="feat-icon">&#128268;</span>
-        <div class="feat-card-title">Network-Level API Interception</div>
-        <div class="feat-card-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon's front-end have no effect.</div>
+        <div class="feat-card-title" id="feat7-title">Network-Level API Interception</div>
+        <div class="feat-card-desc" id="feat7-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon's front-end have no effect.</div>
       </div>
 
       <div class="feat-card reveal delay-4">
         <span class="feat-icon">&#127775;</span>
-        <div class="feat-card-title">25 Themes &amp; Spanish Support</div>
-        <div class="feat-card-desc">Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.</div>
+        <div class="feat-card-title" id="feat8-title">25 Themes &amp; Spanish Support</div>
+        <div class="feat-card-desc" id="feat8-desc">Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.</div>
       </div>
 
     </div>
@@ -1111,30 +1161,96 @@
 <section id="how-it-works">
   <div class="section-inner">
     <div class="text-center" style="margin-bottom:56px;">
-      <span class="section-label reveal">Get Running in Minutes</span>
-      <h2 class="section-title reveal delay-1">Three steps to hands-free hauling</h2>
+      <span class="section-label reveal" id="hiw-label">Get Running in Minutes</span>
+      <h2 class="section-title reveal delay-1" id="hiw-title">Three steps to hands-free hauling</h2>
     </div>
 
     <div class="steps-grid">
 
       <div class="step-card reveal delay-1" style="position:relative;">
         <div class="step-num">1</div>
-        <div class="step-title">Install &amp; Configure</div>
-        <div class="step-desc">Add Prohauling Relay to Chrome. Enter your license key, set your minimum payout, preferred lanes, equipment type, and the schedule windows you want to work. Takes about five minutes.</div>
+        <div class="step-title" id="step1-title">Install &amp; Configure</div>
+        <div class="step-desc" id="step1-desc">Add Prohauling Relay to Chrome. Enter your license key, set your minimum payout, preferred lanes, equipment type, and the schedule windows you want to work. Takes about five minutes.</div>
         <div class="step-connector"></div>
       </div>
 
       <div class="step-card reveal delay-2" style="position:relative;">
         <div class="step-num">2</div>
-        <div class="step-title">Extension Monitors 24/7</div>
-        <div class="step-desc">Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.</div>
+        <div class="step-title" id="step2-title">Extension Monitors 24/7</div>
+        <div class="step-desc" id="step2-desc">Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.</div>
         <div class="step-connector"></div>
       </div>
 
       <div class="step-card reveal delay-3">
         <div class="step-num">3</div>
-        <div class="step-title">Best Loads Get Booked</div>
-        <div class="step-desc">A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don't — the load is yours. Your phone rings. You drive.</div>
+        <div class="step-title" id="step3-title">Best Loads Get Booked</div>
+        <div class="step-desc" id="step3-desc">A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don't — the load is yours. Your phone rings. You drive.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     AUTO-BOOK SETUP
+══════════════════════════════════════ -->
+<section id="autobook" style="background:#111213;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom:56px;">
+      <span class="section-label reveal" id="autobook-label">Auto-Booking Setup</span>
+      <h2 class="section-title reveal delay-1" id="autobook-title">Set it once. Let it work for you.</h2>
+      <p class="section-sub reveal delay-2" style="margin:0 auto;" id="autobook-sub">Auto-booking is off by default. You turn it on when you're ready. Here's how it works once you do.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:960px;margin:0 auto;">
+
+      <div class="feat-card reveal delay-1" style="border-color:rgba(255,128,0,0.2);">
+        <span class="feat-icon">&#9881;</span>
+        <div class="feat-card-title" id="autobook-step1-title">Step 1 — Tell it what you want</div>
+        <div class="feat-card-desc" id="autobook-step1-desc">Open the extension and set your minimums: the lowest payout you'll accept, your minimum dollars per mile, the states you want to run from and to, and your equipment type. You can be as specific or as open as you want.</div>
+      </div>
+
+      <div class="feat-card reveal delay-2" style="border-color:rgba(255,128,0,0.2);">
+        <span class="feat-icon">&#9201;</span>
+        <div class="feat-card-title" id="autobook-step2-title">Step 2 — Set your countdown window</div>
+        <div class="feat-card-desc" id="autobook-step2-desc">Choose how many seconds the extension waits before booking — anywhere from 3 to 30 seconds. When a good load shows up, a countdown starts on your screen. If you want to cancel, just click. If you don't — it books for you.</div>
+      </div>
+
+      <div class="feat-card reveal delay-3" style="border-color:rgba(255,128,0,0.2);">
+        <span class="feat-icon">&#128197;</span>
+        <div class="feat-card-title" id="autobook-step3-title">Step 3 — Set your schedule (optional)</div>
+        <div class="feat-card-desc" id="autobook-step3-desc">Only want it to book loads on weekday mornings? Set your work windows. Auto-booking only runs during those hours. Outside your schedule, it still alerts you — it just won't book without you there.</div>
+      </div>
+
+      <div class="feat-card reveal delay-4" style="border-color:rgba(255,128,0,0.2);">
+        <span class="feat-icon">&#9889;</span>
+        <div class="feat-card-title" id="autobook-step4-title">Step 4 — Turn it on and walk away</div>
+        <div class="feat-card-desc" id="autobook-step4-desc">Flip the auto-booking switch, leave Amazon Relay open in Chrome, and you're done. The extension watches the board. When a load matches every filter you set, it opens it, waits for your countdown, and books it — no clicks needed.</div>
+      </div>
+
+      <div class="feat-card reveal delay-1" style="border-color:rgba(255,128,0,0.2);grid-column:1/-1;">
+        <span class="feat-icon">&#128242;</span>
+        <div class="feat-card-title" id="autobook-step5-title">Step 5 — Set up your Telegram &amp; phone alerts</div>
+        <div class="feat-card-desc" id="autobook-step5-desc">
+          Every qualifying load triggers all your alerts at once. Here's how to set them up:<br><br>
+          <strong>Telegram:</strong> Open Telegram, search for <strong>@userinfobot</strong> and send it any message — it replies with your numeric Chat ID. Paste that ID into the extension settings. From that point on, every matching load sends you a message like this:<br>
+          <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;">
+            🚛 <strong style="color:#FF8000;">QUALIFYING LOAD</strong><br>
+            💰 Payout: <strong style="color:#fff;">$2,840</strong><br>
+            📍 Route: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>
+            📏 Distance: <strong style="color:#fff;">487 mi</strong><br>
+            💵 Rate: <strong style="color:#fff;">$5.82/mi</strong><br>
+            🏷 Equipment: <strong style="color:#fff;">Dry Van</strong>
+          </div>
+          <strong>Phone call:</strong> Enter your driver's phone number in the Driver settings. When a load matches, the extension places an automated call that speaks the load details out loud — payout, route, and distance.<br><br>
+          <span style="color:rgba(255,255,255,0.6);">This is especially useful during <strong style="color:#fff;">late-night shifts</strong>. If a driver is monitoring loads but gets drowsy, the phone call acts as an alarm — it rings even when the screen is locked or the driver stepped away. A load worth $3,000 at 2 AM won't go unnoticed.</span>
+        </div>
+      </div>
+
+      <div class="feat-card reveal delay-2" style="border-color:rgba(34,197,94,0.2);background:rgba(34,197,94,0.03);">
+        <span class="feat-icon">&#128274;</span>
+        <div class="feat-card-title" style="color:var(--green);" id="autobook-step6-title">You're always in control</div>
+        <div class="feat-card-desc" id="autobook-step6-desc">Auto-booking will never book a load that doesn't match your filters. The countdown window gives you time to cancel any booking before it goes through. You can turn it off with one click at any time.</div>
       </div>
 
     </div>
@@ -1146,56 +1262,56 @@
 ══════════════════════════════════════ -->
 <section id="pricing">
   <div class="section-inner">
-    <span class="section-label reveal">Simple Pricing</span>
-    <h2 class="section-title reveal delay-1">Start free. Pay only when you're ready.</h2>
-    <p class="section-sub reveal delay-2" style="margin:0 auto 56px;">7-day free trial on every plan — no credit card required at sign-up.</p>
+    <span class="section-label reveal" id="pricing-label">Simple Pricing</span>
+    <h2 class="section-title reveal delay-1" id="pricing-title">Start free. Pay only when you're ready.</h2>
+    <p class="section-sub reveal delay-2" style="margin:0 auto 56px;" id="pricing-sub">7-day free trial on every plan — no credit card required at sign-up.</p>
 
     <div class="pricing-grid">
 
       <div class="price-card reveal delay-1">
-        <div class="price-plan-name">Monthly</div>
+        <div class="price-plan-name" id="plan1-name">Monthly</div>
         <div class="price-amount">
           <span class="price-dollar">$</span>
           <span class="price-number">49</span>
           <span class="price-cents">.99</span>
         </div>
-        <div class="price-period">per month &nbsp;·&nbsp; full access</div>
+        <div class="price-period" id="plan1-period">per month &nbsp;·&nbsp; full access</div>
         <div class="price-divider"></div>
         <ul class="price-features">
-          <li>Auto-booking with countdown cancel</li>
-          <li>7-dimension real-time filtering</li>
-          <li>Telegram + phone call alerts</li>
-          <li>Voice announcements</li>
-          <li>Schedule / shift-hours module</li>
-          <li>Fleet &amp; multi-driver profiles</li>
-          <li>25 themes · English &amp; Spanish</li>
+          <li id="plan1-f1">Auto-booking with countdown cancel</li>
+          <li id="plan1-f2">7-dimension real-time filtering</li>
+          <li id="plan1-f3">Telegram + phone call alerts</li>
+          <li id="plan1-f4">Voice announcements</li>
+          <li id="plan1-f5">Schedule / shift-hours module</li>
+          <li id="plan1-f6">Fleet &amp; multi-driver profiles</li>
+          <li id="plan1-f7">25 themes · English &amp; Spanish</li>
         </ul>
-        <a href="checkout.html" class="btn-plan btn-plan-secondary">Start 7-Day Free Trial</a>
+        <button onclick="openTrialModal()" class="btn-plan btn-plan-secondary" id="plan1-cta">Start 7-Day Free Trial</button>
       </div>
 
       <div class="price-card featured reveal delay-2">
-        <div class="price-featured-badge">BEST VALUE</div>
-        <div class="price-plan-name">Yearly</div>
+        <div class="price-featured-badge" id="plan2-badge">BEST VALUE</div>
+        <div class="price-plan-name" id="plan2-name">Yearly</div>
         <div class="price-amount">
           <span class="price-dollar">$</span>
           <span class="price-number">399</span>
           <span class="price-cents">.99</span>
         </div>
-        <div class="price-period">per year &nbsp;·&nbsp; that's $33.33/mo</div>
-        <div class="price-save">&#10003; SAVE 33% &nbsp;·&nbsp; 2 months free</div>
+        <div class="price-period" id="plan2-period">per year &nbsp;·&nbsp; that's $33.33/mo</div>
+        <div class="price-save" id="plan2-save">&#10003; SAVE 33% &nbsp;·&nbsp; 2 months free</div>
         <div class="price-divider"></div>
         <ul class="price-features">
-          <li>Everything in Monthly</li>
-          <li>Best per-month rate — lock it in</li>
-          <li>Priority support</li>
-          <li>All future feature updates included</li>
+          <li id="plan2-f1">Everything in Monthly</li>
+          <li id="plan2-f2">Best per-month rate — lock it in</li>
+          <li id="plan2-f3">Priority support</li>
+          <li id="plan2-f4">All future feature updates included</li>
         </ul>
-        <a href="checkout.html" class="btn-plan btn-plan-primary">Start 7-Day Free Trial</a>
+        <button onclick="openTrialModal()" class="btn-plan btn-plan-primary" id="plan2-cta">Start 7-Day Free Trial</button>
       </div>
 
     </div>
 
-    <p class="pricing-trial-note reveal delay-3"><strong>7-day free trial</strong> — no credit card required. Full access from day one. Cancel any time from the extension settings.</p>
+    <p class="pricing-trial-note reveal delay-3" id="pricing-trial-note"><strong>7-day free trial</strong> — no credit card required. Full access from day one. Cancel any time from the extension settings.</p>
   </div>
 </section>
 
@@ -1205,69 +1321,69 @@
 <section id="faq">
   <div class="section-inner">
     <div class="text-center" style="margin-bottom:52px;">
-      <span class="section-label reveal">FAQ</span>
-      <h2 class="section-title reveal delay-1">Common questions</h2>
+      <span class="section-label reveal" id="faq-label">FAQ</span>
+      <h2 class="section-title reveal delay-1" id="faq-title">Common questions</h2>
     </div>
 
     <div class="faq-list">
 
       <div class="faq-item reveal delay-1">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Is using this extension against Amazon Relay's Terms of Service?
+          <span id="faq1-q">Is using this extension against Amazon Relay's Terms of Service?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>We can't provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay's current carrier agreement and using the tool in a way you're comfortable with.</p>
+          <p id="faq1-a">We can't provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay's current carrier agreement and using the tool in a way you're comfortable with.</p>
         </div>
       </div>
 
       <div class="faq-item reveal delay-2">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Will it book loads I don't want?
+          <span id="faq2-q">Will it book loads I don't want?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.</p>
+          <p id="faq2-a">Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.</p>
         </div>
       </div>
 
       <div class="faq-item reveal delay-3">
         <button class="faq-question" onclick="toggleFaq(this)">
-          What happens if Amazon changes their website?
+          <span id="faq3-q">What happens if Amazon changes their website?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>Because Prohauling Relay intercepts Amazon's raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.</p>
+          <p id="faq3-a">Because Prohauling Relay intercepts Amazon's raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.</p>
         </div>
       </div>
 
       <div class="faq-item reveal delay-4">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Do I need to leave my computer on?
+          <span id="faq4-q">Do I need to leave my computer on?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.</p>
+          <p id="faq4-a">Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.</p>
         </div>
       </div>
 
       <div class="faq-item reveal delay-5">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Can I use it for multiple drivers in my fleet?
+          <span id="faq5-q">Can I use it for multiple drivers in my fleet?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>Yes. The fleet management module lets you create multiple driver profiles, each with its own independent filter configuration, Telegram notification target, phone alert numbers, and schedule windows. Switch between active driver profiles with one click. One license covers all your profiles on the same installation.</p>
+          <p id="faq5-a">Yes. The fleet management module lets you create multiple driver profiles, each with its own independent filter configuration, Telegram notification target, phone alert numbers, and schedule windows. Switch between active driver profiles with one click. One license covers all your profiles on the same installation.</p>
         </div>
       </div>
 
       <div class="faq-item reveal delay-6">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Is the 7-day trial really free? No credit card?
+          <span id="faq6-q">Is the 7-day trial really free? No credit card?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p>Yes — completely free, no credit card required to start. You get full access to every feature for 7 days. At the end of the trial, you can choose a Monthly or Yearly plan to continue. If you don't subscribe, the extension simply stops working — there are no surprise charges.</p>
+          <p id="faq6-a">Yes — completely free, no credit card required to start. You get full access to every feature for 7 days. At the end of the trial, you can choose a Monthly or Yearly plan to continue. If you don't subscribe, the extension simply stops working — there are no surprise charges.</p>
         </div>
       </div>
 
@@ -1288,16 +1404,387 @@
       <div class="footer-copyright">© 2026 Prohauling Relay · U.S. Patent Pending No. 64/068,633</div>
     </div>
     <div class="footer-links">
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms.html">Terms of Service</a>
-      <a href="manual.html">Manual</a>
-      <a href="checkout.html">Get License</a>
+      <a href="privacy-policy.html" id="footer-privacy">Privacy Policy</a>
+      <a href="terms.html"          id="footer-terms">Terms of Service</a>
+      <a href="manual.html"         id="footer-manual">Manual</a>
+      <a href="checkout.html"       id="footer-license">Get License</a>
     </div>
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════
+     TRIAL EMAIL MODAL
+══════════════════════════════════════ -->
+<div id="trialModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#151515;border:1px solid rgba(255,128,0,0.3);border-top:3px solid #FF8000;border-radius:20px;width:100%;max-width:420px;padding:36px 32px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6);">
+    <button onclick="closeTrialModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(255,255,255,0.3);font-size:22px;cursor:pointer;line-height:1;">&#10005;</button>
+
+    <div id="modal-form-view">
+      <div style="font-size:28px;margin-bottom:12px;">&#128230;</div>
+      <h3 id="modal-title" style="font-size:20px;font-weight:900;color:#fff;margin:0 0 8px;">Start your free 7 days</h3>
+      <p id="modal-sub" style="font-size:14px;color:rgba(255,255,255,0.45);margin:0 0 24px;line-height:1.6;">No credit card. No pressure. Just drop your email and we'll send your license key — full access starts immediately.</p>
+
+      <input type="email" id="trialEmail" placeholder="your@email.com"
+        style="width:100%;background:#1a1a1a;border:1px solid rgba(255,128,0,0.3);border-radius:10px;padding:13px 16px;font-size:15px;color:#fff;outline:none;margin-bottom:12px;box-sizing:border-box;"
+        onkeydown="if(event.key==='Enter')submitTrial()">
+
+      <button onclick="submitTrial()" id="modal-submit-btn"
+        style="width:100%;background:#FF8000;color:#000;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;transition:background .15s;">
+        <span id="modal-btn-text">Send My Free Key</span>
+      </button>
+
+      <p id="modal-error" style="display:none;color:#f87171;font-size:12px;margin-top:10px;text-align:center;"></p>
+      <p id="modal-footer-note" style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:14px;text-align:center;">We only use your email to send your key and trial reminders.</p>
+    </div>
+
+    <div id="modal-success-view" style="display:none;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">&#10003;</div>
+      <h3 id="modal-success-title" style="font-size:20px;font-weight:900;color:#22c55e;margin:0 0 12px;">Check your inbox!</h3>
+      <p id="modal-success-sub" style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin:0 0 24px;">Your license key is on its way. Open the email, copy the key, install the extension, and you're live.</p>
+      <button onclick="closeTrialModal()" style="background:#FF8000;color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:800;cursor:pointer;">Got it</button>
+    </div>
+  </div>
+</div>
+
 <script>
+/* ═══════════════════════════════════════════════════════════════
+   TRANSLATION SYSTEM
+═══════════════════════════════════════════════════════════════ */
+var translations = {
+  en: {
+    /* Nav */
+    'nav-how-it-works':       'How It Works',
+    'nav-features':           'Features',
+    'nav-pricing':            'Pricing',
+    'nav-faq':                'FAQ',
+    'nav-cta':                'Get Started Free',
+    'mobile-nav-how-it-works':'How It Works',
+    'mobile-nav-features':    'Features',
+    'mobile-nav-pricing':     'Pricing',
+    'mobile-nav-faq':         'FAQ',
+    'mobile-lang-label':      'Language:',
+    'mobile-cta':             'Get Started Free',
+
+    /* Hero */
+    'hero-eyebrow':           '<span>&#9889;</span> Network-Level Speed · Auto-Booking · Amazon Relay',
+    'hero-h1':                'Stop Watching the Load Board.<br><span>Let It Book Itself.</span>',
+    'hero-sub':               'Set your rates, your routes, and your schedule — then step away from the screen. Prohauling Relay watches the load board for you around the clock and books the right loads automatically. You focus on driving.',
+    'hero-cta-primary':       'Start 7-Day Free Trial',
+    'hero-cta-secondary':     'See Pricing',
+    'hero-note':              'No credit card required &nbsp;·&nbsp; 7-day free trial &nbsp;·&nbsp; Cancel any time',
+
+    /* Mock UI */
+    'mock-monitoring':        'Monitoring active',
+    'mock-live':              'LIVE',
+    'mock-meets-filters':     'Meets filters',
+
+    /* Stats */
+    'stat-filter':            'Filter Dimensions',
+    'stat-alert':             'Alert Channels',
+    'stat-schedule':          'Schedule Windows',
+    'stat-themes':            'Color Themes',
+    'stat-trial':             'Days Free Trial',
+
+    /* Speed */
+    'speed-label':            'Speed Advantage',
+    'speed-title':            'Why you get the load first',
+    'speed-sub':              'Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the moment Amazon sends it to your computer, before anything appears on screen.',
+    'speed-bad-label':        'Other Extensions',
+    'speed-bad-title':        'The Slow Way',
+    'speed-bad-step1':        'Amazon sends new load data to your computer',
+    'speed-bad-step2':        'The page has to fully load before anything can happen',
+    'speed-bad-step3':        'The extension reads the load info off the finished page',
+    'speed-bad-step4':        'Finally checks if the load matches your settings',
+    'speed-bad-result':       '&#10005; By the time it reads the load, other drivers already booked it',
+    'speed-good-label':       'Prohauling Relay',
+    'speed-good-title':       'The Fast Way',
+    'speed-good-step1':       'Amazon sends new load data to your computer',
+    'speed-good-step2':       'Prohauling Relay picks up the load data instantly — before the page even starts loading',
+    'speed-good-step3':       'Checks your filters in less than a second',
+    'speed-good-step4':       'Books the load while other extensions are still waiting for the page to load',
+    'speed-good-result':      '&#10003; You get the load before anyone else even sees it',
+
+    /* Features */
+    'features-label':         'Full Feature Set',
+    'features-title':         'Everything a serious carrier needs',
+    'features-sub':           'Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.',
+    'feat1-title':            '4-Step Auto-Booking Engine',
+    'feat1-desc':             'When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon\'s secondary confirmation dialog, cutting booking time to the absolute minimum.',
+    'feat2-title':            '9-Dimension Real-Time Filtering',
+    'feat2-desc':             'Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.',
+    'feat3-title':            '5-Channel Alert System',
+    'feat3-desc':             'All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you\'re watching the screen or not.',
+    'feat4-title':            'Voice Announcements',
+    'feat4-desc':             'The extension uses the browser\'s built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.',
+    'feat5-title':            'Schedule &amp; Shift Hours',
+    'feat5-desc':             'Define up to <strong>5 time windows per week</strong>. Auto-booking activates only during your configured shift hours. Outside your schedule, the monitor still watches and alerts — it just won\'t book without you.',
+    'feat6-title':            'Fleet &amp; Multi-Driver Management',
+    'feat6-desc':             'Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.',
+    'feat7-title':            'Network-Level API Interception',
+    'feat7-desc':             'By overriding the browser\'s native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon\'s front-end have no effect.',
+    'feat8-title':            '25 Themes &amp; Spanish Support',
+    'feat8-desc':             'Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.',
+
+    /* How It Works */
+    'hiw-label':              'Get Running in Minutes',
+    'hiw-title':              'Three steps to hands-free hauling',
+    'step1-title':            'Install &amp; Configure',
+    'step1-desc':             'Add Prohauling Relay to Chrome. Enter your license key, set your minimum payout, preferred lanes, equipment type, and the schedule windows you want to work. Takes about five minutes.',
+    'step2-title':            'Extension Monitors 24/7',
+    'step2-desc':             'Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.',
+    'step3-title':            'Best Loads Get Booked',
+    'step3-desc':             'A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don\'t — the load is yours. Your phone rings. You drive.',
+
+    /* Pricing */
+    'pricing-label':          'Simple Pricing',
+    'pricing-title':          'Start free. Pay only when you\'re ready.',
+    'pricing-sub':            '7-day free trial on every plan — no credit card required at sign-up.',
+    'plan1-name':             'Monthly',
+    'plan1-period':           'per month &nbsp;·&nbsp; full access',
+    'plan1-f1':               'Auto-booking with countdown cancel',
+    'plan1-f2':               '7-dimension real-time filtering',
+    'plan1-f3':               'Telegram + phone call alerts',
+    'plan1-f4':               'Voice announcements',
+    'plan1-f5':               'Schedule / shift-hours module',
+    'plan1-f6':               'Fleet &amp; multi-driver profiles',
+    'plan1-f7':               '25 themes · English &amp; Spanish',
+    'plan1-cta':              'Start 7-Day Free Trial',
+    'plan2-badge':            'BEST VALUE',
+    'plan2-name':             'Yearly',
+    'plan2-period':           'per year &nbsp;·&nbsp; that\'s $33.33/mo',
+    'plan2-save':             '&#10003; SAVE 33% &nbsp;·&nbsp; 2 months free',
+    'plan2-f1':               'Everything in Monthly',
+    'plan2-f2':               'Best per-month rate — lock it in',
+    'plan2-f3':               'Priority support',
+    'plan2-f4':               'All future feature updates included',
+    'plan2-cta':              'Start 7-Day Free Trial',
+    'pricing-trial-note':     '<strong>7-day free trial</strong> — no credit card required. Full access from day one. Cancel any time from the extension settings.',
+
+    /* FAQ */
+    'faq-label':              'FAQ',
+    'faq-title':              'Common questions',
+    'faq1-q':                 'Is using this extension against Amazon Relay\'s Terms of Service?',
+    'faq1-a':                 'We can\'t provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay\'s current carrier agreement and using the tool in a way you\'re comfortable with.',
+    'faq2-q':                 'Will it book loads I don\'t want?',
+    'faq2-a':                 'Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.',
+    'faq3-q':                 'What happens if Amazon changes their website?',
+    'faq3-a':                 'Because Prohauling Relay intercepts Amazon\'s raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.',
+    'faq4-q':                 'Do I need to leave my computer on?',
+    'faq4-a':                 'Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.',
+    'faq5-q':                 'Can I use it for multiple drivers in my fleet?',
+    'faq5-a':                 'Yes. The fleet management module lets you create multiple driver profiles, each with its own independent filter configuration, Telegram notification target, phone alert numbers, and schedule windows. Switch between active driver profiles with one click. One license covers all your profiles on the same installation.',
+    'faq6-q':                 'Is the 7-day trial really free? No credit card?',
+    'faq6-a':                 'Yes — completely free, no credit card required to start. You get full access to every feature for 7 days. At the end of the trial, you can choose a Monthly or Yearly plan to continue. If you don\'t subscribe, the extension simply stops working — there are no surprise charges.',
+
+    /* Footer */
+    'footer-privacy':         'Privacy Policy',
+    'footer-terms':           'Terms of Service',
+    'footer-manual':          'Manual',
+    'footer-license':         'Get License'
+  },
+
+  es: {
+    /* Nav */
+    'nav-how-it-works':       'Cómo Funciona',
+    'nav-features':           'Funciones',
+    'nav-pricing':            'Precios',
+    'nav-faq':                'Preguntas',
+    'nav-cta':                'Comenzar Gratis',
+    'mobile-nav-how-it-works':'Cómo Funciona',
+    'mobile-nav-features':    'Funciones',
+    'mobile-nav-pricing':     'Precios',
+    'mobile-nav-faq':         'Preguntas',
+    'mobile-lang-label':      'Idioma:',
+    'mobile-cta':             'Comenzar Gratis',
+
+    /* Hero */
+    'hero-eyebrow':           '<span>&#9889;</span> Velocidad de Red · Auto-Reserva · Amazon Relay',
+    'hero-h1':                'Deja de Mirar el Tablero.<br><span>Deja que se Reserve Solo.</span>',
+    'hero-sub':               'Configura tus tarifas, tus rutas y tu horario — y luego aléjate de la pantalla. Prohauling Relay vigila el tablero de cargas las 24 horas y reserva las cargas correctas automáticamente. Tú concéntrate en manejar.',
+    'hero-cta-primary':       'Prueba Gratis 7 Días',
+    'hero-cta-secondary':     'Ver Precios',
+    'hero-note':              'Sin tarjeta de crédito &nbsp;·&nbsp; 7 días gratis &nbsp;·&nbsp; Cancela cuando quieras',
+
+    /* Mock UI */
+    'mock-monitoring':        'Monitoreo activo',
+    'mock-live':              'EN VIVO',
+    'mock-meets-filters':     'Cumple filtros',
+
+    /* Stats */
+    'stat-filter':            'Dimensiones de Filtro',
+    'stat-alert':             'Canales de Alerta',
+    'stat-schedule':          'Ventanas de Horario',
+    'stat-themes':            'Temas de Color',
+    'stat-trial':             'Días de Prueba Gratis',
+
+    /* Speed */
+    'speed-label':            'Ventaja de Velocidad',
+    'speed-title':            'Por qué tú consigues la carga primero',
+    'speed-sub':              'La mayoría de las herramientas esperan a que toda la página cargue antes de poder leer una carga. Para entonces, otro conductor ya la reservó. Prohauling Relay funciona diferente — agarra los datos de la carga en el momento en que Amazon los envía a tu computadora, antes de que aparezca nada en pantalla.',
+    'speed-bad-label':        'Otras Extensiones',
+    'speed-bad-title':        'La Manera Lenta',
+    'speed-bad-step1':        'Amazon envía los nuevos datos de carga a tu computadora',
+    'speed-bad-step2':        'La página tiene que cargar por completo antes de que pase algo',
+    'speed-bad-step3':        'La extensión lee la información de la carga de la página terminada',
+    'speed-bad-step4':        'Finalmente verifica si la carga coincide con tu configuración',
+    'speed-bad-result':       '&#10005; Para cuando lee la carga, otros conductores ya la reservaron',
+    'speed-good-label':       'Prohauling Relay',
+    'speed-good-title':       'La Manera Rápida',
+    'speed-good-step1':       'Amazon envía los nuevos datos de carga a tu computadora',
+    'speed-good-step2':       'Prohauling Relay toma los datos al instante — antes de que la página empiece a cargar',
+    'speed-good-step3':       'Verifica tus filtros en menos de un segundo',
+    'speed-good-step4':       'Reserva la carga mientras otras extensiones aún esperan que cargue la página',
+    'speed-good-result':      '&#10003; Consigues la carga antes de que cualquier otro la vea',
+
+    /* Features */
+    'features-label':         'Funciones Completas',
+    'features-title':         'Todo lo que un transportista serio necesita',
+    'features-sub':           'Construido por transportistas, para transportistas. Sin relleno — solo las herramientas que ponen dinero en tu bolsillo.',
+    'feat1-title':            'Motor de Auto-Reserva en 4 Pasos',
+    'feat1-desc':             'Cuando se detecta una carga que cumple los filtros, el motor: <strong>(1)</strong> localiza la tarjeta de carga en el DOM, <strong>(2)</strong> abre la vista de detalle, <strong>(3)</strong> espera la ventana de cuenta regresiva que configuraste, y luego <strong>(4)</strong> confirma la reserva — todo sin que toques nada. El modo <strong>Fast Book</strong> también descarta automáticamente el diálogo de confirmación secundario de Amazon, reduciendo el tiempo de reserva al mínimo absoluto.',
+    'feat2-title':            'Filtrado en Tiempo Real de 9 Dimensiones',
+    'feat2-desc':             'Cada carga que llega es evaluada contra <strong>9 criterios de filtro simultáneamente</strong>: pago total mínimo, $/milla mínimo, distancia máxima, estados de origen, estados de destino, tipo de equipo, puntuación de IA de la plataforma (0–100), pago mínimo por hora y supresión de duplicados. Una carga debe pasar todos los filtros activos antes de que se tome cualquier acción.',
+    'feat3-title':            'Sistema de Alertas de 5 Canales',
+    'feat3-desc':             'Los cinco canales se disparan al mismo tiempo al detectar una carga calificada: <strong>alerta de audio</strong> (biblioteca de sonidos personalizada), <strong>síntesis de voz</strong> (anuncia el pago, ruta y tarifa en voz alta), <strong>mensaje de Telegram</strong> a tu teléfono, <strong>banner visual</strong> en el tablero de cargas y <strong>animación de destello</strong> en la tarjeta de carga. No te pierdes ninguna carga, estés mirando la pantalla o no.',
+    'feat4-title':            'Anuncios de Voz',
+    'feat4-desc':             'La extensión usa la API de síntesis de voz integrada del navegador para anunciar los detalles de la carga en voz alta — "Dos mil ochocientos cuarenta dólares, Chicago a Dallas, cinco con ochenta y dos por milla." Escuchas la carga sin mirar la pantalla — manos al volante, oídos en el tablero.',
+    'feat5-title':            'Horario y Turnos de Trabajo',
+    'feat5-desc':             'Define hasta <strong>5 ventanas de tiempo por semana</strong>. La auto-reserva se activa solo durante tus turnos configurados. Fuera de tu horario, el monitor sigue vigilando y alertando — solo que no reservará sin ti.',
+    'feat6-title':            'Gestión de Flota y Múltiples Conductores',
+    'feat6-desc':             '¿Tienes una flota pequeña? Crea <strong>perfiles de conductor independientes</strong>, cada uno con su propio conjunto de filtros, destino de Telegram, preferencias de alerta y horario. Cambia entre conductores con un solo clic.',
+    'feat7-title':            'Intercepción de API a Nivel de Red',
+    'feat7-desc':             'Al anular las APIs nativas del navegador — <strong>fetch() y XMLHttpRequest</strong> — Prohauling Relay recibe los datos de carga en el instante en que llega la respuesta del servidor, antes de que empiece el renderizado. Monitorea todos los endpoints del tablero: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Los cambios visuales en Amazon no tienen ningún efecto.',
+    'feat8-title':            '25 Temas y Soporte en Español',
+    'feat8-desc':             'Elige entre <strong>25 temas de color</strong> para personalizar tu estilo. Soporte completo en <strong>inglés y español</strong> en toda la interfaz — para conductores y despachadores que trabajan en los dos idiomas.',
+
+    /* How It Works */
+    'hiw-label':              'Listo en Minutos',
+    'hiw-title':              'Tres pasos para transporte sin manos',
+    'step1-title':            'Instala y Configura',
+    'step1-desc':             'Agrega Prohauling Relay a Chrome. Ingresa tu clave de licencia, configura tu pago mínimo, rutas preferidas, tipo de equipo y los turnos en que quieres trabajar. Toma unos cinco minutos.',
+    'step2-title':            'La Extensión Monitorea 24/7',
+    'step2-desc':             'Abre el tablero de cargas de Amazon Relay y déjalo corriendo. Prohauling Relay intercepta cada respuesta de la API en segundo plano — escaneando cargas nuevas en el instante en que aparecen, las 24 horas.',
+    'step3-title':            'Las Mejores Cargas se Reservan',
+    'step3-desc':             'Una carga calificada activa los 5 canales de alerta a la vez y arranca la cuenta regresiva de auto-reserva. Los 4 pasos de reserva se ejecutan solos. Si quieres cancelar, tienes la ventana. Si no — la carga es tuya. Tu teléfono suena. Tú manejas.',
+
+    /* Pricing */
+    'pricing-label':          'Precios Simples',
+    'pricing-title':          'Comienza gratis. Paga solo cuando estés listo.',
+    'pricing-sub':            '7 días de prueba en cada plan — sin tarjeta de crédito al registrarte.',
+    'plan1-name':             'Mensual',
+    'plan1-period':           'por mes &nbsp;·&nbsp; acceso completo',
+    'plan1-f1':               'Auto-reserva con cancelación por cuenta regresiva',
+    'plan1-f2':               'Filtrado en tiempo real de 7 dimensiones',
+    'plan1-f3':               'Alertas por Telegram + llamada telefónica',
+    'plan1-f4':               'Anuncios de voz',
+    'plan1-f5':               'Módulo de horario / turnos de trabajo',
+    'plan1-f6':               'Flota y perfiles multi-conductor',
+    'plan1-f7':               '25 temas · Inglés y Español',
+    'plan1-cta':              'Prueba Gratis 7 Días',
+    'plan2-badge':            'MEJOR VALOR',
+    'plan2-name':             'Anual',
+    'plan2-period':           'por año &nbsp;·&nbsp; eso es $33.33/mes',
+    'plan2-save':             '&#10003; AHORRA 33% &nbsp;·&nbsp; 2 meses gratis',
+    'plan2-f1':               'Todo lo del plan Mensual',
+    'plan2-f2':               'La mejor tarifa mensual — asegúrala ahora',
+    'plan2-f3':               'Soporte prioritario',
+    'plan2-f4':               'Todas las actualizaciones futuras incluidas',
+    'plan2-cta':              'Prueba Gratis 7 Días',
+    'pricing-trial-note':     '<strong>7 días de prueba gratis</strong> — sin tarjeta de crédito. Acceso completo desde el primer día. Cancela cuando quieras desde la configuración de la extensión.',
+
+    /* FAQ */
+    'faq-label':              'Preguntas Frecuentes',
+    'faq-title':              'Preguntas comunes',
+    'faq1-q':                 '¿Usar esta extensión va contra los Términos de Servicio de Amazon Relay?',
+    'faq1-a':                 'No podemos dar asesoría legal, y los Términos de Servicio pueden cambiar. Prohauling Relay automatiza acciones que tú podrías hacer manualmente — monitorear el tablero de cargas y hacer clic en Reservar. Tú eres responsable de asegurarte de que tu uso cumple con los acuerdos que tienes con Amazon Relay. Te recomendamos leer el acuerdo actual de transportistas de Amazon Relay y usar la herramienta de una forma con la que te sientas cómodo.',
+    'faq2-q':                 '¿Reservará cargas que no quiero?',
+    'faq2-a':                 'Solo las cargas que pasen todos los filtros que configures activarán la auto-reserva. Tú estableces el pago mínimo, $/milla mínimo, estados de origen y destino, tipo de equipo y más. Además, cada auto-reserva tiene una ventana de cuenta regresiva configurable (5 segundos por defecto) — si ves la alerta y quieres cancelar, tienes tiempo de hacerlo. El control siempre está en tus manos.',
+    'faq3-q':                 '¿Qué pasa si Amazon cambia su sitio web?',
+    'faq3-a':                 'Como Prohauling Relay intercepta las respuestas de la API en bruto de Amazon — no el HTML renderizado — funciona completamente independiente de cómo se vea la página. Amazon puede rediseñar todo su front-end y la extensión sigue funcionando. Solo un cambio en la estructura del JSON de la respuesta de la API requeriría una actualización. Ese tipo de cambio ocurre con mucha menos frecuencia que un rediseño visual, y cuando sucede, la actualización se publica rápidamente.',
+    'faq4-q':                 '¿Necesito dejar mi computadora encendida?',
+    'faq4-a':                 'Sí. Prohauling Relay funciona como una extensión de Chrome dentro de tu navegador. Tu computadora debe estar encendida y Chrome debe tener abierto el tablero de cargas de Amazon Relay para que la extensión monitoree y reserve cargas. Para monitoreo nocturno o sin atención, muchos transportistas dejan una laptop dedicada encendida con Chrome abierto en el tablero.',
+    'faq5-q':                 '¿Puedo usarlo para múltiples conductores en mi flota?',
+    'faq5-a':                 'Sí. El módulo de gestión de flota te permite crear múltiples perfiles de conductor, cada uno con su propia configuración de filtros, destino de notificación de Telegram, números de alerta telefónica y ventanas de horario. Cambia entre perfiles de conductor activos con un clic. Una licencia cubre todos tus perfiles en la misma instalación.',
+    'faq6-q':                 '¿La prueba de 7 días es realmente gratis? ¿Sin tarjeta de crédito?',
+    'faq6-a':                 'Sí — completamente gratis, sin tarjeta de crédito para empezar. Tienes acceso completo a todas las funciones durante 7 días. Al terminar la prueba, puedes elegir un plan Mensual o Anual para continuar. Si no te suscribes, la extensión simplemente deja de funcionar — no hay cargos inesperados.',
+
+    /* Footer */
+    'footer-privacy':         'Política de Privacidad',
+    'footer-terms':           'Términos de Servicio',
+    'footer-manual':          'Manual',
+    'footer-license':         'Obtener Licencia'
+  }
+};
+
+/* Mock UI labels per language — used by the countdown animation */
+var mockLabels = {
+  en: {
+    autoBookingIn: 'Auto-booking in',
+    loadBooked:    'Load booked!',
+    bookNow:       'BOOK NOW',
+    qualifying:    'QUALIFYING LOAD DETECTED',
+    booked:        'LOAD BOOKED'
+  },
+  es: {
+    autoBookingIn: 'Auto-reservando en',
+    loadBooked:    '¡Carga reservada!',
+    bookNow:       'RESERVAR',
+    qualifying:    'CARGA CALIFICADA DETECTADA',
+    booked:        'CARGA RESERVADA'
+  }
+};
+
+function setLanguage(lang) {
+  /* Update <html> lang attribute */
+  document.documentElement.lang = lang;
+
+  /* Apply all text translations */
+  var map = translations[lang];
+  Object.keys(map).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = map[id];
+  });
+
+  /* Update mock card data-label (used by CSS ::before) */
+  var mockCard = document.getElementById('mockLoadCard');
+  if (mockCard) {
+    mockCard.setAttribute('data-label', mockLabels[lang].qualifying);
+    if (mockCard.classList.contains('booked')) {
+      mockCard.setAttribute('data-label', mockLabels[lang].booked);
+    }
+  }
+
+  /* Update countdown labels that the JS animation controls */
+  window._currentLang = lang;
+  var labelEl = document.getElementById('countdownLabel');
+  var bookBtn = document.getElementById('bookBtn');
+  if (labelEl && !document.getElementById('mockCountdown').classList.contains('booked')) {
+    labelEl.textContent = mockLabels[lang].autoBookingIn;
+  }
+  if (bookBtn) bookBtn.textContent = mockLabels[lang].bookNow;
+
+  /* Sync toggle button states — both desktop and mobile */
+  ['Desktop', 'Mobile'].forEach(function(suffix) {
+    var btnEn = document.getElementById('langBtnEn' + suffix);
+    var btnEs = document.getElementById('langBtnEs' + suffix);
+    if (btnEn && btnEs) {
+      btnEn.classList.toggle('active', lang === 'en');
+      btnEs.classList.toggle('active', lang === 'es');
+    }
+  });
+
+  /* Persist choice */
+  try { localStorage.setItem('lang', lang); } catch(e) {}
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+
 document.addEventListener('DOMContentLoaded', function () {
+  /* Apply saved or default language before anything is visible */
+  var savedLang = 'en';
+  try { savedLang = localStorage.getItem('lang') || 'en'; } catch(e) {}
+  setLanguage(savedLang);
+
   initReveal();
   initCounters();
   initMockCountdown();
@@ -1375,16 +1862,18 @@ function initMockCountdown() {
   if (!countdown || !timerEl) return;
 
   var loads = [
-    { price: '$2,840', route: 'Chicago, IL → Dallas, TX · 487 mi', rate: '$5.82/mi' },
-    { price: '$3,120', route: 'Atlanta, GA → Memphis, TN · 392 mi', rate: '$7.96/mi' },
-    { price: '$1,980', route: 'Phoenix, AZ → Denver, CO · 598 mi', rate: '$3.31/mi' },
-    { price: '$4,450', route: 'Los Angeles, CA → Seattle, WA · 1,135 mi', rate: '$3.92/mi' },
-    { price: '$2,200', route: 'Houston, TX → Nashville, TN · 673 mi', rate: '$3.27/mi' }
+    { price: '$2,840', route: 'Chicago, IL → Dallas, TX · 487 mi', rate: '$5.82/mi' },
+    { price: '$3,120', route: 'Atlanta, GA → Memphis, TN · 392 mi', rate: '$7.96/mi' },
+    { price: '$1,980', route: 'Phoenix, AZ → Denver, CO · 598 mi', rate: '$3.31/mi' },
+    { price: '$4,450', route: 'Los Angeles, CA → Seattle, WA · 1,135 mi', rate: '$3.92/mi' },
+    { price: '$2,200', route: 'Houston, TX → Nashville, TN · 673 mi', rate: '$3.27/mi' }
   ];
 
   var loadIndex = 0;
   var seconds   = 5;
   var timer     = null;
+
+  function getLang() { return window._currentLang || 'en'; }
 
   function setLoad(load) {
     document.getElementById('mockLoadPrice').textContent = load.price;
@@ -1403,9 +1892,11 @@ function initMockCountdown() {
   }
 
   function showBooked() {
+    var lang = getLang();
     countdown.classList.add('booked');
     loadCard.classList.add('booked');
-    labelEl.textContent = 'Load booked!';
+    loadCard.setAttribute('data-label', mockLabels[lang].booked);
+    labelEl.textContent = mockLabels[lang].loadBooked;
     timerEl.textContent = '✓ BOOKED';
     bookBtn.classList.add('pop');
     setTimeout(function () { bookBtn.classList.remove('pop'); }, 350);
@@ -1413,9 +1904,12 @@ function initMockCountdown() {
   }
 
   function reset() {
+    var lang = getLang();
     countdown.classList.remove('booked');
     loadCard.classList.remove('booked');
-    labelEl.textContent = 'Auto-booking in';
+    loadCard.setAttribute('data-label', mockLabels[lang].qualifying);
+    labelEl.textContent = mockLabels[lang].autoBookingIn;
+    bookBtn.textContent  = mockLabels[lang].bookNow;
     timerEl.textContent = '0:05';
     seconds   = 5;
     loadIndex = (loadIndex + 1) % loads.length;
@@ -1498,6 +1992,77 @@ function toggleFaq(btn) {
     item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
+
+/* ─── 7. TRIAL EMAIL MODAL ─────────────────────────────────────
+   Opens a soft email capture modal. Submits to the backend
+   /api/license/trial-signup which generates a key and emails it.
+─────────────────────────────────────────────────────────────── */
+function openTrialModal() {
+  var modal = document.getElementById('trialModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() {
+    var input = document.getElementById('trialEmail');
+    if (input) input.focus();
+  }, 100);
+}
+
+function closeTrialModal() {
+  document.getElementById('trialModal').style.display = 'none';
+  document.body.style.overflow = '';
+  // Reset to form view for next open
+  document.getElementById('modal-form-view').style.display = 'block';
+  document.getElementById('modal-success-view').style.display = 'none';
+  document.getElementById('trialEmail').value = '';
+  document.getElementById('modal-error').style.display = 'none';
+}
+
+function submitTrial() {
+  var email   = document.getElementById('trialEmail').value.trim();
+  var btnText = document.getElementById('modal-btn-text');
+  var errEl   = document.getElementById('modal-error');
+
+  if (!email || !email.includes('@')) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  btnText.textContent = 'Sending…';
+  document.getElementById('modal-submit-btn').disabled = true;
+
+  fetch('https://prohauling-backend-production.up.railway.app/api/license/trial-signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success || data.already_exists) {
+      document.getElementById('modal-form-view').style.display = 'none';
+      document.getElementById('modal-success-view').style.display = 'block';
+    } else {
+      throw new Error(data.error || 'Something went wrong');
+    }
+  })
+  .catch(function(err) {
+    btnText.textContent = 'Send My Free Key';
+    document.getElementById('modal-submit-btn').disabled = false;
+    errEl.textContent = 'Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+  });
+}
+
+// Close modal on backdrop click
+document.getElementById('trialModal').addEventListener('click', function(e) {
+  if (e.target === this) closeTrialModal();
+});
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeTrialModal();
+});
 </script>
 
 </body>
