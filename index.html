@@ -674,7 +674,7 @@
 
     .feat-card-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 8px; }
 
-    .feat-card-desc { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .feat-card-desc { font-size: 13.5px; color: rgba(255,255,255,0.65); line-height: 1.6; }
     .feat-card-desc strong { color: var(--orange); font-weight: 700; }
 
     /* ═══════════════════════════════════════
@@ -994,9 +994,14 @@
       .mock-load-meta { color: rgba(20,15,10,0.5); }
 
       .speed-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
-      .speed-card-label { color: rgba(20,15,10,0.5); }
+      .speed-card.bad  .speed-card-label { color: rgba(20,15,10,0.35); }
+      .speed-card.good .speed-card-label { color: var(--orange); }
       .speed-card-title { color: #1a1714; }
-      .speed-step-text { color: rgba(20,15,10,0.65); }
+      .speed-card.bad  .speed-card-title { color: rgba(20,15,10,0.45); }
+      .speed-card.bad  .speed-step-text  { color: rgba(20,15,10,0.4); }
+      .speed-card.good .speed-step-text  { color: rgba(20,15,10,0.75); }
+      .speed-card.bad  .speed-step-num   { background: rgba(20,15,10,0.07); color: rgba(20,15,10,0.3); }
+      .speed-card.good .speed-step-num   { background: rgba(255,128,0,0.15); color: var(--orange); }
 
       .feat-card { background: var(--card); border-color: rgba(0,0,0,0.08); }
       .feat-card-title { color: #1a1714; }
@@ -1026,6 +1031,24 @@
 
       .guide-card > div { background: var(--card) !important; border-color: rgba(0,0,0,0.1) !important; }
       #guide1-title, #guide2-title { color: #1a1714 !important; }
+
+      /* How It Works steps */
+      .step-title { color: #1a1714; }
+      .step-desc  { color: rgba(20,15,10,0.65); }
+      .step-connector { border-color: rgba(20,15,10,0.15); }
+
+      /* Pricing section */
+      .price-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
+      .price-plan-name { color: rgba(20,15,10,0.45); }
+      .price-number { color: #1a1714; }
+      .price-cents  { color: rgba(20,15,10,0.5); }
+      .price-period { color: rgba(20,15,10,0.45); }
+      .price-divider { background: rgba(20,15,10,0.1); }
+      .price-features li { color: rgba(20,15,10,0.65); }
+
+      /* Footer children */
+      .footer-logo-name  { color: rgba(20,15,10,0.6); }
+      .footer-copyright  { color: rgba(20,15,10,0.35); }
     }
 
     /* force-light: same rules, triggered by JS class instead of OS setting */
@@ -1052,14 +1075,39 @@
     html.force-light .section-sub { color:rgba(20,15,10,0.55); }
     html.force-light .mock-browser { background:#e0dbd4; }
     html.force-light .mock-browser-bar { background:#d4cfc8; }
-    html.force-light .feat-card,.html.force-light .hiw-step,.html.force-light .plan-card,.html.force-light .faq-item { background:var(--card); border-color:rgba(0,0,0,0.08); }
-    html.force-light .feat-card-title,.html.force-light .hiw-step-title,.html.force-light .plan-name,.html.force-light .faq-question,.html.force-light .section-title { color:#1a1714; }
+    html.force-light .feat-card,html.force-light .hiw-step,html.force-light .plan-card,html.force-light .faq-item { background:var(--card); border-color:rgba(0,0,0,0.08); }
+    html.force-light .feat-card-title,html.force-light .hiw-step-title,html.force-light .plan-name,html.force-light .faq-question,html.force-light .section-title { color:#1a1714; }
+    html.force-light .feat-card-desc { color:rgba(20,15,10,0.6); }
     html.force-light footer { background:#e0dbd4; color:rgba(20,15,10,0.4); }
     html.force-light footer a { color:rgba(20,15,10,0.4); }
+    html.force-light .footer-logo-name { color:rgba(20,15,10,0.6); }
+    html.force-light .footer-copyright { color:rgba(20,15,10,0.35); }
     html.force-light .btn-outline { color:#1a1714; border-color:rgba(20,15,10,0.25); }
     html.force-light .guide-card > div { background:var(--card) !important; border-color:rgba(0,0,0,0.1) !important; }
     html.force-light #guide1-title,html.force-light #guide2-title { color:#1a1714 !important; }
     html.force-light #theme-toggle { border-color:rgba(20,15,10,0.2); }
+    /* Speed card overrides for force-light */
+    html.force-light .speed-card { background:var(--card); border-color:rgba(0,0,0,0.1); }
+    html.force-light .speed-card.bad  .speed-card-label { color:rgba(20,15,10,0.35); }
+    html.force-light .speed-card.good .speed-card-label { color:var(--orange); }
+    html.force-light .speed-card-title { color:#1a1714; }
+    html.force-light .speed-card.bad  .speed-card-title { color:rgba(20,15,10,0.45); }
+    html.force-light .speed-card.bad  .speed-step-text  { color:rgba(20,15,10,0.4); }
+    html.force-light .speed-card.good .speed-step-text  { color:rgba(20,15,10,0.75); }
+    html.force-light .speed-card.bad  .speed-step-num   { background:rgba(20,15,10,0.07); color:rgba(20,15,10,0.3); }
+    html.force-light .speed-card.good .speed-step-num   { background:rgba(255,128,0,0.15); color:var(--orange); }
+    /* How It Works steps for force-light */
+    html.force-light .step-title { color:#1a1714; }
+    html.force-light .step-desc  { color:rgba(20,15,10,0.65); }
+    html.force-light .step-connector { border-color:rgba(20,15,10,0.15); }
+    /* Pricing for force-light */
+    html.force-light .price-card { background:var(--card); border-color:rgba(0,0,0,0.1); }
+    html.force-light .price-plan-name { color:rgba(20,15,10,0.45); }
+    html.force-light .price-number { color:#1a1714; }
+    html.force-light .price-cents  { color:rgba(20,15,10,0.5); }
+    html.force-light .price-period { color:rgba(20,15,10,0.45); }
+    html.force-light .price-divider { background:rgba(20,15,10,0.1); }
+    html.force-light .price-features li { color:rgba(20,15,10,0.65); }
   </style>
 </head>
 <body>
@@ -1129,7 +1177,6 @@
   <div class="hero-ctas reveal delay-3">
     <button onclick="openTrialModal()" class="btn btn-primary btn-lg" id="hero-cta-primary">Start 7-Day Free Trial</button>
     <a href="#pricing" class="btn btn-outline btn-lg" id="hero-cta-secondary">See Pricing</a>
-    <a href="tutorial.html" class="btn btn-outline btn-lg" id="hero-cta-tutorial" style="display:inline-flex;align-items:center;gap:8px;"><span>&#128247;</span> <span id="hero-cta-tutorial-text">Step-by-Step Autobook Setup Guide with Screenshots</span></a>
   </div>
   <p class="hero-note reveal delay-3" id="hero-note">No credit card required &nbsp;·&nbsp; 7-day free trial &nbsp;·&nbsp; Cancel any time</p>
 
