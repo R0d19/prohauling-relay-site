@@ -934,18 +934,90 @@
     ═══════════════════════════════════════ */
     @media (prefers-color-scheme: light) {
       :root {
-        --bg:    #12100d;
-        --card:  #1b1812;
-        --card2: #211e18;
+        --bg:    #f5f2ee;
+        --card:  #ffffff;
+        --card2: #ede9e3;
+        --text:  #1a1714;
+        --muted: rgba(20,15,10,0.5);
+        --muted2:rgba(20,15,10,0.1);
+        --border:rgba(200,90,0,0.2);
       }
+      body { background: var(--bg); color: var(--text); }
+
+      nav { background: rgba(245,242,238,0.95); border-bottom-color: rgba(0,0,0,0.08); }
+      .nav-logo-name { color: #1a1714; }
+      .nav-links a { color: rgba(20,15,10,0.55); }
+      .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+      .hamburger span { background: #1a1714; }
+
+      .mobile-menu { background: rgba(245,242,238,0.98); }
+      .mobile-nav-link { color: rgba(20,15,10,0.7); border-bottom-color: rgba(0,0,0,0.06); }
+
       .hero {
-        background: linear-gradient(135deg, #1f1000 0%, #341a00 60%, #1f1000 100%);
+        background: linear-gradient(135deg, #fff4e8 0%, #ffe0bc 60%, #fff4e8 100%);
       }
-      #speed, #how-it-works, #autobook, #faq {
-        background: #161410;
-        border-color: rgba(255,255,255,0.06);
+      .hero h1 { color: #1a1714; }
+      .hero-sub { color: rgba(20,15,10,0.6); }
+      .hero-note { color: rgba(20,15,10,0.35); }
+      .hero-eyebrow { background: rgba(255,128,0,0.12); color: var(--orange); }
+
+      .stats-strip { background: #ede9e3; border-color: rgba(0,0,0,0.07); }
+      .stat-number { color: var(--orange); }
+      .stat-label { color: rgba(20,15,10,0.5); }
+      .stat-item { border-right-color: rgba(0,0,0,0.08); }
+
+      section { background: var(--bg); }
+      #speed, #how-it-works, #autobook, #faq, #guides {
+        background: #ede9e3;
+        border-color: rgba(0,0,0,0.06);
       }
-      footer { background: #0d0c09; }
+      .section-label { color: var(--orange); }
+      .section-title { color: #1a1714; }
+      .section-sub { color: rgba(20,15,10,0.55); }
+
+      .mock-browser { background: #e0dbd4; border-color: rgba(0,0,0,0.1); }
+      .mock-browser-bar { background: #d4cfc8; }
+      .mock-url { color: rgba(20,15,10,0.45); }
+      .mock-banner { background: rgba(255,128,0,0.1); border-color: rgba(255,128,0,0.25); }
+      .mock-banner-text { color: #1a1714; }
+      .mock-load-card { background: #f5f2ee; border-color: rgba(0,0,0,0.1); }
+      .mock-load-route { color: #1a1714; }
+      .mock-load-pay { color: var(--orange); }
+      .mock-load-meta { color: rgba(20,15,10,0.5); }
+
+      .speed-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
+      .speed-card-label { color: rgba(20,15,10,0.5); }
+      .speed-card-title { color: #1a1714; }
+      .speed-step-text { color: rgba(20,15,10,0.65); }
+
+      .feat-card { background: var(--card); border-color: rgba(0,0,0,0.08); }
+      .feat-card-title { color: #1a1714; }
+      .feat-card-desc { color: rgba(20,15,10,0.6); }
+
+      .hiw-step { background: var(--card); border-color: rgba(0,0,0,0.08); }
+      .hiw-step-title { color: #1a1714; }
+      .hiw-step-desc { color: rgba(20,15,10,0.6); }
+
+      .plan-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
+      .plan-name { color: #1a1714; }
+      .plan-price { color: #1a1714; }
+      .plan-period { color: rgba(20,15,10,0.5); }
+      .plan-feature { color: rgba(20,15,10,0.65); }
+      .plan-feature::before { color: var(--orange); }
+
+      .faq-item { background: var(--card); border-color: rgba(0,0,0,0.08); }
+      .faq-question { color: #1a1714; }
+      .faq-answer p { color: rgba(20,15,10,0.65); }
+
+      footer { background: #e0dbd4; }
+      footer, footer a { color: rgba(20,15,10,0.4); }
+      footer a:hover { color: var(--orange); }
+
+      .btn-outline { color: #1a1714; border-color: rgba(20,15,10,0.25); }
+      .btn-outline:hover { background: rgba(20,15,10,0.06); }
+
+      .guide-card > div { background: var(--card) !important; border-color: rgba(0,0,0,0.1) !important; }
+      #guide1-title, #guide2-title { color: #1a1714 !important; }
     }
   </style>
 </head>
@@ -1058,34 +1130,6 @@
 </section>
 
 <!-- ══════════════════════════════════════
-     STATS STRIP
-══════════════════════════════════════ -->
-<div class="stats-strip">
-  <div class="stats-inner">
-    <div class="stat-item reveal">
-      <div class="stat-number" data-target="9">0</div>
-      <div class="stat-label" id="stat-filter">Filter Dimensions</div>
-    </div>
-    <div class="stat-item reveal delay-1">
-      <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label" id="stat-alert">Alert Channels</div>
-    </div>
-    <div class="stat-item reveal delay-2">
-      <div class="stat-number" data-target="5">0</div>
-      <div class="stat-label" id="stat-schedule">Schedule Windows</div>
-    </div>
-    <div class="stat-item reveal delay-3">
-      <div class="stat-number" data-target="25">0</div>
-      <div class="stat-label" id="stat-themes">Color Themes</div>
-    </div>
-    <div class="stat-item reveal delay-4">
-      <div class="stat-number" data-target="7">0</div>
-      <div class="stat-label" id="stat-trial">Days Free Trial</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
      GUIDES / RESOURCES
 ══════════════════════════════════════ -->
 <section id="guides" style="background:#111213;border-top:1px solid rgba(255,255,255,0.05);padding:60px 24px;">
@@ -1124,6 +1168,34 @@
     #guides > div > div[style*="grid"] { grid-template-columns: 1fr !important; }
   }
 </style>
+
+<!-- ══════════════════════════════════════
+     STATS STRIP
+══════════════════════════════════════ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number" data-target="9">0</div>
+      <div class="stat-label" id="stat-filter">Filter Dimensions</div>
+    </div>
+    <div class="stat-item reveal delay-1">
+      <div class="stat-number" data-target="5">0</div>
+      <div class="stat-label" id="stat-alert">Alert Channels</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="stat-number" data-target="5">0</div>
+      <div class="stat-label" id="stat-schedule">Schedule Windows</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="stat-number" data-target="25">0</div>
+      <div class="stat-label" id="stat-themes">Color Themes</div>
+    </div>
+    <div class="stat-item reveal delay-4">
+      <div class="stat-number" data-target="7">0</div>
+      <div class="stat-label" id="stat-trial">Days Free Trial</div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════════════════════════════════════
      SPEED SECTION
