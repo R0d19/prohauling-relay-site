@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prohauling Relay — User Manual</title>
+  <style>
+    :root {
+      --accent: #FF8000;
+      --accent2: #c85a00;
+      --bg: #111213;
+      --bg2: #1a1b1d;
+      --bg3: #222426;
+      --border: rgba(255,128,0,0.22);
+      --text: #e0e0e0;
+      --muted: #888;
+      --green: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
+      border-bottom: 2px solid var(--accent2);
+      padding: 20px 32px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 16px rgba(255,128,0,0.4);
+      overflow: hidden;
+      background: #fff;
+    }
+    .logo-icon img {
+      width: 40px; height: 40px;
+      display: block;
+    }
+    .logo-text h1 { font-size: 20px; font-weight: 900; color: var(--accent); letter-spacing: 1px; }
+    .logo-text p  { font-size: 11px; color: var(--muted); }
+    .lang-switch {
+      display: flex;
+      gap: 8px;
+      background: rgba(255,255,255,0.06);
+      padding: 4px;
+      border-radius: 10px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      border-radius: 7px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all .18s;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(255,128,0,0.4);
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────────── */
+    .container { max-width: 820px; margin: 0 auto; padding: 28px 20px 60px; }
+
+    /* ── TOC ─────────────────────────────────────────────────────────── */
+    .toc {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .toc h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 10px; }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 4px 16px;
+    }
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 2px 0;
+      display: block;
+      transition: color .15s;
+    }
+    .toc a:hover { color: #fff; }
+
+    /* ── Section card ────────────────────────────────────────────────── */
+    .section {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 16px;
+      transition: border-color .2s;
+    }
+    .section:hover { border-color: rgba(255,128,0,0.45); }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .section-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .section-sub {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .section-body { color: #ccc; font-size: 13.5px; line-height: 1.65; }
+    .section-body p { margin-bottom: 8px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── Step list ───────────────────────────────────────────────────── */
+    .steps { list-style: none; padding: 0; }
+    .steps li {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .steps li:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900; color: #fff;
+    }
+    .step-txt { font-size: 13px; color: #ccc; padding-top: 2px; }
+    .step-txt b { color: #fff; }
+
+    /* ── Key/value pairs ─────────────────────────────────────────────── */
+    .kv-list { display: flex; flex-direction: column; gap: 8px; }
+    .kv {
+      display: flex;
+      gap: 12px;
+      padding: 8px 10px;
+      background: var(--bg3);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent2);
+    }
+    .kv-key {
+      flex-shrink: 0;
+      width: 150px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.4;
+    }
+    .kv-val { font-size: 12.5px; color: #bbb; line-height: 1.45; }
+
+    /* ── Tip box ─────────────────────────────────────────────────────── */
+    .tip {
+      background: rgba(255,128,0,0.08);
+      border: 1px solid rgba(255,128,0,0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: #ffb347;
+      margin-top: 12px;
+    }
+    .tip b { color: var(--accent); }
+
+    /* ── Warning box ─────────────────────────────────────────────────── */
+    .warn {
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.35);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      color: #fca5a5;
+      margin-top: 12px;
+    }
+
+    /* ── Badge demos ─────────────────────────────────────────────────── */
+    .badge-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .badge.green  { background: #16a34a; }
+    .badge.red    { background: #dc2626; }
+    .badge.orange { background: var(--accent); }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 40px;
+    }
+
+    /* ── Language sections ───────────────────────────────────────────── */
+    [data-lang] { display: none; }
+    [data-lang].visible { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon"><img src="icons/icon128.png" alt="Prohauling Relay"></div>
+    <div class="logo-text">
+      <h1>PR0HAULING</h1>
+      <p>Amazon Relay Load Monitor — User Manual v1.5.5</p>
+    </div>
+  </div>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btnEN">🇺🇸 English</button>
+    <button class="lang-btn"        id="btnES">🇪🇸 Español</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════  ENGLISH  ═══════════════════════════════════ -->
+<div data-lang="en" class="visible">
+<div class="container">
+
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <div class="toc-grid">
+      <a href="#en-start">1. Starting &amp; Stopping</a>
+      <a href="#en-newload">2. New Load Alert</a>
+      <a href="#en-dismiss">3. Dismissing a Card</a>
+      <a href="#en-banner">4. Load Found Banner</a>
+      <a href="#en-sound">5. Sound Alerts</a>
+      <a href="#en-similar">6. Similar Load Alerts &amp; LED</a>
+      <a href="#en-filters">7. Filter Sync</a>
+      <a href="#en-timing">8. Refresh &amp; Timing</a>
+      <a href="#en-price">9. Price Change Badges</a>
+      <a href="#en-theme">10. Themes &amp; Language</a>
+      <a href="#en-errors">11. Errors &amp; Troubleshooting</a>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="section" id="en-start">
+    <div class="section-header">
+      <div class="section-icon">▶</div>
+      <div>
+        <div class="section-title">Starting &amp; Stopping</div>
+        <div class="section-sub">Getting the monitor running</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Open <b>relay.amazon.com/loadboard/search</b> and set your filters in Relay's own filter panel.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">Click <b>▶ Start</b> in the Pr0HAULING bar at the top of the page. The button turns red and shows <b>⏹ Stop</b>.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">The extension scans the load list on every refresh cycle and alerts you when new qualifying loads appear.</div></li>
+        <li><div class="step-num">4</div><div class="step-txt">Click <b>⏹ Stop</b> at any time to pause scanning. Orange frames are cleared from the load cards.</div></li>
+      </ul>
+      <div class="tip"><b>Tip:</b> Pr0HAULING auto-pauses when you step away (Idle Timeout) and resumes when you return to the tab.</div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="section" id="en-newload">
+    <div class="section-header">
+      <div class="section-icon">🟠</div>
+      <div>
+        <div class="section-title">New Load Alert</div>
+        <div class="section-sub">What happens when a load is found</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>When a new load that meets all your filter criteria appears on the board, Prohauling Relay will:</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Pin the card to the <b>top</b> of the load list with an <b>orange border</b>.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">Show a detail panel on the card with origin → destination, payout, $/mi, and distance.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">Play an <b>audio alert</b> (if sound is enabled).</div></li>
+        <li><div class="step-num">4</div><div class="step-txt">Show an <b>orange banner</b> at the top of the page with load details and a countdown timer.</div></li>
+        <li><div class="step-num">5</div><div class="step-txt">Scroll automatically to the pinned card so you can review and book it immediately.</div></li>
+      </ul>
+      <p>A <b>divider line</b> separates pinned new loads from the rest of the list so you can spot them at a glance.</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section" id="en-dismiss">
+    <div class="section-header">
+      <div class="section-icon">✕</div>
+      <div>
+        <div class="section-title">Dismissing a Load Card</div>
+        <div class="section-sub">How to close an orange card</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Each pinned card has an <b>✕ close button</b> in the top-right corner of its detail panel.</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Click the <b>✕</b> button on the orange detail panel.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">The card returns to its normal position in the list and the orange frame is removed.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">That load is <b>permanently dismissed</b> for this session — it will not trigger another alert even if it re-appears.</div></li>
+      </ul>
+      <div class="tip"><b>Tip:</b> Scanning continues normally after you dismiss a card. Dismissing does not stop the monitor.</div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="section" id="en-banner">
+    <div class="section-header">
+      <div class="section-icon">🔔</div>
+      <div>
+        <div class="section-title">Load Found Banner</div>
+        <div class="section-sub">The orange banner and pause timer</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>The banner appears at the top of the page every time a new qualifying load is found.</p>
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Load details</div><div class="kv-val">Shows origin → destination, payout ($), and $/mi rate at a glance.</div></div>
+        <div class="kv"><div class="kv-key">Auto-pause</div><div class="kv-val">Scanning pauses automatically while the banner is visible so you have time to review the load.</div></div>
+        <div class="kv"><div class="kv-key">Countdown</div><div class="kv-val">A timer counts down (default 3 min). When it hits 0 scanning resumes automatically.</div></div>
+        <div class="kv"><div class="kv-key">▶ Resume Scan</div><div class="kv-val">Click this button to dismiss the banner and resume scanning immediately.</div></div>
+        <div class="kv"><div class="kv-key">✕ Close</div><div class="kv-val">Same as Resume — closes the banner and resumes.</div></div>
+        <div class="kv"><div class="kv-key">Banner Pause (min)</div><div class="kv-val">Change the pause duration in Settings → Timing using the + / − buttons (1–60 min).</div></div>
+        <div class="kv"><div class="kv-key">Show Load Banner</div><div class="kv-val">Toggle the banner ON or OFF in Settings → Timing.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="section" id="en-sound">
+    <div class="section-header">
+      <div class="section-icon">🔊</div>
+      <div>
+        <div class="section-title">Sound Alerts</div>
+        <div class="section-sub">Audio notifications for new loads</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Play Sound on Load</div><div class="kv-val">Master toggle for audio alerts. ON = plays sound when a new load is found. Default: ON.</div></div>
+        <div class="kv"><div class="kv-key">Sound dropdown</div><div class="kv-val">Choose from: Beep, Chime, Bell, Siren, Air Horn, Horn Long, Horn Short, Truck Horn, Industrial Horn, or Custom.</div></div>
+        <div class="kv"><div class="kv-key">Custom Sound</div><div class="kv-val">Select "Custom (Upload)" from the dropdown, then upload your own .mp3, .wav, or .m4a file.</div></div>
+        <div class="kv"><div class="kv-key">Price-change sound</div><div class="kv-val">A distinct double-beep plays whenever a load's payout changes by $1 or more, regardless of the selected sound.</div></div>
+      </div>
+      <div class="tip"><b>Tip:</b> Make sure your system volume is not muted. Chrome must have audio permission for the Relay tab.</div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="section" id="en-similar">
+    <div class="section-header">
+      <div class="section-icon">🟠</div>
+      <div>
+        <div class="section-title">Similar Load Alerts &amp; LED Indicator</div>
+        <div class="section-sub">Stay informed after the flash is gone</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>When multiple loads are found at the same time, the <b>best-ranked load</b> triggers the full orange frame and banner. All other loads (similar loads) go through a two-phase alert so you never miss them:</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt"><b>Phase 1 — Flash:</b> The card flashes orange for ~15 seconds to grab your attention.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt"><b>Phase 2 — Sticky strip:</b> Once the flash ends, a slim dark bar appears at the bottom of the screen showing the route, payout, and $/mi. It stays there until you dismiss it or a new similar load replaces it.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt"><b>Tap the strip</b> to scroll directly to that load card on the board.</div></li>
+        <li><div class="step-num">4</div><div class="step-txt"><b>Tap ✕</b> on the strip to dismiss it when you're done.</div></li>
+      </ul>
+      <div class="kv-list" style="margin-top:12px;">
+        <div class="kv">
+          <div class="kv-key">🔴 LED dot on the Start button</div>
+          <div class="kv-val">A small <b>orange glowing dot</b> appears on the top-right corner of the ▶ Start / ⏹ Stop button whenever a similar load sticky is active. It pulses like an LED light — a subtle signal that something is waiting for your review. The dot turns off when you dismiss the strip.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Card residue border</div>
+          <div class="kv-val">After the flash ends, the similar load card keeps a faint orange left border so you can spot it on the load board even if you scroll past it.</div>
+        </div>
+      </div>
+      <div class="tip"><b>Tip:</b> The main load banner and the similar load sticky can appear at the same time — the banner covers the top load, the sticky covers secondary loads. You're covered on both.</div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="section" id="en-filters">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div>
+        <div class="section-title">Filter Sync</div>
+        <div class="section-sub">Automatic sync with Relay's filter panel</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Prohauling Relay reads Relay's own filter panel every 5 seconds and uses those values to decide which loads qualify. You do <b>not</b> need to enter them twice.</p>
+      <div class="kv-list">
+<div class="kv"><div class="kv-key">Load Type</div><div class="kv-val">If you check "Live" or "Drop &amp; Hook" in Relay, only loads of that type will trigger alerts.</div></div>
+        <div class="kv"><div class="kv-key">Excluded Cities</div><div class="kv-val">Cities you exclude in Relay's filter are also excluded from Pr0HAULING alerts.</div></div>
+        <div class="kv"><div class="kv-key">All US markets</div><div class="kv-val">Works for any city or region in the US — not just Miami. Just set your origin in Relay's search bar.</div></div>
+      </div>
+      <div class="tip"><b>Tip:</b> Check the console log for "📋 Relay filters synced:" to confirm the values being read.</div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="section" id="en-timing">
+    <div class="section-header">
+      <div class="section-icon">⏱</div>
+      <div>
+        <div class="section-title">Refresh &amp; Timing Settings</div>
+        <div class="section-sub">Control how often Pr0HAULING scans</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv" style="background:rgba(239,68,68,0.07);border-left:3px solid #ef4444;border-radius:4px;padding:6px 10px;">
+          <div class="kv-key" style="color:#ef4444;">⚠ BAN RISK <span style="font-weight:400;font-size:10px;">(collapsible warning)</span></div>
+          <div class="kv-val">In the Settings panel under <b>TIMING</b>, you will see a red <b>⚠ BAN RISK ▼</b> button. Tap or click it to expand the full warning. It explains that refreshing below 3 seconds can get your Amazon account banned. Tap it again to collapse it. The <b>▼</b> arrow means it is closed — tap to open. The <b>▲</b> arrow means it is open — tap to close.</div>
+        </div>
+        <div class="kv"><div class="kv-key">Random Refresh</div><div class="kv-val">Toggle ON to add a small random delay to each refresh cycle. Helps vary the pattern so Relay's systems are less likely to flag automated activity.</div></div>
+        <div class="kv"><div class="kv-key">Rand Max (s)</div><div class="kv-val">Sets the maximum additional random seconds added to each refresh. Only visible when Random Refresh is ON.</div></div>
+        <div class="kv"><div class="kv-key">Auto-pause Idle 💤</div><div class="kv-val">Automatically pauses scanning after you stop interacting with the browser for the configured time.</div></div>
+        <div class="kv"><div class="kv-key">Idle Timeout (min)</div><div class="kv-val">How many minutes of inactivity before scanning pauses. Default: 10 min.</div></div>
+        <div class="kv"><div class="kv-key">Auto-refresh on Focus</div><div class="kv-val">Triggers an immediate scan when you switch back to the Relay tab.</div></div>
+        <div class="kv"><div class="kv-key">Show Load Banner</div><div class="kv-val">Enable or disable the full-width orange banner when a load is found.</div></div>
+        <div class="kv"><div class="kv-key">Banner Pause (min)</div><div class="kv-val">Duration of the scanning pause when a load is found. Use + / − buttons. Range: 1–60 min.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="section" id="en-price">
+    <div class="section-header">
+      <div class="section-icon">💲</div>
+      <div>
+        <div class="section-title">Price Change Badges</div>
+        <div class="section-sub">Visual indicators for payout changes</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>When a load's payout changes by $1 or more between scans, a badge appears on the card for 30 seconds:</p>
+      <div class="badge-row">
+        <span class="badge green">+$25</span><span style="color:#ccc;font-size:13px;">Payout increased by $25</span>
+      </div>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge red">−$30</span><span style="color:#ccc;font-size:13px;">Payout decreased by $30</span>
+      </div>
+      <p style="margin-top:12px;">A distinct <b>double-beep</b> sound plays for price changes (separate from the new-load alert sound).</p>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section" id="en-theme">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div>
+        <div class="section-title">Themes &amp; Language</div>
+        <div class="section-sub">Personalize the extension bar</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Theme</div><div class="kv-val">25 color schemes available: Orange, Dark, Blue Ocean, Purple, Green, Red, Slate, Golden, Midnight, Crimson, Teal, Rose Gold, Navy, Emerald, Amber, Deep Purple, Carbon, Arctic, Ruby, Lime, Bronze, Indigo, Coral, Mint, Magenta.</div></div>
+        <div class="kv"><div class="kv-key">🇺🇸 / 🇪🇸 Language</div><div class="kv-val">Click the flag button in the Pr0HAULING bar to toggle between English and Spanish. All labels and this manual update immediately.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section" id="en-errors">
+    <div class="section-header">
+      <div class="section-icon">⚠️</div>
+      <div>
+        <div class="section-title">Errors &amp; Troubleshooting</div>
+        <div class="section-sub">Common issues and fixes</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv">
+          <div class="kv-key">Button shows "Reload tab"</div>
+          <div class="kv-val">The extension was updated or reloaded while this Relay tab was open. Press <b>F5</b> to reload the tab — scanning will resume normally.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">No load cards found</div>
+          <div class="kv-val">Relay may still be loading results, or it may have changed its page structure. Wait 5–10 seconds and try again. If it persists, reload the tab.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">No sound plays</div>
+          <div class="kv-val">Check that "Play Sound on Load" is ON, your system volume is up, and Chrome has audio permission for the Relay tab.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Orange frame stays after Stop</div>
+          <div class="kv-val">This was fixed in v1.4.x. Reload the tab if you see this on an older version.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Extension context invalidated (console)</div>
+          <div class="kv-val">This error means the extension was reloaded while the tab was open. It is handled automatically — just reload the tab (F5).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /en -->
+
+
+<!-- ═══════════════════════════  ESPAÑOL  ═══════════════════════════════════ -->
+<div data-lang="es">
+<div class="container">
+
+  <div class="toc">
+    <h2>Tabla de Contenidos</h2>
+    <div class="toc-grid">
+      <a href="#es-start">1. Iniciar y Detener</a>
+      <a href="#es-newload">2. Alerta de Nueva Carga</a>
+      <a href="#es-dismiss">3. Cerrar una Tarjeta</a>
+      <a href="#es-banner">4. Banner de Carga Encontrada</a>
+      <a href="#es-sound">5. Alertas de Sonido</a>
+      <a href="#es-similar">6. Alertas de Cargas Similares y LED</a>
+      <a href="#es-filters">7. Sincronía de Filtros</a>
+      <a href="#es-timing">8. Actualización y Tiempos</a>
+      <a href="#es-price">9. Insignias de Cambio de Precio</a>
+      <a href="#es-theme">10. Temas e Idioma</a>
+      <a href="#es-errors">11. Errores y Solución de Problemas</a>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <div class="section" id="es-start">
+    <div class="section-header">
+      <div class="section-icon">▶</div>
+      <div>
+        <div class="section-title">Iniciar y Detener</div>
+        <div class="section-sub">Cómo poner en marcha el monitor</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Abre <b>relay.amazon.com/loadboard/search</b> y configura tus filtros en el panel de filtros de Relay.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">Haz clic en <b>▶ Iniciar</b> en la barra de Pr0HAULING. El botón cambia a rojo y muestra <b>⏹ Detener</b>.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">La extensión escanea la lista de cargas en cada ciclo de actualización y te alerta cuando aparecen cargas nuevas que cumplen tus criterios.</div></li>
+        <li><div class="step-num">4</div><div class="step-txt">Haz clic en <b>⏹ Detener</b> en cualquier momento para pausar el escaneo. Los marcos naranjas desaparecen de las tarjetas.</div></li>
+      </ul>
+      <div class="tip"><b>Consejo:</b> Pr0HAULING se pausa automáticamente cuando te alejas (tiempo de inactividad) y se reanuda cuando vuelves a la pestaña.</div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="section" id="es-newload">
+    <div class="section-header">
+      <div class="section-icon">🟠</div>
+      <div>
+        <div class="section-title">Alerta de Nueva Carga</div>
+        <div class="section-sub">Qué sucede cuando se encuentra una carga</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Cuando aparece una nueva carga que cumple todos tus criterios de filtro, Prohauling Relay hará:</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Fija la tarjeta en la <b>parte superior</b> de la lista con un <b>borde naranja</b>.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">Muestra un panel de detalles con origen → destino, pago, $/mi y distancia.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">Reproduce una <b>alerta de audio</b> (si el sonido está activado).</div></li>
+        <li><div class="step-num">4</div><div class="step-txt">Muestra un <b>banner naranja</b> en la parte superior con detalles de la carga y un temporizador de cuenta regresiva.</div></li>
+        <li><div class="step-num">5</div><div class="step-txt">Desplaza automáticamente a la tarjeta fijada para que puedas revisarla y reservarla de inmediato.</div></li>
+      </ul>
+      <p>Una <b>línea divisoria</b> separa las nuevas cargas fijadas del resto de la lista para que puedas identificarlas de un vistazo.</p>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section" id="es-dismiss">
+    <div class="section-header">
+      <div class="section-icon">✕</div>
+      <div>
+        <div class="section-title">Cerrar una Tarjeta de Carga</div>
+        <div class="section-sub">Cómo descartar una tarjeta naranja</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Cada tarjeta fijada tiene un <b>botón ✕</b> en la esquina superior derecha de su panel de detalles.</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt">Haz clic en el botón <b>✕</b> del panel de detalles naranja.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt">La tarjeta regresa a su posición normal en la lista y se elimina el marco naranja.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt">Esa carga queda <b>descartada permanentemente</b> para esta sesión — no volverá a generar una alerta aunque reaparezca.</div></li>
+      </ul>
+      <div class="tip"><b>Consejo:</b> El escaneo continúa normalmente después de descartar una tarjeta. Descartar no detiene el monitor.</div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="section" id="es-banner">
+    <div class="section-header">
+      <div class="section-icon">🔔</div>
+      <div>
+        <div class="section-title">Banner de Carga Encontrada</div>
+        <div class="section-sub">El banner naranja y el temporizador de pausa</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>El banner aparece en la parte superior de la página cada vez que se encuentra una nueva carga que califica.</p>
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Detalles de la carga</div><div class="kv-val">Muestra origen → destino, pago ($) y tarifa en $/mi de un vistazo.</div></div>
+        <div class="kv"><div class="kv-key">Pausa automática</div><div class="kv-val">El escaneo se pausa automáticamente mientras el banner está visible para que tengas tiempo de revisar la carga.</div></div>
+        <div class="kv"><div class="kv-key">Cuenta regresiva</div><div class="kv-val">Un temporizador cuenta regresivamente (por defecto 3 min). Cuando llega a 0, el escaneo se reanuda automáticamente.</div></div>
+        <div class="kv"><div class="kv-key">▶ Reanudar Escaneo</div><div class="kv-val">Haz clic en este botón para cerrar el banner y reanudar el escaneo inmediatamente.</div></div>
+        <div class="kv"><div class="kv-key">✕ Cerrar</div><div class="kv-val">Igual que Reanudar — cierra el banner y reanuda.</div></div>
+        <div class="kv"><div class="kv-key">Pausa del Banner (min)</div><div class="kv-val">Cambia la duración de la pausa en Ajustes → Tiempos usando los botones + / − (1–60 min).</div></div>
+        <div class="kv"><div class="kv-key">Mostrar Banner</div><div class="kv-val">Activa o desactiva el banner en Ajustes → Tiempos.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="section" id="es-sound">
+    <div class="section-header">
+      <div class="section-icon">🔊</div>
+      <div>
+        <div class="section-title">Alertas de Sonido</div>
+        <div class="section-sub">Notificaciones de audio para nuevas cargas</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Sonido al Cargar</div><div class="kv-val">Control principal de alertas de audio. Activado = reproduce sonido cuando se encuentra una nueva carga. Por defecto: Activado.</div></div>
+        <div class="kv"><div class="kv-key">Menú de sonido</div><div class="kv-val">Elige entre: Beep, Chime, Bell, Sirena, Aire Comprimido, Bocina Larga, Bocina Corta, Bocina de Camión, Bocina Industrial, o Personalizado.</div></div>
+        <div class="kv"><div class="kv-key">Sonido Personalizado</div><div class="kv-val">Selecciona "Personalizado (Subir)" en el menú, luego sube tu propio archivo .mp3, .wav o .m4a.</div></div>
+        <div class="kv"><div class="kv-key">Sonido de cambio de precio</div><div class="kv-val">Un doble bip distintivo suena cuando el pago de una carga cambia $1 o más, independientemente del sonido seleccionado.</div></div>
+      </div>
+      <div class="tip"><b>Consejo:</b> Asegúrate de que el volumen del sistema no esté en silencio. Chrome debe tener permiso de audio para la pestaña de Relay.</div>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="section" id="es-similar">
+    <div class="section-header">
+      <div class="section-icon">🟠</div>
+      <div>
+        <div class="section-title">Alertas de Cargas Similares y LED</div>
+        <div class="section-sub">Mantente informado después del destello</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Cuando se encuentran varias cargas al mismo tiempo, la <b>carga mejor clasificada</b> activa el marco naranja completo y el banner. Las demás cargas (cargas similares) pasan por un sistema de alerta en dos fases para que no te pierdas ninguna:</p>
+      <ul class="steps">
+        <li><div class="step-num">1</div><div class="step-txt"><b>Fase 1 — Destello:</b> La tarjeta parpadea en naranja durante ~15 segundos para llamar tu atención.</div></li>
+        <li><div class="step-num">2</div><div class="step-txt"><b>Fase 2 — Barra fija:</b> Cuando termina el destello, aparece una barra delgada en la parte inferior de la pantalla con la ruta, el pago y el $/mi. Permanece ahí hasta que la cierres o una nueva carga similar la reemplace.</div></li>
+        <li><div class="step-num">3</div><div class="step-txt"><b>Toca la barra</b> para desplazarte directamente a esa tarjeta de carga en el tablero.</div></li>
+        <li><div class="step-num">4</div><div class="step-txt"><b>Toca ✕</b> en la barra para cerrarla cuando hayas terminado.</div></li>
+      </ul>
+      <div class="kv-list" style="margin-top:12px;">
+        <div class="kv">
+          <div class="kv-key">🔴 Punto LED en el botón de Inicio</div>
+          <div class="kv-val">Un pequeño <b>punto naranja brillante</b> aparece en la esquina superior derecha del botón ▶ Iniciar / ⏹ Detener cuando hay una barra de carga similar activa. Pulsa como una luz LED — una señal sutil de que hay algo esperando tu revisión. El punto se apaga cuando cierras la barra.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Borde residual en la tarjeta</div>
+          <div class="kv-val">Después del destello, la tarjeta de carga similar conserva un borde izquierdo naranja tenue para que puedas identificarla en el tablero aunque te hayas desplazado.</div>
+        </div>
+      </div>
+      <div class="tip"><b>Consejo:</b> El banner de la carga principal y la barra fija de cargas similares pueden aparecer al mismo tiempo — el banner cubre la mejor carga, la barra fija cubre las cargas secundarias. Estás cubierto en ambos casos.</div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="section" id="es-filters">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div>
+        <div class="section-title">Sincronía de Filtros</div>
+        <div class="section-sub">Sincronización automática con el panel de filtros de Relay</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Prohauling Relay lee el panel de filtros de Relay cada 5 segundos y utiliza esos valores para decidir qué cargas califican. <b>No</b> necesitas ingresarlos dos veces.</p>
+      <div class="kv-list">
+<div class="kv"><div class="kv-key">Tipo de Carga</div><div class="kv-val">Si marcas "Live" o "Drop &amp; Hook" en Relay, solo las cargas de ese tipo activarán alertas.</div></div>
+        <div class="kv"><div class="kv-key">Ciudades Excluidas</div><div class="kv-val">Las ciudades que excluyes en el filtro de Relay también se excluyen de las alertas de Pr0HAULING.</div></div>
+        <div class="kv"><div class="kv-key">Todos los mercados EE.UU.</div><div class="kv-val">Funciona para cualquier ciudad o región de EE.UU., no solo Miami. Solo configura tu origen en la barra de búsqueda de Relay.</div></div>
+      </div>
+      <div class="tip"><b>Consejo:</b> Revisa el registro de la consola para "📋 Relay filters synced:" para confirmar los valores que se están leyendo.</div>
+    </div>
+  </div>
+
+  <!-- 8 -->
+  <div class="section" id="es-timing">
+    <div class="section-header">
+      <div class="section-icon">⏱</div>
+      <div>
+        <div class="section-title">Configuración de Actualización y Tiempos</div>
+        <div class="section-sub">Controla con qué frecuencia escanea Pr0HAULING</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv" style="background:rgba(239,68,68,0.07);border-left:3px solid #ef4444;border-radius:4px;padding:6px 10px;">
+          <div class="kv-key" style="color:#ef4444;">⚠ RIESGO DE SUSPENSIÓN DE CUENTA <span style="font-weight:400;font-size:10px;">(aviso desplegable)</span></div>
+          <div class="kv-val">En el panel de Ajustes, bajo la sección <b>TIEMPOS</b>, verás un botón rojo con el texto <b>⚠ BAN RISK ▼</b>. Tócalo o haz clic para expandir el aviso completo. Explica que actualizar por debajo de 3 segundos puede resultar en la suspensión de tu cuenta de Amazon. Tócalo de nuevo para cerrarlo. La flecha <b>▼</b> indica que está cerrado — toca para abrir. La flecha <b>▲</b> indica que está abierto — toca para cerrar.</div>
+        </div>
+        <div class="kv"><div class="kv-key">Intervalo Aleatorio</div><div class="kv-val">Activa para agregar un pequeño retraso aleatorio a cada ciclo de actualización. Ayuda a variar el patrón para que los sistemas de Relay sean menos propensos a detectar actividad automatizada.</div></div>
+        <div class="kv"><div class="kv-key">Máximo Aleatorio (seg)</div><div class="kv-val">Establece los segundos adicionales aleatorios máximos. Solo visible cuando el Intervalo Aleatorio está activado.</div></div>
+        <div class="kv"><div class="kv-key">Pausa automática 💤</div><div class="kv-val">Pausa el escaneo automáticamente después de que dejes de interactuar con el navegador durante el tiempo configurado.</div></div>
+        <div class="kv"><div class="kv-key">Tiempo de espera (min)</div><div class="kv-val">Cuántos minutos de inactividad antes de pausar el escaneo. Por defecto: 10 min.</div></div>
+        <div class="kv"><div class="kv-key">Auto-refrescar al enfocarse</div><div class="kv-val">Activa un escaneo inmediato cuando cambias de vuelta a la pestaña de Relay.</div></div>
+        <div class="kv"><div class="kv-key">Mostrar Banner</div><div class="kv-val">Activa o desactiva el banner naranja de ancho completo cuando se encuentra una carga.</div></div>
+        <div class="kv"><div class="kv-key">Pausa del Banner (min)</div><div class="kv-val">Duración de la pausa cuando se encuentra una carga. Usa los botones + / −. Rango: 1–60 min.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9 -->
+  <div class="section" id="es-price">
+    <div class="section-header">
+      <div class="section-icon">💲</div>
+      <div>
+        <div class="section-title">Insignias de Cambio de Precio</div>
+        <div class="section-sub">Indicadores visuales de cambios en el pago</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p>Cuando el pago de una carga cambia $1 o más entre escaneos, aparece una insignia en la tarjeta durante 30 segundos:</p>
+      <div class="badge-row">
+        <span class="badge green">+$25</span><span style="color:#ccc;font-size:13px;">El pago aumentó $25</span>
+      </div>
+      <div class="badge-row" style="margin-top:8px;">
+        <span class="badge red">−$30</span><span style="color:#ccc;font-size:13px;">El pago disminuyó $30</span>
+      </div>
+      <p style="margin-top:12px;">Un <b>doble bip</b> distintivo suena para los cambios de precio (separado del sonido de alerta de nueva carga).</p>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="section" id="es-theme">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <div>
+        <div class="section-title">Temas e Idioma</div>
+        <div class="section-sub">Personaliza la barra de la extensión</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv"><div class="kv-key">Tema</div><div class="kv-val">25 esquemas de color disponibles: Naranja, Oscuro, Océano Azul, Morado, Verde, Rojo, Pizarra, Dorado, Medianoche, Carmesí, Verde Azulado, Oro Rosa, Marino, Esmeralda, Ámbar, Morado Profundo, Carbón, Ártico, Rubí, Lima, Bronce, Índigo, Coral, Menta, Magenta.</div></div>
+        <div class="kv"><div class="kv-key">🇺🇸 / 🇪🇸 Idioma</div><div class="kv-val">Haz clic en el botón de la bandera en la barra de Pr0HAULING para cambiar entre inglés y español. Todas las etiquetas y este manual se actualizan de inmediato.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 -->
+  <div class="section" id="es-errors">
+    <div class="section-header">
+      <div class="section-icon">⚠️</div>
+      <div>
+        <div class="section-title">Errores y Solución de Problemas</div>
+        <div class="section-sub">Problemas comunes y soluciones</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="kv-list">
+        <div class="kv">
+          <div class="kv-key">El botón dice "Recargar pestaña"</div>
+          <div class="kv-val">La extensión se actualizó mientras esta pestaña de Relay estaba abierta. Presiona <b>F5</b> para recargar la pestaña — el escaneo se reanudará normalmente.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">No se encuentran tarjetas</div>
+          <div class="kv-val">Relay puede estar cargando resultados, o puede haber cambiado su estructura de página. Espera 5–10 segundos e intenta de nuevo. Si persiste, recarga la pestaña.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">No suena ningún sonido</div>
+          <div class="kv-val">Verifica que "Sonido al Cargar" esté Activado, que el volumen del sistema esté subido y que Chrome tenga permiso de audio para la pestaña de Relay.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">El marco naranja persiste al Detener</div>
+          <div class="kv-val">Esto fue corregido en v1.4.x. Recarga la pestaña si lo ves en una versión anterior.</div>
+        </div>
+        <div class="kv">
+          <div class="kv-key">Extension context invalidated (consola)</div>
+          <div class="kv-val">Este error significa que la extensión se recargó mientras la pestaña estaba abierta. Se maneja automáticamente — solo recarga la pestaña (F5).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /es -->
+
+<footer>
+  Prohauling Relay v1.5.5 &nbsp;·&nbsp; Amazon Relay Load Monitor &nbsp;·&nbsp; For driver use only
+</footer>
+
+<script src="manual.js"></script>
+</body>
+</html>

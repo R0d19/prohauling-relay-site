@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prohauling Relay — Auto-Book Amazon Relay Loads Faster Than Any Human</title>
+  <meta name="description" content="Chrome extension for Amazon Relay carriers. Network-level load interception, auto-booking with countdown cancel, Telegram alerts, voice announcements, and fleet management. 7-day free trial.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:  #FF8000;
+      --orange2: #C85A00;
+      --bg:      #0d0d0d;
+      --card:    #151515;
+      --card2:   #1a1a1a;
+      --text:    #e0e0e0;
+      --muted:   rgba(255,255,255,0.4);
+      --muted2:  rgba(255,255,255,0.15);
+      --green:   #22c55e;
+      --border:  rgba(255,128,0,0.18);
+      --radius:  16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      animation: bodyFadeIn .35s ease;
+    }
+
+    @keyframes bodyFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ═══════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-left  { opacity: 0; transform: translateX(-32px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal-left.visible  { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(32px);  transition: opacity .6s ease, transform .6s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    .delay-1 { transition-delay: .07s; }
+    .delay-2 { transition-delay: .14s; }
+    .delay-3 { transition-delay: .21s; }
+    .delay-4 { transition-delay: .28s; }
+    .delay-5 { transition-delay: .35s; }
+    .delay-6 { transition-delay: .42s; }
+    .delay-7 { transition-delay: .49s; }
+    .delay-8 { transition-delay: .56s; }
+
+    /* ═══════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,13,13,0.93);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,128,0,0.12);
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img { width: 36px; height: 36px; border-radius: 9px; }
+
+    .nav-logo-name { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.3px; }
+    .nav-logo-sub  { font-size: 10px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a { font-size: 13.5px; color: rgba(255,255,255,0.55); transition: color .15s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .12s, box-shadow .15s, background .15s;
+      text-decoration: none;
+      border: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #000;
+      box-shadow: 0 4px 20px rgba(255,128,0,0.35);
+    }
+    .btn-primary:hover {
+      background: #ff9520;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(255,128,0,0.45);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--orange);
+      border: 2px solid rgba(255,128,0,0.5);
+    }
+    .btn-outline:hover {
+      background: rgba(255,128,0,0.08);
+      border-color: var(--orange);
+      transform: translateY(-1px);
+    }
+
+    .btn-lg { padding: 15px 32px; font-size: 16px; border-radius: 12px; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 2px;
+      transition: all .25s ease;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .nav-cta-desktop { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* Mobile slide-down menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(13,13,13,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,128,0,0.15);
+      padding: 16px 24px 28px;
+      flex-direction: column;
+      gap: 0;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .mobile-menu.open {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu a {
+      padding: 14px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color .15s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--orange); }
+    .mobile-menu .mobile-cta {
+      margin-top: 16px;
+      display: block;
+      background: var(--orange);
+      color: #000;
+      font-weight: 800;
+      font-size: 15px;
+      text-align: center;
+      padding: 13px;
+      border-radius: 10px;
+    }
+    .mobile-menu .mobile-cta:hover { background: #ff9520; }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
+      padding: 96px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,128,0,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,128,0,0.12);
+      border: 1px solid rgba(255,128,0,0.3);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      max-width: 820px;
+      margin: 0 auto 22px;
+    }
+
+    .hero h1 span { color: var(--orange); }
+
+    .hero-sub {
+      font-size: clamp(15px, 2.5vw, 19px);
+      color: rgba(255,255,255,0.62);
+      max-width: 620px;
+      margin: 0 auto 40px;
+      line-height: 1.55;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .hero-note { font-size: 12px; color: rgba(255,255,255,0.3); margin-bottom: 52px; }
+
+    /* Mock UI */
+    .mock-ui { max-width: 480px; margin: 0 auto; position: relative; }
+
+    .mock-browser {
+      background: #1c1c1c;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,128,0,0.15);
+    }
+
+    .mock-browser-bar {
+      background: #141414;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .mock-dot-red { background: #ff5f57; }
+    .mock-dot-yel { background: #ffbd2e; }
+    .mock-dot-grn { background: #28c840; }
+
+    .mock-url {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      margin-left: 6px;
+    }
+
+    .mock-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+    .mock-banner {
+      background: rgba(255,128,0,0.08);
+      border: 1.5px solid var(--orange2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .mock-banner-left { display: flex; align-items: center; gap: 10px; }
+
+    .mock-pulse {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+      animation: pulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); }
+      50%       { box-shadow: 0 0 0 7px rgba(34,197,94,0.08); }
+    }
+
+    .mock-banner-text { font-size: 12px; color: rgba(255,255,255,0.7); }
+    .mock-banner-text strong { color: #fff; font-weight: 800; }
+
+    .mock-badge {
+      background: var(--orange);
+      color: #000;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .mock-load-card {
+      background: #111213;
+      border: 2px solid var(--orange);
+      border-radius: 12px;
+      padding: 14px 16px;
+      position: relative;
+      transition: border-color .4s ease;
+    }
+
+    .mock-load-card::before {
+      content: 'QUALIFYING LOAD DETECTED';
+      position: absolute;
+      top: -10px; left: 14px;
+      background: var(--orange);
+      color: #000;
+      font-size: 9px;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: .5px;
+      transition: background .4s ease;
+    }
+
+    .mock-load-card.booked { border-color: var(--green); }
+    .mock-load-card.booked::before { content: 'LOAD BOOKED'; background: var(--green); }
+
+    .mock-load-price {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--orange);
+      letter-spacing: -1px;
+    }
+
+    .mock-load-route { font-size: 13px; color: rgba(255,255,255,0.75); margin: 4px 0 8px; }
+
+    .mock-load-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+
+    .mock-tag {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      font-size: 10.5px;
+      padding: 3px 8px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .mock-tag-green {
+      background: rgba(34,197,94,0.1);
+      border-color: rgba(34,197,94,0.3);
+      color: var(--green);
+    }
+
+    .mock-countdown {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,128,0,0.06);
+      border: 1px solid rgba(255,128,0,0.2);
+      border-radius: 8px;
+      padding: 9px 12px;
+      transition: background .4s ease, border-color .4s ease;
+    }
+
+    .mock-countdown.booked {
+      background: rgba(34,197,94,0.08);
+      border-color: rgba(34,197,94,0.3);
+    }
+
+    .mock-countdown-label { font-size: 11px; color: rgba(255,255,255,0.5); transition: color .3s; }
+    .mock-countdown.booked .mock-countdown-label { color: var(--green); }
+
+    .mock-countdown-timer {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--orange);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.5px;
+      transition: color .3s;
+    }
+
+    .mock-countdown.booked .mock-countdown-timer { color: var(--green); font-size: 14px; letter-spacing: 0; }
+
+    .mock-book-btn {
+      background: var(--green);
+      color: #000;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 14px;
+      border-radius: 7px;
+      transition: transform .15s, background .3s;
+    }
+
+    @keyframes btnPop { 0%,100% { transform:scale(1); } 50% { transform:scale(1.18); } }
+    .mock-book-btn.pop { animation: btnPop .3s ease; }
+
+    /* ═══════════════════════════════════════
+       STATS STRIP
+    ═══════════════════════════════════════ */
+    .stats-strip {
+      background: var(--bg);
+      border-bottom: 1px solid rgba(255,128,0,0.1);
+      padding: 44px 24px;
+    }
+
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 640px) {
+      .stats-inner { grid-template-columns: repeat(3, 1fr); gap: 28px 0; }
+      .stats-inner .stat-item:nth-child(4),
+      .stats-inner .stat-item:nth-child(5) { border-right: none; }
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 0 12px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+      letter-spacing: -1px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION WRAPPERS
+    ═══════════════════════════════════════ */
+    section { padding: 88px 24px; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.8px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+      max-width: 580px;
+      line-height: 1.6;
+      margin-bottom: 56px;
+    }
+
+    /* ═══════════════════════════════════════
+       SPEED SECTION
+    ═══════════════════════════════════════ */
+    #speed {
+      background: #111213;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .speed-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    @media (max-width: 700px) {
+      .speed-grid { grid-template-columns: 1fr; }
+      .speed-vs { display: none; }
+    }
+
+    .speed-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .speed-card.bad  { opacity: 0.7; }
+    .speed-card.good { border-color: var(--orange2); box-shadow: 0 0 40px rgba(255,128,0,0.1); }
+
+    .speed-card-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+    .speed-card.bad  .speed-card-label { color: rgba(255,255,255,0.3); }
+    .speed-card.good .speed-card-label { color: var(--orange); }
+
+    .speed-card-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 20px; }
+    .speed-card.bad .speed-card-title { color: rgba(255,255,255,0.5); }
+
+    .speed-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+
+    .speed-step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      font-size: 11px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+
+    .speed-card.bad  .speed-step-num { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); }
+    .speed-card.good .speed-step-num { background: rgba(255,128,0,0.2); color: var(--orange); }
+
+    .speed-step-text { font-size: 13.5px; line-height: 1.5; }
+    .speed-card.bad  .speed-step-text { color: rgba(255,255,255,0.4); }
+    .speed-card.good .speed-step-text { color: rgba(255,255,255,0.8); }
+
+    .speed-result {
+      margin-top: 20px; padding: 12px 16px;
+      border-radius: 10px; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .speed-card.bad  .speed-result { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #f87171; }
+    .speed-card.good .speed-result { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); color: var(--green); }
+
+    .speed-vs { font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.15); text-align: center; }
+
+    /* ═══════════════════════════════════════
+       FEATURES GRID
+    ═══════════════════════════════════════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .feat-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 28px 26px;
+      transition: border-color .2s, box-shadow .2s, transform .15s;
+    }
+
+    .feat-card:hover {
+      border-color: rgba(255,128,0,0.35);
+      box-shadow: 0 8px 40px rgba(255,128,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .feat-icon { font-size: 26px; margin-bottom: 14px; display: block; }
+
+    .feat-card-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+
+    .feat-card-desc { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+    .feat-card-desc strong { color: var(--orange); font-weight: 700; }
+
+    /* ═══════════════════════════════════════
+       HOW IT WORKS
+    ═══════════════════════════════════════ */
+    #how-it-works {
+      background: #111213;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    @media (max-width: 700px) {
+      .steps-grid { grid-template-columns: 1fr; }
+      .step-connector { display: none; }
+    }
+
+    .step-card { text-align: center; padding: 32px 24px; position: relative; }
+
+    .step-num {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,128,0,0.25), rgba(200,90,0,0.15));
+      border: 2px solid rgba(255,128,0,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 900;
+      color: var(--orange);
+      margin: 0 auto 20px;
+    }
+
+    .step-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .step-desc  { font-size: 13.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+    .step-connector {
+      position: absolute;
+      top: 58px; right: -24px;
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, rgba(255,128,0,0.3), rgba(255,128,0,0.05));
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════
+       PRICING
+    ═══════════════════════════════════════ */
+    #pricing { text-align: center; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 36px 32px 32px;
+      text-align: left;
+      position: relative;
+      transition: transform .15s, box-shadow .2s;
+    }
+
+    .price-card:hover { transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+
+    .price-card.featured { border-color: var(--orange2); border-width: 2px; box-shadow: 0 0 60px rgba(255,128,0,0.14); }
+
+    .price-featured-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--orange); color: #000;
+      font-size: 10px; font-weight: 900;
+      padding: 4px 16px; border-radius: 100px; letter-spacing: .7px; white-space: nowrap;
+    }
+
+    .price-plan-name { font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px; }
+
+    .price-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 4px; }
+    .price-dollar { font-size: 22px; font-weight: 900; color: var(--orange); }
+    .price-number { font-size: 52px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -2px; }
+    .price-cents  { font-size: 22px; font-weight: 900; color: rgba(255,255,255,0.5); }
+
+    .price-period { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 20px; }
+
+    .price-save {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 6px; font-size: 11px; font-weight: 800; color: var(--green);
+      padding: 4px 10px; margin-bottom: 20px;
+    }
+
+    .price-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 20px 0; }
+
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+
+    .price-features li { display: flex; align-items: flex-start; gap: 9px; font-size: 13.5px; color: rgba(255,255,255,0.65); }
+    .price-features li::before { content: '✓'; color: var(--green); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
+
+    .btn-plan {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; padding: 14px 24px; border-radius: 12px;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      transition: all .15s; text-decoration: none;
+    }
+
+    .btn-plan-primary { background: var(--orange); color: #000; box-shadow: 0 4px 20px rgba(255,128,0,0.3); }
+    .btn-plan-primary:hover { background: #ff9520; transform: translateY(-1px); box-shadow: 0 8px 30px rgba(255,128,0,0.4); }
+
+    .btn-plan-secondary { background: rgba(255,128,0,0.08); color: var(--orange); border: 1.5px solid rgba(255,128,0,0.3); }
+    .btn-plan-secondary:hover { background: rgba(255,128,0,0.14); border-color: var(--orange); transform: translateY(-1px); }
+
+    .pricing-trial-note { text-align: center; margin-top: 28px; font-size: 13.5px; color: rgba(255,255,255,0.3); }
+    .pricing-trial-note strong { color: rgba(255,255,255,0.55); }
+
+    /* ═══════════════════════════════════════
+       FAQ
+    ═══════════════════════════════════════ */
+    #faq {
+      background: #111213;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+    .faq-item {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+
+    .faq-item.open { border-color: rgba(255,128,0,0.25); }
+
+    .faq-question {
+      width: 100%; background: none; border: none;
+      padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      cursor: pointer; text-align: left;
+      color: #fff; font-size: 15px; font-weight: 700;
+      transition: background .15s;
+    }
+
+    .faq-question:hover { background: rgba(255,255,255,0.03); }
+
+    .faq-icon {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(255,128,0,0.12); border: 1px solid rgba(255,128,0,0.25);
+      color: var(--orange); font-size: 14px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: transform .3s ease, background .2s;
+    }
+
+    .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(255,128,0,0.2); }
+
+    /* Smooth accordion — max-height transition */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 24px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      transition: max-height .38s ease, padding .38s ease;
+      border-top: 0px solid rgba(255,255,255,0.05);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 400px;
+      padding: 0 24px 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .faq-answer p { padding-top: 16px; }
+
+    /* ═══════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════ */
+    footer {
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 40px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 20px;
+    }
+
+    .footer-logo { display: flex; align-items: center; gap: 10px; }
+    .footer-logo img { width: 28px; height: 28px; border-radius: 7px; }
+    .footer-logo-name { font-size: 14px; font-weight: 900; color: rgba(255,255,255,0.5); }
+    .footer-copyright { font-size: 11px; color: rgba(255,255,255,0.2); margin-top: 4px; }
+
+    .footer-links { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 12.5px; color: rgba(255,255,255,0.3); transition: color .15s; }
+    .footer-links a:hover { color: var(--orange); }
+
+    /* ═══════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════ */
+    .text-center { text-align: center; }
+    .highlight { color: var(--orange); }
+
+    @media (max-width: 520px) {
+      section { padding: 64px 20px; }
+      .hero { padding: 72px 20px 60px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     STICKY NAV
+══════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="icons/icon128.png" alt="Prohauling Relay" onerror="this.style.display='none'">
+      <div>
+        <div class="nav-logo-name">Prohauling Relay</div>
+        <div class="nav-logo-sub">Amazon Relay Load Monitor</div>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#speed"        data-section="speed">How It Works</a></li>
+      <li><a href="#features"     data-section="features">Features</a></li>
+      <li><a href="#pricing"      data-section="pricing">Pricing</a></li>
+      <li><a href="#faq"          data-section="faq">FAQ</a></li>
+    </ul>
+    <a href="checkout.html" class="btn btn-primary nav-cta-desktop" style="font-size:13px;padding:9px 18px;">Get Started Free</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#speed"    class="mobile-nav-link">How It Works</a>
+  <a href="#features" class="mobile-nav-link">Features</a>
+  <a href="#pricing"  class="mobile-nav-link">Pricing</a>
+  <a href="#faq"      class="mobile-nav-link">FAQ</a>
+  <a href="checkout.html" class="mobile-cta">Get Started Free</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-eyebrow reveal">
+    <span>&#9889;</span> Network-Level Speed · Auto-Booking · Amazon Relay
+  </div>
+
+  <h1 class="reveal delay-1">Stop Watching the Load Board.<br><span>Let It Book Itself.</span></h1>
+
+  <p class="hero-sub reveal delay-2">
+    Prohauling Relay intercepts Amazon Relay's API at the network level — before anything renders on screen — and automatically books the loads that match your rates, routes, and schedule. Hands-free hauling starts here.
+  </p>
+
+  <div class="hero-ctas reveal delay-3">
+    <a href="checkout.html" class="btn btn-primary btn-lg">Start 7-Day Free Trial</a>
+    <a href="#pricing" class="btn btn-outline btn-lg">See Pricing</a>
+  </div>
+  <p class="hero-note reveal delay-3">No credit card required &nbsp;·&nbsp; 7-day free trial &nbsp;·&nbsp; Cancel any time</p>
+
+  <!-- Mock UI -->
+  <div class="mock-ui reveal delay-4">
+    <div class="mock-browser">
+      <div class="mock-browser-bar">
+        <div class="mock-dot mock-dot-red"></div>
+        <div class="mock-dot mock-dot-yel"></div>
+        <div class="mock-dot mock-dot-grn"></div>
+        <div class="mock-url">relay.amazon.com/loadboard</div>
+      </div>
+      <div class="mock-content">
+        <div class="mock-banner">
+          <div class="mock-banner-left">
+            <div class="mock-pulse"></div>
+            <div class="mock-banner-text"><strong>Prohauling Relay</strong> — Monitoring active</div>
+          </div>
+          <div class="mock-badge">LIVE</div>
+        </div>
+        <div class="mock-load-card" id="mockLoadCard">
+          <div class="mock-load-price" id="mockLoadPrice">$2,840</div>
+          <div class="mock-load-route" id="mockLoadRoute">Chicago, IL &rarr; Dallas, TX &nbsp;·&nbsp; 487 mi</div>
+          <div class="mock-load-tags">
+            <span class="mock-tag" id="mockLoadRate">$5.82/mi</span>
+            <span class="mock-tag">Dry Van</span>
+            <span class="mock-tag">IL origin</span>
+            <span class="mock-tag-green">&#10003; Meets filters</span>
+          </div>
+          <div class="mock-countdown" id="mockCountdown">
+            <div>
+              <div class="mock-countdown-label" id="countdownLabel">Auto-booking in</div>
+              <div class="mock-countdown-timer" id="countdownTimer">0:05</div>
+            </div>
+            <div class="mock-book-btn" id="bookBtn">BOOK NOW</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     STATS STRIP
+══════════════════════════════════════ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-number" data-target="9">0</div>
+      <div class="stat-label">Filter Dimensions</div>
+    </div>
+    <div class="stat-item reveal delay-1">
+      <div class="stat-number" data-target="5">0</div>
+      <div class="stat-label">Alert Channels</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="stat-number" data-target="5">0</div>
+      <div class="stat-label">Schedule Windows</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="stat-number" data-target="25">0</div>
+      <div class="stat-label">Color Themes</div>
+    </div>
+    <div class="stat-item reveal delay-4">
+      <div class="stat-number" data-target="7">0</div>
+      <div class="stat-label">Days Free Trial</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SPEED SECTION
+══════════════════════════════════════ -->
+<section id="speed">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom:56px;">
+      <span class="section-label reveal">Speed Advantage</span>
+      <h2 class="section-title reveal delay-1">Sees the load before the page does</h2>
+      <p class="section-sub reveal delay-2" style="margin: 0 auto;">Amazon sends load data from its servers to your browser. DOM-scraping tools wait for the page to fully render before they can read a single number. Prohauling Relay overrides the browser's native <strong style="color:rgba(255,255,255,0.7)">fetch() and XMLHttpRequest APIs</strong> to intercept the raw JSON payload the moment the server response arrives — before the rendering pipeline even starts.</p>
+    </div>
+
+    <div class="speed-grid">
+
+      <div class="speed-card bad reveal reveal-left">
+        <div class="speed-card-label">Other Extensions</div>
+        <div class="speed-card-title">DOM Scraping</div>
+        <div class="speed-step">
+          <div class="speed-step-num">1</div>
+          <div class="speed-step-text">Amazon server sends load data to browser</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">2</div>
+          <div class="speed-step-text">Browser parses and renders HTML elements</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">3</div>
+          <div class="speed-step-text">Extension scans DOM, reads text from screen</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">4</div>
+          <div class="speed-step-text">Extension runs filter logic, triggers action</div>
+        </div>
+        <div class="speed-result">&#10005; Multiple render cycles of latency — load may already be gone</div>
+      </div>
+
+      <div class="speed-vs">VS</div>
+
+      <div class="speed-card good reveal reveal-right">
+        <div class="speed-card-label">Prohauling Relay</div>
+        <div class="speed-card-title">Network Interception</div>
+        <div class="speed-step">
+          <div class="speed-step-num">1</div>
+          <div class="speed-step-text">Amazon server sends load data to browser</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">2</div>
+          <div class="speed-step-text">Extension intercepts the raw API response — before rendering starts</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">3</div>
+          <div class="speed-step-text">Filter logic runs instantly on clean JSON data</div>
+        </div>
+        <div class="speed-step">
+          <div class="speed-step-num">4</div>
+          <div class="speed-step-text">Auto-booking fires while the page is still loading</div>
+        </div>
+        <div class="speed-result">&#10003; Fastest possible reaction — same moment as the server response</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FEATURES
+══════════════════════════════════════ -->
+<section id="features">
+  <div class="section-inner">
+    <span class="section-label reveal">Full Feature Set</span>
+    <h2 class="section-title reveal delay-1">Everything a serious carrier needs</h2>
+    <p class="section-sub reveal delay-2">Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.</p>
+
+    <div class="features-grid">
+
+      <div class="feat-card reveal delay-1">
+        <span class="feat-icon">&#9889;</span>
+        <div class="feat-card-title">4-Step Auto-Booking Engine</div>
+        <div class="feat-card-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon's secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
+      </div>
+
+      <div class="feat-card reveal delay-2">
+        <span class="feat-icon">&#127919;</span>
+        <div class="feat-card-title">9-Dimension Real-Time Filtering</div>
+        <div class="feat-card-desc">Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.</div>
+      </div>
+
+      <div class="feat-card reveal delay-3">
+        <span class="feat-icon">&#128242;</span>
+        <div class="feat-card-title">5-Channel Alert System</div>
+        <div class="feat-card-desc">All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you're watching the screen or not.</div>
+      </div>
+
+      <div class="feat-card reveal delay-4">
+        <span class="feat-icon">&#128264;</span>
+        <div class="feat-card-title">Voice Announcements</div>
+        <div class="feat-card-desc">The extension uses the browser's built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.</div>
+      </div>
+
+      <div class="feat-card reveal delay-1">
+        <span class="feat-icon">&#128197;</span>
+        <div class="feat-card-title">Schedule &amp; Shift Hours</div>
+        <div class="feat-card-desc">Define up to <strong>5 time windows per week</strong>. Auto-booking activates only during your configured shift hours. Outside your schedule, the monitor still watches and alerts — it just won't book without you.</div>
+      </div>
+
+      <div class="feat-card reveal delay-2">
+        <span class="feat-icon">&#128101;</span>
+        <div class="feat-card-title">Fleet &amp; Multi-Driver Management</div>
+        <div class="feat-card-desc">Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.</div>
+      </div>
+
+      <div class="feat-card reveal delay-3">
+        <span class="feat-icon">&#128268;</span>
+        <div class="feat-card-title">Network-Level API Interception</div>
+        <div class="feat-card-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon's front-end have no effect.</div>
+      </div>
+
+      <div class="feat-card reveal delay-4">
+        <span class="feat-icon">&#127775;</span>
+        <div class="feat-card-title">25 Themes &amp; Spanish Support</div>
+        <div class="feat-card-desc">Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════ -->
+<section id="how-it-works">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom:56px;">
+      <span class="section-label reveal">Get Running in Minutes</span>
+      <h2 class="section-title reveal delay-1">Three steps to hands-free hauling</h2>
+    </div>
+
+    <div class="steps-grid">
+
+      <div class="step-card reveal delay-1" style="position:relative;">
+        <div class="step-num">1</div>
+        <div class="step-title">Install &amp; Configure</div>
+        <div class="step-desc">Add Prohauling Relay to Chrome. Enter your license key, set your minimum payout, preferred lanes, equipment type, and the schedule windows you want to work. Takes about five minutes.</div>
+        <div class="step-connector"></div>
+      </div>
+
+      <div class="step-card reveal delay-2" style="position:relative;">
+        <div class="step-num">2</div>
+        <div class="step-title">Extension Monitors 24/7</div>
+        <div class="step-desc">Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.</div>
+        <div class="step-connector"></div>
+      </div>
+
+      <div class="step-card reveal delay-3">
+        <div class="step-num">3</div>
+        <div class="step-title">Best Loads Get Booked</div>
+        <div class="step-desc">A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don't — the load is yours. Your phone rings. You drive.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PRICING
+══════════════════════════════════════ -->
+<section id="pricing">
+  <div class="section-inner">
+    <span class="section-label reveal">Simple Pricing</span>
+    <h2 class="section-title reveal delay-1">Start free. Pay only when you're ready.</h2>
+    <p class="section-sub reveal delay-2" style="margin:0 auto 56px;">7-day free trial on every plan — no credit card required at sign-up.</p>
+
+    <div class="pricing-grid">
+
+      <div class="price-card reveal delay-1">
+        <div class="price-plan-name">Monthly</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-number">49</span>
+          <span class="price-cents">.99</span>
+        </div>
+        <div class="price-period">per month &nbsp;·&nbsp; full access</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Auto-booking with countdown cancel</li>
+          <li>7-dimension real-time filtering</li>
+          <li>Telegram + phone call alerts</li>
+          <li>Voice announcements</li>
+          <li>Schedule / shift-hours module</li>
+          <li>Fleet &amp; multi-driver profiles</li>
+          <li>25 themes · English &amp; Spanish</li>
+        </ul>
+        <a href="checkout.html" class="btn-plan btn-plan-secondary">Start 7-Day Free Trial</a>
+      </div>
+
+      <div class="price-card featured reveal delay-2">
+        <div class="price-featured-badge">BEST VALUE</div>
+        <div class="price-plan-name">Yearly</div>
+        <div class="price-amount">
+          <span class="price-dollar">$</span>
+          <span class="price-number">399</span>
+          <span class="price-cents">.99</span>
+        </div>
+        <div class="price-period">per year &nbsp;·&nbsp; that's $33.33/mo</div>
+        <div class="price-save">&#10003; SAVE 33% &nbsp;·&nbsp; 2 months free</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Everything in Monthly</li>
+          <li>Best per-month rate — lock it in</li>
+          <li>Priority support</li>
+          <li>All future feature updates included</li>
+        </ul>
+        <a href="checkout.html" class="btn-plan btn-plan-primary">Start 7-Day Free Trial</a>
+      </div>
+
+    </div>
+
+    <p class="pricing-trial-note reveal delay-3"><strong>7-day free trial</strong> — no credit card required. Full access from day one. Cancel any time from the extension settings.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ
+══════════════════════════════════════ -->
+<section id="faq">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom:52px;">
+      <span class="section-label reveal">FAQ</span>
+      <h2 class="section-title reveal delay-1">Common questions</h2>
+    </div>
+
+    <div class="faq-list">
+
+      <div class="faq-item reveal delay-1">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is using this extension against Amazon Relay's Terms of Service?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>We can't provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay's current carrier agreement and using the tool in a way you're comfortable with.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-2">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Will it book loads I don't want?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-3">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          What happens if Amazon changes their website?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>Because Prohauling Relay intercepts Amazon's raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-4">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do I need to leave my computer on?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-5">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I use it for multiple drivers in my fleet?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. The fleet management module lets you create multiple driver profiles, each with its own independent filter configuration, Telegram notification target, phone alert numbers, and schedule windows. Switch between active driver profiles with one click. One license covers all your profiles on the same installation.</p>
+        </div>
+      </div>
+
+      <div class="faq-item reveal delay-6">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is the 7-day trial really free? No credit card?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">
+          <p>Yes — completely free, no credit card required to start. You get full access to every feature for 7 days. At the end of the trial, you can choose a Monthly or Yearly plan to continue. If you don't subscribe, the extension simply stops working — there are no surprise charges.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">
+        <img src="icons/icon128.png" alt="Prohauling Relay" onerror="this.style.display='none'">
+        <div class="footer-logo-name">Prohauling Relay</div>
+      </div>
+      <div class="footer-copyright">© 2026 Prohauling Relay · U.S. Patent Pending No. 64/068,633</div>
+    </div>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="manual.html">Manual</a>
+      <a href="checkout.html">Get License</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  initReveal();
+  initCounters();
+  initMockCountdown();
+  initMobileMenu();
+  initNavHighlight();
+});
+
+/* ─── 1. SCROLL REVEAL ─────────────────────────────────────────
+   Uses IntersectionObserver to fade+slide elements in as they
+   enter the viewport. Elements start invisible via CSS (.reveal).
+─────────────────────────────────────────────────────────────── */
+function initReveal() {
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function (el) {
+    observer.observe(el);
+  });
+}
+
+/* ─── 2. ANIMATED STAT COUNTERS ────────────────────────────────
+   When a .stat-number scrolls into view, counts from 0 up to
+   data-target using requestAnimationFrame over ~1.1 seconds.
+─────────────────────────────────────────────────────────────── */
+function initCounters() {
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el      = entry.target;
+      var target  = parseInt(el.dataset.target, 10);
+      var suffix  = el.dataset.suffix || '';
+      var current = 0;
+      var duration = 1100;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased    = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        current      = Math.floor(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target + suffix;
+        }
+      }
+
+      requestAnimationFrame(step);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-number[data-target]').forEach(function (el) {
+    observer.observe(el);
+  });
+}
+
+/* ─── 3. MOCK COUNTDOWN ANIMATION ──────────────────────────────
+   Loops: counts 5 → 4 → 3 → 2 → 1 → shows BOOKED state →
+   resets with a new random load → repeats indefinitely.
+─────────────────────────────────────────────────────────────── */
+function initMockCountdown() {
+  var countdown = document.getElementById('mockCountdown');
+  var timerEl   = document.getElementById('countdownTimer');
+  var labelEl   = document.getElementById('countdownLabel');
+  var bookBtn   = document.getElementById('bookBtn');
+  var loadCard  = document.getElementById('mockLoadCard');
+  if (!countdown || !timerEl) return;
+
+  var loads = [
+    { price: '$2,840', route: 'Chicago, IL → Dallas, TX · 487 mi', rate: '$5.82/mi' },
+    { price: '$3,120', route: 'Atlanta, GA → Memphis, TN · 392 mi', rate: '$7.96/mi' },
+    { price: '$1,980', route: 'Phoenix, AZ → Denver, CO · 598 mi', rate: '$3.31/mi' },
+    { price: '$4,450', route: 'Los Angeles, CA → Seattle, WA · 1,135 mi', rate: '$3.92/mi' },
+    { price: '$2,200', route: 'Houston, TX → Nashville, TN · 673 mi', rate: '$3.27/mi' }
+  ];
+
+  var loadIndex = 0;
+  var seconds   = 5;
+  var timer     = null;
+
+  function setLoad(load) {
+    document.getElementById('mockLoadPrice').textContent = load.price;
+    document.getElementById('mockLoadRoute').innerHTML   = load.route;
+    document.getElementById('mockLoadRate').textContent  = load.rate;
+  }
+
+  function tick() {
+    if (seconds > 0) {
+      timerEl.textContent = '0:0' + seconds;
+      seconds--;
+      timer = setTimeout(tick, 950);
+    } else {
+      showBooked();
+    }
+  }
+
+  function showBooked() {
+    countdown.classList.add('booked');
+    loadCard.classList.add('booked');
+    labelEl.textContent = 'Load booked!';
+    timerEl.textContent = '✓ BOOKED';
+    bookBtn.classList.add('pop');
+    setTimeout(function () { bookBtn.classList.remove('pop'); }, 350);
+    timer = setTimeout(reset, 2800);
+  }
+
+  function reset() {
+    countdown.classList.remove('booked');
+    loadCard.classList.remove('booked');
+    labelEl.textContent = 'Auto-booking in';
+    timerEl.textContent = '0:05';
+    seconds   = 5;
+    loadIndex = (loadIndex + 1) % loads.length;
+    setLoad(loads[loadIndex]);
+    timer = setTimeout(tick, 1400);
+  }
+
+  timer = setTimeout(tick, 2000);
+}
+
+/* ─── 4. MOBILE HAMBURGER MENU ─────────────────────────────────
+   Toggles the slide-down mobile nav. Closes on link click or
+   outside click.
+─────────────────────────────────────────────────────────────── */
+function initMobileMenu() {
+  var hamburger  = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if (!hamburger || !mobileMenu) return;
+
+  hamburger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  mobileMenu.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  });
+}
+
+/* ─── 5. NAV ACTIVE SECTION HIGHLIGHT ──────────────────────────
+   Highlights the corresponding nav link as each section scrolls
+   into the center of the viewport.
+─────────────────────────────────────────────────────────────── */
+function initNavHighlight() {
+  var navLinks = document.querySelectorAll('.nav-links a[data-section]');
+  var sectionIds = ['speed', 'features', 'how-it-works', 'pricing', 'faq'];
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        navLinks.forEach(function (link) {
+          link.classList.toggle('active', link.dataset.section === id);
+        });
+      }
+    });
+  }, { rootMargin: '-35% 0px -55% 0px' });
+
+  sectionIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+}
+
+/* ─── 6. FAQ SMOOTH ACCORDION ──────────────────────────────────
+   Opens one item at a time with a max-height CSS transition.
+   Closing all first prevents jarring simultaneous transitions.
+─────────────────────────────────────────────────────────────── */
+function toggleFaq(btn) {
+  var item     = btn.parentElement;
+  var wasOpen  = item.classList.contains('open');
+
+  document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+    openItem.classList.remove('open');
+  });
+
+  if (!wasOpen) {
+    item.classList.add('open');
+    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+</script>
+
+</body>
+</html>
