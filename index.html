@@ -674,7 +674,7 @@
 
     .feat-card-title { font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 8px; }
 
-    .feat-card-desc { font-size: 13.5px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+    .feat-card-desc { font-size: 13.5px; color: rgba(255,255,255,0.78); line-height: 1.6; }
     .feat-card-desc strong { color: var(--orange); font-weight: 700; }
 
     /* ═══════════════════════════════════════
@@ -930,6 +930,44 @@
     }
 
     /* ═══════════════════════════════════════
+       GUIDES SECTION
+    ═══════════════════════════════════════ */
+    #guides {
+      background: #111213;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .guides-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 44px;
+    }
+    @media (max-width: 600px) { .guides-grid { grid-template-columns: 1fr; } }
+    .guide-card-link { text-decoration: none; display: block; }
+    .guide-card-inner {
+      background: var(--card);
+      border: 1px solid rgba(255,128,0,0.18);
+      border-radius: 18px;
+      padding: 32px 28px;
+      transition: border-color .22s, transform .2s, box-shadow .22s;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+      min-height: 200px;
+    }
+    .guide-card-link:hover .guide-card-inner {
+      border-color: var(--orange);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 48px rgba(255,128,0,0.14);
+    }
+    .guide-card-icon  { font-size: 34px; line-height: 1; }
+    .guide-card-title { font-size: 18px; font-weight: 800; color: var(--text); }
+    .guide-card-desc  { font-size: 14px; color: var(--muted); line-height: 1.7; flex: 1; }
+    .guide-card-cta   { padding-top: 6px; font-size: 13.5px; font-weight: 700; color: var(--orange); }
+
+    /* ═══════════════════════════════════════
        SYSTEM LIGHT MODE
     ═══════════════════════════════════════ */
     /* force-dark overrides system light preference */
@@ -942,172 +980,237 @@
 
     @media (prefers-color-scheme: light) {
       :root {
-        --bg:    #f5f2ee;
+        --bg:    transparent;
         --card:  #ffffff;
-        --card2: #ede9e3;
-        --text:  #1a1714;
-        --muted: rgba(20,15,10,0.5);
-        --muted2:rgba(20,15,10,0.1);
-        --border:rgba(200,90,0,0.2);
+        --card2: rgba(200,100,20,0.07);
+        --text:  #1a1410;
+        --muted: rgba(26,20,16,0.6);
+        --muted2:rgba(26,20,16,0.07);
+        --border:rgba(200,90,0,0.28);
       }
-      body { background: var(--bg); color: var(--text); }
+      body {
+        background: linear-gradient(160deg, #fff8f0 0%, #ffdfa8 55%, #fff4e8 100%) fixed;
+        color: #1a1410;
+      }
 
-      nav { background: rgba(245,242,238,0.95); border-bottom-color: rgba(0,0,0,0.08); }
-      .nav-logo-name { color: #1a1714; }
-      .nav-links a { color: rgba(20,15,10,0.55); }
+      /* Nav */
+      nav { background: rgba(255,245,230,0.95); border-bottom: 1px solid rgba(200,100,20,0.15); box-shadow: 0 1px 16px rgba(200,100,20,0.1); }
+      .nav-logo-name { color: #1a1410; }
+      .nav-logo-sub  { color: rgba(26,20,16,0.45); }
+      .nav-links a { color: rgba(26,20,16,0.58); }
       .nav-links a:hover, .nav-links a.active { color: var(--orange); }
-      .hamburger span { background: #1a1714; }
+      .hamburger span { background: #1a1410; }
+      .mobile-menu { background: rgba(255,246,232,0.98); border-bottom-color: rgba(200,100,20,0.15); }
+      .mobile-menu a { color: rgba(26,20,16,0.65); border-bottom-color: rgba(200,100,20,0.1); }
+      .mobile-lang-label { color: rgba(26,20,16,0.42); }
 
-      .mobile-menu { background: rgba(245,242,238,0.98); }
-      .mobile-nav-link { color: rgba(20,15,10,0.7); border-bottom-color: rgba(0,0,0,0.06); }
+      /* Hero — slightly brighter version of the page gradient */
+      .hero { background: linear-gradient(160deg, #fff8f0 0%, #ffc86a 50%, #ffe8c0 100%); }
+      .hero::before { background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,128,0,0.22) 0%, transparent 70%); }
+      .hero h1 { color: #1a1410; }
+      .hero-sub { color: rgba(26,20,16,0.7); }
+      .hero-note { color: rgba(26,20,16,0.42); }
+      .hero-eyebrow { background: rgba(255,128,0,0.12); border-color: rgba(255,128,0,0.35); }
 
-      .hero {
-        background: linear-gradient(135deg, #fff4e8 0%, #ffe0bc 60%, #fff4e8 100%);
-      }
-      .hero h1 { color: #1a1714; }
-      .hero-sub { color: rgba(20,15,10,0.6); }
-      .hero-note { color: rgba(20,15,10,0.35); }
-      .hero-eyebrow { background: rgba(255,128,0,0.12); color: var(--orange); }
+      /* Mock browser */
+      .mock-browser { background: #e8ddd0; border-color: rgba(200,100,20,0.18); box-shadow: 0 28px 70px rgba(100,50,0,0.14), 0 0 0 1px rgba(200,90,0,0.12); }
+      .mock-browser-bar { background: #ddd3c3; border-bottom-color: rgba(200,100,20,0.1); }
+      .mock-url { background: rgba(0,0,0,0.06); color: rgba(26,20,16,0.42); }
+      .mock-banner { background: rgba(255,128,0,0.1); border-color: rgba(200,90,0,0.3); }
+      .mock-banner-text { color: rgba(26,20,16,0.8); }
+      .mock-banner-text strong { color: #1a1410; }
+      .mock-load-card { background: #f5ede0; border-color: var(--orange); }
+      .mock-load-route { color: rgba(26,20,16,0.82); }
+      .mock-load-meta { color: rgba(26,20,16,0.5); }
+      .mock-tag { background: rgba(0,0,0,0.06); border-color: rgba(0,0,0,0.1); color: rgba(26,20,16,0.62); }
+      .mock-countdown-label { color: rgba(26,20,16,0.55); }
 
-      .stats-strip { background: #ede9e3; border-color: rgba(0,0,0,0.07); }
+      /* Stats strip */
+      .stats-strip { background: rgba(200,100,20,0.1); border-bottom-color: rgba(200,100,20,0.12); }
       .stat-number { color: var(--orange); }
-      .stat-label { color: rgba(20,15,10,0.5); }
-      .stat-item { border-right-color: rgba(0,0,0,0.08); }
+      .stat-label { color: rgba(26,20,16,0.5); }
+      .stat-item { border-right-color: rgba(200,100,20,0.15); }
 
-      section { background: var(--bg); }
-      #speed, #how-it-works, #autobook, #faq, #guides {
-        background: #ede9e3;
-        border-color: rgba(0,0,0,0.06);
-      }
+      /* Section wrappers */
+      section { background: transparent; }
+      #speed, #how-it-works, #autobook, #faq, #guides { background: rgba(200,100,20,0.07); border-top-color: rgba(200,100,20,0.1); border-bottom-color: rgba(200,100,20,0.1); }
       .section-label { color: var(--orange); }
-      .section-title { color: #1a1714; }
-      .section-sub { color: rgba(20,15,10,0.55); }
+      .section-title { color: #1a1410; }
+      .section-sub { color: rgba(26,20,16,0.62); }
 
-      .mock-browser { background: #e0dbd4; border-color: rgba(0,0,0,0.1); }
-      .mock-browser-bar { background: #d4cfc8; }
-      .mock-url { color: rgba(20,15,10,0.45); }
-      .mock-banner { background: rgba(255,128,0,0.1); border-color: rgba(255,128,0,0.25); }
-      .mock-banner-text { color: #1a1714; }
-      .mock-load-card { background: #f5f2ee; border-color: rgba(0,0,0,0.1); }
-      .mock-load-route { color: #1a1714; }
-      .mock-load-pay { color: var(--orange); }
-      .mock-load-meta { color: rgba(20,15,10,0.5); }
-
-      .speed-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
-      .speed-card.bad  .speed-card-label { color: rgba(20,15,10,0.35); }
+      /* Speed */
+      .speed-card { background: #fff; border-color: rgba(200,100,20,0.12); box-shadow: 0 2px 18px rgba(100,50,0,0.08); }
+      .speed-card.bad { opacity: 0.78; }
+      .speed-card.good { border-color: var(--orange2); box-shadow: 0 4px 32px rgba(255,128,0,0.15); }
+      .speed-card.bad  .speed-card-label { color: rgba(26,20,16,0.38); }
       .speed-card.good .speed-card-label { color: var(--orange); }
-      .speed-card-title { color: #1a1714; }
-      .speed-card.bad  .speed-card-title { color: rgba(20,15,10,0.45); }
-      .speed-card.bad  .speed-step-text  { color: rgba(20,15,10,0.4); }
-      .speed-card.good .speed-step-text  { color: rgba(20,15,10,0.75); }
-      .speed-card.bad  .speed-step-num   { background: rgba(20,15,10,0.07); color: rgba(20,15,10,0.3); }
+      .speed-card-title { color: #1a1410; }
+      .speed-card.bad  .speed-card-title { color: rgba(26,20,16,0.42); }
+      .speed-card.bad  .speed-step-text  { color: rgba(26,20,16,0.48); }
+      .speed-card.good .speed-step-text  { color: rgba(26,20,16,0.82); }
+      .speed-card.bad  .speed-step-num   { background: rgba(26,20,16,0.08); color: rgba(26,20,16,0.34); }
       .speed-card.good .speed-step-num   { background: rgba(255,128,0,0.15); color: var(--orange); }
+      .speed-vs { color: rgba(26,20,16,0.22); }
+      .speed-card.bad  .speed-result { background: rgba(239,68,68,0.07); border-color: rgba(239,68,68,0.2); }
+      .speed-card.good .speed-result { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.25); }
 
-      .feat-card { background: var(--card); border-color: rgba(0,0,0,0.08); }
-      .feat-card-title { color: #1a1714; }
-      .feat-card-desc { color: rgba(20,15,10,0.6); }
+      /* Features */
+      .feat-card { background: #fff; border-color: rgba(200,100,20,0.1); box-shadow: 0 2px 14px rgba(100,50,0,0.07); }
+      .feat-card:hover { border-color: rgba(255,128,0,0.42); box-shadow: 0 8px 36px rgba(255,128,0,0.12); transform: translateY(-2px); }
+      .feat-card-title { color: #1a1410; }
+      .feat-card-desc { color: rgba(26,20,16,0.68); }
+      #autobook-step5-desc span { color: rgba(26,20,16,0.7) !important; }
+      #autobook-step5-desc span strong { color: #1a1410 !important; }
+      #autobook-step6-desc { color: rgba(26,20,16,0.72); }
 
-      .hiw-step { background: var(--card); border-color: rgba(0,0,0,0.08); }
-      .hiw-step-title { color: #1a1714; }
-      .hiw-step-desc { color: rgba(20,15,10,0.6); }
+      /* How It Works */
+      .hiw-step { background: #fff; border-color: rgba(200,100,20,0.1); box-shadow: 0 2px 14px rgba(100,50,0,0.07); }
+      .hiw-step-title { color: #1a1410; }
+      .hiw-step-desc { color: rgba(26,20,16,0.62); }
+      .step-title { color: #1a1410; }
+      .step-desc  { color: rgba(26,20,16,0.65); }
+      .step-connector { background: linear-gradient(90deg, rgba(255,128,0,0.28), rgba(255,128,0,0.04)); }
 
-      .plan-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
-      .plan-name { color: #1a1714; }
-      .plan-price { color: #1a1714; }
-      .plan-period { color: rgba(20,15,10,0.5); }
-      .plan-feature { color: rgba(20,15,10,0.65); }
-      .plan-feature::before { color: var(--orange); }
+      /* Pricing */
+      .price-card { background: #fff; border-color: rgba(200,100,20,0.12); box-shadow: 0 4px 24px rgba(100,50,0,0.08); }
+      .price-card.featured { border-color: var(--orange2); box-shadow: 0 8px 40px rgba(255,128,0,0.18); }
+      .price-plan-name { color: rgba(26,20,16,0.45); }
+      .price-number { color: #1a1410; }
+      .price-cents  { color: rgba(26,20,16,0.52); }
+      .price-period { color: rgba(26,20,16,0.45); }
+      .price-divider { background: rgba(26,20,16,0.1); }
+      .price-features li { color: rgba(26,20,16,0.72); }
+      .btn-plan-secondary { background: rgba(255,128,0,0.07); color: var(--orange); border-color: rgba(255,128,0,0.3); }
+      .btn-plan-secondary:hover { background: rgba(255,128,0,0.14); border-color: var(--orange); }
+      .pricing-trial-note { color: rgba(26,20,16,0.45); }
+      .pricing-trial-note strong { color: rgba(26,20,16,0.68); }
 
-      .faq-item { background: var(--card); border-color: rgba(0,0,0,0.08); }
-      .faq-question { color: #1a1714; }
-      .faq-answer p { color: rgba(20,15,10,0.65); }
+      /* FAQ */
+      .faq-item { background: #fff; border-color: rgba(200,100,20,0.1); box-shadow: 0 2px 10px rgba(100,50,0,0.06); }
+      .faq-item.open { border-color: rgba(255,128,0,0.32); }
+      .faq-question { color: #1a1410; }
+      .faq-question:hover { background: rgba(200,100,20,0.03); }
+      .faq-answer { color: rgba(26,20,16,0.68); border-top-color: rgba(200,100,20,0.08); }
+      .faq-item.open .faq-answer { border-top-color: rgba(200,100,20,0.1); }
+      .faq-answer p { color: rgba(26,20,16,0.68); }
 
-      footer { background: #e0dbd4; }
-      footer, footer a { color: rgba(20,15,10,0.4); }
+      /* Buttons */
+      .btn-outline { color: #1a1410; border-color: rgba(26,20,16,0.22); }
+      .btn-outline:hover { background: rgba(26,20,16,0.05); }
+
+      /* Footer */
+      footer { background: rgba(200,100,20,0.14); border-top-color: rgba(200,100,20,0.15); }
+      .footer-logo-name { color: rgba(26,20,16,0.68); }
+      .footer-copyright { color: rgba(26,20,16,0.4); }
+      footer a { color: rgba(26,20,16,0.5); }
       footer a:hover { color: var(--orange); }
 
-      .btn-outline { color: #1a1714; border-color: rgba(20,15,10,0.25); }
-      .btn-outline:hover { background: rgba(20,15,10,0.06); }
-
-      .guide-card > div { background: var(--card) !important; border-color: rgba(0,0,0,0.1) !important; }
-      #guide1-title, #guide2-title { color: #1a1714 !important; }
-
-      /* How It Works steps */
-      .step-title { color: #1a1714; }
-      .step-desc  { color: rgba(20,15,10,0.65); }
-      .step-connector { border-color: rgba(20,15,10,0.15); }
-
-      /* Pricing section */
-      .price-card { background: var(--card); border-color: rgba(0,0,0,0.1); }
-      .price-plan-name { color: rgba(20,15,10,0.45); }
-      .price-number { color: #1a1714; }
-      .price-cents  { color: rgba(20,15,10,0.5); }
-      .price-period { color: rgba(20,15,10,0.45); }
-      .price-divider { background: rgba(20,15,10,0.1); }
-      .price-features li { color: rgba(20,15,10,0.65); }
-
-      /* Footer children */
-      .footer-logo-name  { color: rgba(20,15,10,0.6); }
-      .footer-copyright  { color: rgba(20,15,10,0.35); }
+      /* Guide cards */
+      .guide-card-inner { background: #fff; border-color: rgba(200,100,20,0.2); }
+      .guide-card-title { color: #1a1410; }
+      .guide-card-desc  { color: rgba(26,20,16,0.62); }
     }
 
-    /* force-light: same rules, triggered by JS class instead of OS setting */
-    html.force-light body { --bg:#f5f2ee; --card:#ffffff; --card2:#ede9e3; --text:#1a1714; --muted:rgba(20,15,10,0.5); --muted2:rgba(20,15,10,0.1); --border:rgba(200,90,0,0.2); background:#f5f2ee; color:#1a1714; }
-    html.force-light nav { background:rgba(245,242,238,0.95); border-bottom-color:rgba(0,0,0,0.08); }
-    html.force-light .nav-logo-name { color:#1a1714; }
-    html.force-light .nav-links a { color:rgba(20,15,10,0.55); }
+    /* ─── force-light: JS-toggled, mirrors the media query above ─── */
+    html.force-light body { --bg:transparent; --card:#ffffff; --card2:rgba(200,100,20,0.07); --text:#1a1410; --muted:rgba(26,20,16,0.6); --muted2:rgba(26,20,16,0.07); --border:rgba(200,90,0,0.28); background:linear-gradient(160deg,#fff8f0 0%,#ffdfa8 55%,#fff4e8 100%) fixed; color:#1a1410; }
+    /* Nav */
+    html.force-light nav { background:rgba(255,245,230,0.95); border-bottom:1px solid rgba(200,100,20,0.15); box-shadow:0 1px 16px rgba(200,100,20,0.1); }
+    html.force-light .nav-logo-name { color:#1a1410; }
+    html.force-light .nav-logo-sub  { color:rgba(26,20,16,0.45); }
+    html.force-light .nav-links a { color:rgba(26,20,16,0.58); }
     html.force-light .nav-links a:hover,html.force-light .nav-links a.active { color:var(--orange); }
-    html.force-light .hamburger span { background:#1a1714; }
-    html.force-light .mobile-menu { background:rgba(245,242,238,0.98); }
-    html.force-light .mobile-nav-link { color:rgba(20,15,10,0.7); border-bottom-color:rgba(0,0,0,0.06); }
-    html.force-light .hero { background:linear-gradient(135deg,#fff4e8 0%,#ffe0bc 60%,#fff4e8 100%); }
-    html.force-light .hero h1 { color:#1a1714; }
-    html.force-light .hero-sub { color:rgba(20,15,10,0.6); }
-    html.force-light .hero-note { color:rgba(20,15,10,0.35); }
-    html.force-light .stats-strip { background:#ede9e3; border-color:rgba(0,0,0,0.07); }
+    html.force-light .hamburger span { background:#1a1410; }
+    html.force-light .mobile-menu { background:rgba(255,246,232,0.98); border-bottom-color:rgba(200,100,20,0.15); }
+    html.force-light .mobile-menu a { color:rgba(26,20,16,0.65); border-bottom-color:rgba(200,100,20,0.1); }
+    html.force-light .mobile-lang-label { color:rgba(26,20,16,0.42); }
+    /* Hero */
+    html.force-light .hero { background:linear-gradient(160deg,#fff8f0 0%,#ffc86a 50%,#ffe8c0 100%); }
+    html.force-light .hero h1 { color:#1a1410; }
+    html.force-light .hero-sub { color:rgba(26,20,16,0.7); }
+    html.force-light .hero-note { color:rgba(26,20,16,0.42); }
+    html.force-light .hero-eyebrow { background:rgba(255,128,0,0.12); border-color:rgba(255,128,0,0.35); }
+    /* Mock browser */
+    html.force-light .mock-browser { background:#e8ddd0; border-color:rgba(200,100,20,0.18); box-shadow:0 28px 70px rgba(100,50,0,0.14),0 0 0 1px rgba(200,90,0,0.12); }
+    html.force-light .mock-browser-bar { background:#ddd3c3; border-bottom-color:rgba(200,100,20,0.1); }
+    html.force-light .mock-url { background:rgba(0,0,0,0.06); color:rgba(26,20,16,0.42); }
+    html.force-light .mock-banner { background:rgba(255,128,0,0.1); border-color:rgba(200,90,0,0.3); }
+    html.force-light .mock-banner-text { color:rgba(26,20,16,0.8); }
+    html.force-light .mock-banner-text strong { color:#1a1410; }
+    html.force-light .mock-load-card { background:#f5ede0; border-color:var(--orange); }
+    html.force-light .mock-load-route { color:rgba(26,20,16,0.82); }
+    html.force-light .mock-load-meta { color:rgba(26,20,16,0.5); }
+    html.force-light .mock-tag { background:rgba(0,0,0,0.06); border-color:rgba(0,0,0,0.1); color:rgba(26,20,16,0.62); }
+    html.force-light .mock-countdown-label { color:rgba(26,20,16,0.55); }
+    /* Stats */
+    html.force-light .stats-strip { background:rgba(200,100,20,0.1); border-bottom-color:rgba(200,100,20,0.12); }
     html.force-light .stat-number { color:var(--orange); }
-    html.force-light .stat-label { color:rgba(20,15,10,0.5); }
-    html.force-light .stat-item { border-right-color:rgba(0,0,0,0.08); }
-    html.force-light section { background:var(--bg); }
-    html.force-light #speed,html.force-light #how-it-works,html.force-light #autobook,html.force-light #faq,html.force-light #guides { background:#ede9e3; border-color:rgba(0,0,0,0.06); }
+    html.force-light .stat-label { color:rgba(26,20,16,0.5); }
+    html.force-light .stat-item { border-right-color:rgba(200,100,20,0.15); }
+    /* Sections */
+    html.force-light section { background:transparent; }
+    html.force-light #speed,html.force-light #how-it-works,html.force-light #autobook,html.force-light #faq,html.force-light #guides { background:rgba(200,100,20,0.07); border-top-color:rgba(200,100,20,0.1); border-bottom-color:rgba(200,100,20,0.1); }
     html.force-light .section-label { color:var(--orange); }
-    html.force-light .section-title { color:#1a1714; }
-    html.force-light .section-sub { color:rgba(20,15,10,0.55); }
-    html.force-light .mock-browser { background:#e0dbd4; }
-    html.force-light .mock-browser-bar { background:#d4cfc8; }
-    html.force-light .feat-card,html.force-light .hiw-step,html.force-light .plan-card,html.force-light .faq-item { background:var(--card); border-color:rgba(0,0,0,0.08); }
-    html.force-light .feat-card-title,html.force-light .hiw-step-title,html.force-light .plan-name,html.force-light .faq-question,html.force-light .section-title { color:#1a1714; }
-    html.force-light .feat-card-desc { color:rgba(20,15,10,0.6); }
-    html.force-light footer { background:#e0dbd4; color:rgba(20,15,10,0.4); }
-    html.force-light footer a { color:rgba(20,15,10,0.4); }
-    html.force-light .footer-logo-name { color:rgba(20,15,10,0.6); }
-    html.force-light .footer-copyright { color:rgba(20,15,10,0.35); }
-    html.force-light .btn-outline { color:#1a1714; border-color:rgba(20,15,10,0.25); }
-    html.force-light .guide-card > div { background:var(--card) !important; border-color:rgba(0,0,0,0.1) !important; }
-    html.force-light #guide1-title,html.force-light #guide2-title { color:#1a1714 !important; }
-    html.force-light #theme-toggle { border-color:rgba(20,15,10,0.2); }
-    /* Speed card overrides for force-light */
-    html.force-light .speed-card { background:var(--card); border-color:rgba(0,0,0,0.1); }
-    html.force-light .speed-card.bad  .speed-card-label { color:rgba(20,15,10,0.35); }
+    html.force-light .section-title { color:#1a1410; }
+    html.force-light .section-sub { color:rgba(26,20,16,0.62); }
+    /* Speed */
+    html.force-light .speed-card { background:#fff; border-color:rgba(200,100,20,0.12); box-shadow:0 2px 18px rgba(100,50,0,0.08); }
+    html.force-light .speed-card.good { border-color:var(--orange2); box-shadow:0 4px 32px rgba(255,128,0,0.15); }
+    html.force-light .speed-card.bad  .speed-card-label { color:rgba(26,20,16,0.38); }
     html.force-light .speed-card.good .speed-card-label { color:var(--orange); }
-    html.force-light .speed-card-title { color:#1a1714; }
-    html.force-light .speed-card.bad  .speed-card-title { color:rgba(20,15,10,0.45); }
-    html.force-light .speed-card.bad  .speed-step-text  { color:rgba(20,15,10,0.4); }
-    html.force-light .speed-card.good .speed-step-text  { color:rgba(20,15,10,0.75); }
-    html.force-light .speed-card.bad  .speed-step-num   { background:rgba(20,15,10,0.07); color:rgba(20,15,10,0.3); }
+    html.force-light .speed-card-title { color:#1a1410; }
+    html.force-light .speed-card.bad  .speed-card-title { color:rgba(26,20,16,0.42); }
+    html.force-light .speed-card.bad  .speed-step-text  { color:rgba(26,20,16,0.48); }
+    html.force-light .speed-card.good .speed-step-text  { color:rgba(26,20,16,0.82); }
+    html.force-light .speed-card.bad  .speed-step-num   { background:rgba(26,20,16,0.08); color:rgba(26,20,16,0.34); }
     html.force-light .speed-card.good .speed-step-num   { background:rgba(255,128,0,0.15); color:var(--orange); }
-    /* How It Works steps for force-light */
-    html.force-light .step-title { color:#1a1714; }
-    html.force-light .step-desc  { color:rgba(20,15,10,0.65); }
-    html.force-light .step-connector { border-color:rgba(20,15,10,0.15); }
-    /* Pricing for force-light */
-    html.force-light .price-card { background:var(--card); border-color:rgba(0,0,0,0.1); }
-    html.force-light .price-plan-name { color:rgba(20,15,10,0.45); }
-    html.force-light .price-number { color:#1a1714; }
-    html.force-light .price-cents  { color:rgba(20,15,10,0.5); }
-    html.force-light .price-period { color:rgba(20,15,10,0.45); }
-    html.force-light .price-divider { background:rgba(20,15,10,0.1); }
-    html.force-light .price-features li { color:rgba(20,15,10,0.65); }
+    html.force-light .speed-vs { color:rgba(26,20,16,0.22); }
+    /* Features */
+    html.force-light .feat-card { background:#fff; border-color:rgba(200,100,20,0.1); box-shadow:0 2px 14px rgba(100,50,0,0.07); }
+    html.force-light .feat-card-title { color:#1a1410; }
+    html.force-light .feat-card-desc { color:rgba(26,20,16,0.68); }
+    html.force-light #autobook-step5-desc span { color:rgba(26,20,16,0.7) !important; }
+    html.force-light #autobook-step5-desc span strong { color:#1a1410 !important; }
+    html.force-light #autobook-step6-desc { color:rgba(26,20,16,0.72); }
+    /* How It Works */
+    html.force-light .hiw-step { background:#fff; border-color:rgba(200,100,20,0.1); }
+    html.force-light .hiw-step-title { color:#1a1410; }
+    html.force-light .hiw-step-desc { color:rgba(26,20,16,0.62); }
+    html.force-light .step-title { color:#1a1410; }
+    html.force-light .step-desc  { color:rgba(26,20,16,0.65); }
+    html.force-light .step-connector { background:linear-gradient(90deg,rgba(255,128,0,0.28),rgba(255,128,0,0.04)); }
+    /* Pricing */
+    html.force-light .price-card { background:#fff; border-color:rgba(200,100,20,0.12); box-shadow:0 4px 24px rgba(100,50,0,0.08); }
+    html.force-light .price-card.featured { border-color:var(--orange2); box-shadow:0 8px 40px rgba(255,128,0,0.18); }
+    html.force-light .price-plan-name { color:rgba(26,20,16,0.45); }
+    html.force-light .price-number { color:#1a1410; }
+    html.force-light .price-cents  { color:rgba(26,20,16,0.52); }
+    html.force-light .price-period { color:rgba(26,20,16,0.45); }
+    html.force-light .price-divider { background:rgba(26,20,16,0.1); }
+    html.force-light .price-features li { color:rgba(26,20,16,0.72); }
+    html.force-light .btn-plan-secondary { background:rgba(255,128,0,0.07); color:var(--orange); border-color:rgba(255,128,0,0.3); }
+    html.force-light .pricing-trial-note { color:rgba(26,20,16,0.45); }
+    html.force-light .pricing-trial-note strong { color:rgba(26,20,16,0.68); }
+    /* FAQ */
+    html.force-light .faq-item { background:#fff; border-color:rgba(200,100,20,0.1); box-shadow:0 2px 10px rgba(100,50,0,0.06); }
+    html.force-light .faq-item.open { border-color:rgba(255,128,0,0.32); }
+    html.force-light .faq-question { color:#1a1410; }
+    html.force-light .faq-question:hover { background:rgba(200,100,20,0.03); }
+    html.force-light .faq-answer { color:rgba(26,20,16,0.68); border-top-color:rgba(200,100,20,0.08); }
+    html.force-light .faq-answer p { color:rgba(26,20,16,0.68); }
+    /* Buttons */
+    html.force-light .btn-outline { color:#1a1410; border-color:rgba(26,20,16,0.22); }
+    html.force-light .btn-outline:hover { background:rgba(26,20,16,0.05); }
+    /* Footer */
+    html.force-light footer { background:rgba(200,100,20,0.14); border-top-color:rgba(200,100,20,0.15); }
+    html.force-light .footer-logo-name { color:rgba(26,20,16,0.68); }
+    html.force-light .footer-copyright { color:rgba(26,20,16,0.4); }
+    html.force-light footer a { color:rgba(26,20,16,0.5); }
+    html.force-light footer a:hover { color:var(--orange); }
+    /* Guide cards */
+    html.force-light .guide-card-inner { background:#fff; border-color:rgba(200,100,20,0.2); }
+    html.force-light .guide-card-title { color:#1a1410; }
+    html.force-light .guide-card-desc  { color:rgba(26,20,16,0.62); }
+    html.force-light #theme-toggle { border-color:rgba(26,20,16,0.2); }
   </style>
 </head>
 <body>
@@ -1222,42 +1325,35 @@
 <!-- ══════════════════════════════════════
      GUIDES / RESOURCES
 ══════════════════════════════════════ -->
-<section id="guides" style="background:#111213;border-top:1px solid rgba(255,255,255,0.05);padding:60px 24px;">
+<section id="guides">
   <div class="section-inner" style="max-width:860px;">
     <span class="section-label reveal" id="guides-label">Learn &amp; Set Up</span>
     <h2 class="section-title reveal delay-1" id="guides-title">Everything you need to get started</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;" class="reveal delay-2">
+    <div class="guides-grid reveal delay-2">
 
       <!-- Tutorial card -->
-      <a href="tutorial.html" style="text-decoration:none;" class="guide-card">
-        <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
-          <div style="font-size:32px;">&#128247;</div>
-          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide1-title">Auto-Booking Setup Guide</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
-          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide1-cta">View Setup Guide &rarr;</div>
+      <a href="tutorial.html" class="guide-card-link">
+        <div class="guide-card-inner">
+          <div class="guide-card-icon">&#128247;</div>
+          <div class="guide-card-title" id="guide1-title">Auto-Booking Setup Guide</div>
+          <div class="guide-card-desc" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
+          <div class="guide-card-cta" id="guide1-cta">View Setup Guide &rarr;</div>
         </div>
       </a>
 
       <!-- Visual Guide card -->
-      <a href="slides.html" style="text-decoration:none;" class="guide-card">
-        <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
-          <div style="font-size:32px;">&#127916;</div>
-          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide2-title">Visual Guide</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
-          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide2-cta">Open Visual Guide &rarr;</div>
+      <a href="slides.html" class="guide-card-link">
+        <div class="guide-card-inner">
+          <div class="guide-card-icon">&#127916;</div>
+          <div class="guide-card-title" id="guide2-title">Visual Guide</div>
+          <div class="guide-card-desc" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
+          <div class="guide-card-cta" id="guide2-cta">Open Visual Guide &rarr;</div>
         </div>
       </a>
 
     </div>
   </div>
 </section>
-
-<style>
-  .guide-card:hover > div { border-color: var(--orange) !important; transform: translateY(-2px); }
-  @media (max-width:560px) {
-    #guides > div > div[style*="grid"] { grid-template-columns: 1fr !important; }
-  }
-</style>
 
 <!-- ══════════════════════════════════════
      STATS STRIP
