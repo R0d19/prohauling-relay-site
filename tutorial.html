@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Booking Setup Guide — Prohauling Relay</title>
+  <meta name="description" content="Step-by-step guide to setting up auto-booking on Prohauling Relay.">
+  <link rel="icon" href="icons/icon48.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #FF8000;
+      --bg: #0d0d0d;
+      --card: #151515;
+      --card2: #1a1a1a;
+      --text: #e0e0e0;
+      --muted: rgba(255,255,255,0.45);
+      --border: rgba(255,128,0,0.18);
+      --radius: 14px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 32px;
+      height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-logo-name { font-size: 16px; font-weight: 900; color: #fff; }
+    .nav-back {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; transition: color .15s;
+    }
+    .nav-back:hover { color: var(--orange); }
+    .nav-lang { display: flex; gap: 6px; }
+    .lang-btn {
+      padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.12); background: transparent;
+      color: var(--muted); cursor: pointer; transition: all .15s;
+    }
+    .lang-btn.active { background: var(--orange); color: #000; border-color: var(--orange); }
+
+    /* ── HERO ── */
+    .tut-hero {
+      background: linear-gradient(135deg, #1a0a00 0%, #2d1200 60%, #1a0a00 100%);
+      padding: 56px 32px 44px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,128,0,0.15);
+    }
+    .tut-eyebrow {
+      display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 1.8px;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 14px;
+    }
+    .tut-hero h1 { font-size: clamp(28px, 5vw, 46px); font-weight: 900; line-height: 1.1; color: #fff; margin-bottom: 14px; }
+    .tut-hero p { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+    /* ── STEPS ── */
+    .steps-wrap {
+      max-width: 900px; margin: 0 auto; padding: 56px 24px 80px;
+      display: flex; flex-direction: column; gap: 60px;
+    }
+
+    .step {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+
+    .step-header {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--orange); color: #000;
+      font-size: 16px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-title { font-size: 20px; font-weight: 800; color: #fff; }
+
+    .step-desc {
+      font-size: 15px; color: var(--muted); line-height: 1.7;
+      padding-left: 52px;
+    }
+    .step-desc strong { color: var(--text); }
+
+    .step-img-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255,128,0,0.15);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .step-img-wrap img {
+      width: 100%; display: block;
+    }
+
+    /* callout arrow overlay */
+    .callout {
+      position: absolute;
+      background: var(--orange);
+      color: #000;
+      font-size: 11px; font-weight: 800;
+      padding: 5px 10px; border-radius: 6px;
+      white-space: nowrap;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    .callout::after {
+      content: '';
+      position: absolute;
+      border: 6px solid transparent;
+    }
+    .callout.arrow-down::after {
+      border-top-color: var(--orange);
+      top: 100%; left: 50%; transform: translateX(-50%);
+    }
+    .callout.arrow-up::after {
+      border-bottom-color: var(--orange);
+      bottom: 100%; left: 50%; transform: translateX(-50%);
+    }
+    .callout.arrow-left::after {
+      border-right-color: var(--orange);
+      right: 100%; top: 50%; transform: translateY(-50%);
+    }
+
+    /* ── TIP BOX ── */
+    .tip-box {
+      background: rgba(255,128,0,0.07);
+      border: 1px solid rgba(255,128,0,0.22);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .tip-box strong { color: var(--orange); }
+
+    /* ── DONE BANNER ── */
+    .done-banner {
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .done-banner .done-icon { font-size: 36px; margin-bottom: 10px; }
+    .done-banner h3 { font-size: 20px; font-weight: 900; color: #4ade80; margin-bottom: 6px; }
+    .done-banner p { font-size: 14px; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 28px 32px;
+      text-align: center;
+      font-size: 12px; color: rgba(255,255,255,0.25);
+    }
+    footer a { color: rgba(255,255,255,0.3); text-decoration: none; }
+    footer a:hover { color: var(--orange); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .tut-hero { padding: 40px 16px 32px; }
+      .steps-wrap { padding: 36px 16px 60px; gap: 48px; }
+      .step-desc { padding-left: 0; }
+      .step-title { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="/">
+    <img src="icons/icon48.png" alt="Prohauling Relay">
+    <span class="nav-logo-name">Prohauling Relay</span>
+  </a>
+  <div class="nav-lang">
+    <button class="lang-btn active" id="lb-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lb-es" onclick="setLang('es')">ES</button>
+  </div>
+  <a class="nav-back" href="/">&larr; <span id="nav-back-text">Back to site</span></a>
+</nav>
+
+<div class="tut-hero">
+  <div class="tut-eyebrow" id="hero-label">Setup Guide</div>
+  <h1 id="hero-title">Auto-Booking Setup</h1>
+  <p id="hero-sub">Follow these steps to set up drivers, configure your filters, and let Prohauling Relay book loads for you automatically.</p>
+</div>
+
+<div class="steps-wrap">
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div class="step-title" id="s1-title">Open Drivers &amp; Auto Book Schedule</div>
+    </div>
+    <div class="step-desc" id="s1-desc">
+      Click the <strong>Drivers + Auto Book Schedule</strong> tab in the extension. If you haven't added any drivers yet, you'll see the empty state below. Before the engine can book anything, it needs at least one driver profile with a Telegram ID and phone number.
+    </div>
+    <div class="step-img-wrap" style="position:relative;">
+      <img src="tutorial/step1-drivers-empty.png" alt="Empty drivers panel">
+      <div class="callout arrow-down" style="bottom:70px;left:50%;transform:translateX(-50%);" id="s1-callout">Click here to add your first driver</div>
+    </div>
+    <div class="tip-box" id="s1-tip">
+      <strong>Tip:</strong> Each driver needs a Telegram Chat ID. Have them message <strong>@userinfobot</strong> on Telegram — it replies with their numeric chat ID instantly.
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div class="step-title" id="s2-title">Add a Driver Profile</div>
+    </div>
+    <div class="step-desc" id="s2-desc">
+      Click <strong>+ Add New Driver</strong> and fill in the form. Enter the driver's full name, phone number (with country code), Telegram Chat ID, trailer type, and preferred language. Truck is optional — it's just for your reference.
+    </div>
+    <div class="step-img-wrap">
+      <img src="tutorial/step1b-add-driver.png" alt="Add new driver form">
+    </div>
+    <div class="tip-box" id="s2-tip">
+      <strong>Tip:</strong> The <strong>Language</strong> field controls the language of voice announcements and on-screen alerts for that driver — choose English or Spanish.
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div class="step-title" id="s3-title">Set Global Settings &amp; Configure a Slot</div>
+    </div>
+    <div class="step-desc" id="s3-desc">
+      Once a driver is saved, you'll see the <strong>Global Settings</strong> and your first booking slot. Set the <strong>Auto Book Refresh Interval</strong> (how often the engine re-checks loads) and your <strong>Deadhead Avg Speed</strong> (used to estimate travel time). Then configure <strong>Slot 1</strong> with your route, minimum pay, and filters.
+    </div>
+    <div class="step-img-wrap">
+      <img src="tutorial/step3-slot-config.png" alt="Slot configuration with route and filters">
+    </div>
+    <div class="tip-box" id="s3-tip">
+      <strong>Tip:</strong> Enable <strong>Deadhead Time Check</strong> in the slot — it skips a load automatically if the driver can't reach the pickup on time based on their current location and your deadhead speed setting.
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div class="step-title" id="s4-title">Review the Full Slot Configuration</div>
+    </div>
+    <div class="step-desc" id="s4-desc">
+      Each slot has three main sections: <strong>Pay &amp; Load Filters</strong> (minimum payout, $/mile, distance, duration), <strong>AI Settings</strong> (AI score threshold, confidence minimum, dynamic booking mode), and <strong>Schedule</strong> (which days and hours the slot is active). Set them to match your preferred loads.
+    </div>
+    <div class="step-img-wrap">
+      <img src="tutorial/step2-global-settings.png" alt="Full slot configuration showing all filter sections">
+    </div>
+    <div class="tip-box" id="s4-tip">
+      <strong>Tip:</strong> Use <strong>AI Adjusts Booking Mode Dynamically</strong> — the engine switches automatically between Straight Book, Countdown, and Alert-Only based on the AI score, so the best loads book instantly and borderline loads give you time to decide.
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div class="step-title" id="s5-title">Turn It On and Walk Away</div>
+    </div>
+    <div class="step-desc" id="s5-desc">
+      Once your driver and slots are configured, switch the main <strong>Auto-Booking</strong> toggle to ON from the extension panel. Leave the load board open in Chrome. Prohauling Relay will monitor every load in the background, apply all your filters, and auto-book qualifying loads — even while you're away from the screen.
+    </div>
+    <div class="step-img-wrap">
+      <img src="tutorial/step4-overview.png" alt="Full overview of Drivers + Auto Book Schedule panel">
+    </div>
+    <div class="tip-box" id="s5-tip">
+      <strong>Tip:</strong> You can run up to <strong>5 booking slots per driver</strong>, each with completely independent route, filter, and schedule settings. Use multiple slots to cover different lanes at the same time.
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="done-banner">
+    <div class="done-icon">&#10003;</div>
+    <h3 id="done-title">You're all set.</h3>
+    <p id="done-desc">Auto-booking is configured. Qualifying loads will be booked automatically according to your filters and schedule.</p>
+  </div>
+
+</div>
+
+<footer>
+  &copy; 2026 Prohauling Relay &nbsp;&middot;&nbsp;
+  <a href="/">Home</a> &nbsp;&middot;&nbsp;
+  <a href="mailto:support@prohauling-relay.com">support@prohauling-relay.com</a>
+</footer>
+
+<script>
+const T = {
+  en: {
+    'nav-back-text':  'Back to site',
+    'hero-label':     'Setup Guide',
+    'hero-title':     'Auto-Booking Setup',
+    'hero-sub':       'Follow these steps to set up drivers, configure your filters, and let Prohauling Relay book loads for you automatically.',
+    's1-title':       'Open Drivers &amp; Auto Book Schedule',
+    's1-desc':        'Click the <strong>Drivers + Auto Book Schedule</strong> tab in the extension. If you haven\'t added any drivers yet, you\'ll see the empty state below. Before the engine can book anything, it needs at least one driver profile with a Telegram ID and phone number.',
+    's1-callout':     'Click here to add your first driver',
+    's1-tip':         '<strong>Tip:</strong> Each driver needs a Telegram Chat ID. Have them message <strong>@userinfobot</strong> on Telegram — it replies with their numeric chat ID instantly.',
+    's2-title':       'Add a Driver Profile',
+    's2-desc':        'Click <strong>+ Add New Driver</strong> and fill in the form. Enter the driver\'s full name, phone number (with country code), Telegram Chat ID, trailer type, and preferred language. Truck is optional — it\'s just for your reference.',
+    's2-tip':         '<strong>Tip:</strong> The <strong>Language</strong> field controls the language of voice announcements and on-screen alerts for that driver — choose English or Spanish.',
+    's3-title':       'Set Global Settings &amp; Configure a Slot',
+    's3-desc':        'Once a driver is saved, you\'ll see the <strong>Global Settings</strong> and your first booking slot. Set the <strong>Auto Book Refresh Interval</strong> (how often the engine re-checks loads) and your <strong>Deadhead Avg Speed</strong> (used to estimate travel time). Then configure <strong>Slot 1</strong> with your route, minimum pay, and filters.',
+    's3-tip':         '<strong>Tip:</strong> Enable <strong>Deadhead Time Check</strong> in the slot — it skips a load automatically if the driver can\'t reach the pickup on time based on their current location and your deadhead speed setting.',
+    's4-title':       'Review the Full Slot Configuration',
+    's4-desc':        'Each slot has three main sections: <strong>Pay &amp; Load Filters</strong> (minimum payout, $/mile, distance, duration), <strong>AI Settings</strong> (AI score threshold, confidence minimum, dynamic booking mode), and <strong>Schedule</strong> (which days and hours the slot is active). Set them to match your preferred loads.',
+    's4-tip':         '<strong>Tip:</strong> Use <strong>AI Adjusts Booking Mode Dynamically</strong> — the engine switches automatically between Straight Book, Countdown, and Alert-Only based on the AI score, so the best loads book instantly and borderline loads give you time to decide.',
+    's5-title':       'Turn It On and Walk Away',
+    's5-desc':        'Once your driver and slots are configured, switch the main <strong>Auto-Booking</strong> toggle to ON from the extension panel. Leave the load board open in Chrome. Prohauling Relay will monitor every load in the background, apply all your filters, and auto-book qualifying loads — even while you\'re away from the screen.',
+    's5-tip':         '<strong>Tip:</strong> You can run up to <strong>5 booking slots per driver</strong>, each with completely independent route, filter, and schedule settings. Use multiple slots to cover different lanes at the same time.',
+    'done-title':     'You\'re all set.',
+    'done-desc':      'Auto-booking is configured. Qualifying loads will be booked automatically according to your filters and schedule.',
+  },
+  es: {
+    'nav-back-text':  'Volver al sitio',
+    'hero-label':     'Guía de Configuración',
+    'hero-title':     'Configuración de Auto-Reserva',
+    'hero-sub':       'Sigue estos pasos para configurar conductores, establecer tus filtros y dejar que Prohauling Relay reserve cargas por ti automáticamente.',
+    's1-title':       'Abre Conductores y Horario de Auto-Reserva',
+    's1-desc':        'Haz clic en la pestaña <strong>Conductores + Horario de Auto-Reserva</strong> en la extensión. Si no has agregado conductores todavía, verás la pantalla vacía que se muestra abajo. Antes de que el motor pueda reservar algo, necesita al menos un perfil de conductor con ID de Telegram y número de teléfono.',
+    's1-callout':     'Haz clic aquí para agregar tu primer conductor',
+    's1-tip':         '<strong>Consejo:</strong> Cada conductor necesita un ID de Chat de Telegram. Pídeles que le envíen un mensaje a <strong>@userinfobot</strong> en Telegram — les responde con su ID numérico de inmediato.',
+    's2-title':       'Agrega un Perfil de Conductor',
+    's2-desc':        'Haz clic en <strong>+ Agregar Nuevo Conductor</strong> y llena el formulario. Ingresa el nombre completo del conductor, número de teléfono (con código de país), ID de Chat de Telegram, tipo de remolque e idioma preferido. El camión es opcional — es solo para tu referencia.',
+    's2-tip':         '<strong>Consejo:</strong> El campo <strong>Idioma</strong> controla el idioma de los anuncios de voz y las alertas en pantalla para ese conductor — elige Inglés o Español.',
+    's3-title':       'Configura los Ajustes Globales y un Ranura',
+    's3-desc':        'Una vez guardado el conductor, verás los <strong>Ajustes Globales</strong> y tu primera ranura de reserva. Establece el <strong>Intervalo de Actualización de Auto-Reserva</strong> (con qué frecuencia el motor revisa las cargas) y tu <strong>Velocidad Promedio en Vacío</strong> (usada para estimar el tiempo de viaje). Luego configura la <strong>Ranura 1</strong> con tu ruta, pago mínimo y filtros.',
+    's3-tip':         '<strong>Consejo:</strong> Activa <strong>Verificación de Tiempo en Vacío</strong> en la ranura — omite una carga automáticamente si el conductor no puede llegar al punto de recogida a tiempo según su ubicación actual y tu velocidad en vacío configurada.',
+    's4-title':       'Revisa la Configuración Completa de la Ranura',
+    's4-desc':        'Cada ranura tiene tres secciones principales: <strong>Filtros de Pago y Carga</strong> (pago mínimo, $/milla, distancia, duración), <strong>Ajustes de IA</strong> (umbral de puntuación IA, confianza mínima, modo de reserva dinámico), y <strong>Horario</strong> (qué días y horas está activa la ranura). Ajústalos según las cargas que prefieres.',
+    's4-tip':         '<strong>Consejo:</strong> Usa <strong>IA Ajusta el Modo de Reserva Dinámicamente</strong> — el motor cambia automáticamente entre Reserva Directa, Cuenta Regresiva y Solo-Alerta según la puntuación IA, para que las mejores cargas se reserven al instante y las cargas límite te den tiempo para decidir.',
+    's5-title':       'Actívalo y Aléjate',
+    's5-desc':        'Una vez configurados el conductor y las ranuras, activa el interruptor principal de <strong>Auto-Reserva</strong> desde el panel de la extensión. Deja el tablero de cargas abierto en Chrome. Prohauling Relay monitoreará cada carga en segundo plano, aplicará todos tus filtros y reservará las cargas calificadas — incluso mientras estás lejos de la pantalla.',
+    's5-tip':         '<strong>Consejo:</strong> Puedes ejecutar hasta <strong>5 ranuras de reserva por conductor</strong>, cada una con configuración de ruta, filtros y horario completamente independiente. Usa múltiples ranuras para cubrir diferentes rutas al mismo tiempo.',
+    'done-title':     'Todo listo.',
+    'done-desc':      'La auto-reserva está configurada. Las cargas calificadas se reservarán automáticamente según tus filtros y horario.',
+  }
+};
+
+function setLang(lang) {
+  Object.keys(T[lang]).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = T[lang][id];
+  });
+  document.getElementById('lb-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lb-es').classList.toggle('active', lang === 'es');
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('ph_lang', lang); } catch(e) {}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var lang = 'en';
+  try { lang = localStorage.getItem('ph_lang') || 'en'; } catch(e) {}
+  setLang(lang);
+});
+</script>
+
+</body>
+</html>

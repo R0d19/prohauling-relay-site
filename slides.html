@@ -1,0 +1,1144 @@
+<!-- Copyright (c) 2026 Prohauling Relay. All rights reserved. Copyright Registration Pending, Case No. 1-15165834861. U.S. Patent Pending No. 64/068,633. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prohauling Relay — Visual Guide</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #FF8000;
+    --orange2: #ff9f3a;
+    --teal: #00e5cc;
+    --teal2: #00c2a8;
+    --red: #ff4444;
+    --amber: #ffbb33;
+    --green: #44dd88;
+    --bg-dark: #0d0d0d;
+    --card: #181818;
+    --card2: #222;
+    --border: rgba(255,255,255,0.08);
+    --text: #f0f0f0;
+    --muted: #999;
+  }
+
+  html { scroll-snap-type: y mandatory; scroll-behavior: smooth; background: var(--bg-dark); }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); background: var(--bg-dark); }
+
+  /* ── Slide base ─────────────────────────────────────────────────────── */
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .slide-inner {
+    width: 100%;
+    max-width: 860px;
+  }
+
+  /* ── Navigation dots ──────────────────────────────────────────────── */
+  #nav-dots {
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background .25s, transform .25s;
+    border: none;
+    padding: 0;
+  }
+  .dot.active { background: var(--orange); transform: scale(1.4); }
+
+  /* ── Slide counter ──────────────────────────────────────────────────── */
+  #slide-counter {
+    position: fixed;
+    bottom: 18px;
+    right: 22px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 600;
+    letter-spacing: .5px;
+    z-index: 999;
+    pointer-events: none;
+  }
+
+  /* ── Prev/Next arrows ──────────────────────────────────────────────── */
+  .arrow-btn {
+    position: fixed;
+    right: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+    transition: background .2s, color .2s;
+  }
+  .arrow-btn:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+  #btn-prev { bottom: 90px; }
+  #btn-next { bottom: 50px; }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 1 — TITLE
+  ──────────────────────────────────────────────────────────────────── */
+  #s1 { background: radial-gradient(ellipse at 30% 40%, #1e0900 0%, #0d0d0d 70%); }
+  #s1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF8000' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: .5;
+    pointer-events: none;
+  }
+  .title-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--orange), #ff5f00);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .title-logo {
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .title-logo span { color: var(--orange); }
+  .title-sub {
+    font-size: clamp(13px, 2.5vw, 18px);
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .title-pills {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px;
+  }
+  .pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: #ccc;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pill-icon { font-size: 15px; }
+  .title-scroll-hint {
+    display: flex; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.25);
+    font-size: 12px;
+    letter-spacing: .5px;
+    animation: pulse-hint 2s ease-in-out infinite;
+  }
+  @keyframes pulse-hint { 0%,100%{opacity:.3} 50%{opacity:.7} }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE HEADERS (reusable)
+  ──────────────────────────────────────────────────────────────────── */
+  .slide-num {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .slide-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,128,0,.3), transparent);
+  }
+  .slide-title {
+    font-size: clamp(22px, 5vw, 38px);
+    font-weight: 900;
+    letter-spacing: -.5px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .slide-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 2 — THE BAR
+  ──────────────────────────────────────────────────────────────────── */
+  #s2 { background: linear-gradient(160deg, #0f0800 0%, #0d0d0d 60%); }
+
+  .bar-mockup {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1e1e1e 100%);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .bm-brand {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 800; color: var(--orange);
+    white-space: nowrap;
+  }
+  .bm-brand-icon {
+    width: 20px; height: 20px;
+    background: linear-gradient(135deg, var(--orange), #ff5500);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .bm-divider { width: 1px; height: 22px; background: rgba(255,255,255,0.1); }
+  .bm-start {
+    background: linear-gradient(160deg, #00e5cc, #009e88);
+    color: #fff; font-size: 11px; font-weight: 800;
+    padding: 5px 12px; border-radius: 7px;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0,200,180,0.4);
+  }
+  .bm-stat {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 1px;
+  }
+  .bm-stat-lbl { font-size: 8px; color: #777; font-weight: 700; letter-spacing: .5px; }
+  .bm-stat-val { font-size: 11px; font-weight: 800; color: #eee; }
+  .bm-stat-val.orange { color: var(--orange); }
+  .bm-stat-val.teal   { color: var(--teal); }
+  .bm-badge {
+    background: rgba(255,68,68,.15);
+    border: 1px solid rgba(255,68,68,.3);
+    color: #ff6666;
+    font-size: 8px; font-weight: 800;
+    padding: 2px 6px; border-radius: 4px;
+    letter-spacing: .3px;
+  }
+  .bm-gear {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 4px 8px;
+    font-size: 9px; font-weight: 800; color: #aaa;
+    white-space: nowrap;
+  }
+
+  .callout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .callout-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .callout-icon {
+    font-size: 22px; flex-shrink: 0; margin-top: 2px;
+  }
+  .callout-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+  .callout-text  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 3 — LOAD CARDS
+  ──────────────────────────────────────────────────────────────────── */
+  #s3 { background: linear-gradient(160deg, #001a12 0%, #0d0d0d 60%); }
+
+  .load-cards-row {
+    display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 24px;
+  }
+  .load-card {
+    background: #1c1c1e;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    padding: 14px 16px;
+    min-width: 200px;
+    flex: 1;
+    position: relative;
+    box-shadow: 0 4px 18px rgba(0,0,0,.5);
+  }
+  .load-card.new-load { border-color: rgba(0,229,204,.35); box-shadow: 0 4px 18px rgba(0,0,0,.5), 0 0 0 2px rgba(0,229,204,.15); }
+  .load-card.price-up { border-color: rgba(68,221,136,.35); }
+  .lc-badge {
+    position: absolute; top: 10px; right: 10px;
+    font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 4px;
+    letter-spacing: .3px;
+  }
+  .lc-badge.new  { background: rgba(0,229,204,.2); color: var(--teal); border: 1px solid rgba(0,229,204,.3); }
+  .lc-badge.up   { background: rgba(68,221,136,.2); color: var(--green); border: 1px solid rgba(68,221,136,.3); }
+  .lc-badge.book { background: rgba(255,128,0,.2);  color: var(--orange); border: 1px solid rgba(255,128,0,.3); }
+  .lc-route { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+  .lc-dist  { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .lc-price { font-size: 22px; font-weight: 900; color: var(--teal); }
+  .lc-ppm   { font-size: 11px; color: var(--muted); }
+  .lc-dh    { display: inline-block; margin-top: 6px; font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(255,187,51,.1); color: var(--amber); border: 1px solid rgba(255,187,51,.2); }
+
+  .badge-legend {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
+  }
+  .bl-item {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px;
+    flex: 1; min-width: 170px;
+  }
+  .bl-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .bl-info-title { font-size: 12px; font-weight: 800; }
+  .bl-info-text  { font-size: 11px; color: var(--muted); }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 4 — ALERTS & SOUNDS
+  ──────────────────────────────────────────────────────────────────── */
+  #s4 { background: linear-gradient(160deg, #0a0015 0%, #0d0d0d 60%); }
+
+  .alert-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .alert-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .alert-icon { font-size: 28px; margin-bottom: 8px; }
+  .alert-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+  .alert-text  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .alert-chips {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+  }
+  .chip {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 6px; padding: 3px 9px;
+    font-size: 10px; color: #ccc; font-weight: 600;
+  }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 5 — SETTINGS PANEL
+  ──────────────────────────────────────────────────────────────────── */
+  #s5 { background: linear-gradient(160deg, #080f00 0%, #0d0d0d 60%); }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media(max-width:520px) { .settings-grid { grid-template-columns: 1fr; } }
+  .settings-group {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .sg-header {
+    font-size: 10px; font-weight: 800; color: var(--orange);
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding-bottom: 8px; margin-bottom: 12px;
+  }
+  .sg-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 9px;
+  }
+  .sg-label { font-size: 12px; color: #ccc; }
+  .sg-ctrl {
+    font-size: 11px; font-weight: 700;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 5px; padding: 3px 9px; color: var(--orange);
+  }
+  .toggle-on {
+    width: 32px; height: 16px; background: var(--teal);
+    border-radius: 8px; position: relative;
+  }
+  .toggle-on::after {
+    content: '';
+    position: absolute; right: 2px; top: 2px;
+    width: 12px; height: 12px;
+    background: #fff; border-radius: 50%;
+  }
+  .toggle-off {
+    width: 32px; height: 16px;
+    background: rgba(255,255,255,.1);
+    border-radius: 8px; position: relative;
+  }
+  .toggle-off::after {
+    content: '';
+    position: absolute; left: 2px; top: 2px;
+    width: 12px; height: 12px;
+    background: #555; border-radius: 50%;
+  }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 6 — AUTO BOOK
+  ──────────────────────────────────────────────────────────────────── */
+  #s6 { background: linear-gradient(160deg, #001510 0%, #0d0d0d 60%); }
+
+  .flow-steps {
+    display: flex; flex-direction: column; gap: 0; margin-bottom: 22px; position: relative;
+  }
+  .flow-step {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 0;
+  }
+  .flow-step:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,.05); }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    color: #fff;
+  }
+  .step-body-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+  .step-body-text  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+  .step-body-note  {
+    display: inline-block; margin-top: 6px;
+    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    background: rgba(0,229,204,.1); color: var(--teal);
+    border: 1px solid rgba(0,229,204,.2); font-weight: 700;
+  }
+
+  .timer-diagram {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .td-title { font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .td-bars  { display: flex; flex-direction: column; gap: 8px; }
+  .td-bar-row { display: flex; align-items: center; gap: 10px; }
+  .td-bar-label { font-size: 11px; color: #ccc; width: 130px; flex-shrink: 0; }
+  .td-bar-track {
+    flex: 1; height: 10px; background: rgba(255,255,255,.07);
+    border-radius: 5px; overflow: hidden;
+  }
+  .td-bar-fill { height: 100%; border-radius: 5px; }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 7 — DEADHEAD CHECK
+  ──────────────────────────────────────────────────────────────────── */
+  #s7 { background: linear-gradient(160deg, #120800 0%, #0d0d0d 60%); }
+
+  .formula-box {
+    background: #111;
+    border: 1px solid rgba(255,128,0,.25);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: center;
+    margin-bottom: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .formula-box::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,128,0,.08), transparent 60%);
+    pointer-events: none;
+  }
+  .formula-label { font-size: 10px; font-weight: 800; color: var(--orange); letter-spacing: 2px; margin-bottom: 12px; text-transform: uppercase; }
+  .formula-math  { font-size: clamp(13px, 2.5vw, 18px); font-family: 'Courier New', monospace; color: #eee; line-height: 2; }
+  .formula-math .var { color: var(--teal); font-weight: 800; }
+  .formula-math .op  { color: rgba(255,255,255,.4); }
+  .formula-math .result { color: var(--orange); font-weight: 900; font-size: 1.2em; }
+  .formula-note { font-size: 11px; color: var(--muted); margin-top: 8px; }
+
+  .dh-example-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px; margin-bottom: 22px;
+  }
+  .dh-ex {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .dh-ex-title { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px; }
+  .dh-ex-route { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+  .dh-ex-dist  { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .dh-ex-result {
+    font-size: 20px; font-weight: 900;
+  }
+  .dh-ex-result.ok   { color: var(--green); }
+  .dh-ex-result.warn { color: var(--amber); }
+  .dh-ex-result.bad  { color: var(--red); }
+  .dh-ex-verdict { font-size: 11px; margin-top: 2px; }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 8 — FILTERS & BAN RISK
+  ──────────────────────────────────────────────────────────────────── */
+  #s8 { background: linear-gradient(160deg, #0a0010 0%, #0d0d0d 60%); }
+
+  .filter-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .filter-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+  }
+  .fi-icon { font-size: 20px; flex-shrink: 0; }
+  .fi-title { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+  .fi-text  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .ban-risk-box {
+    background: linear-gradient(135deg, rgba(255,40,40,.08), rgba(255,100,0,.05));
+    border: 1px solid rgba(255,68,68,.2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .brb-icon { font-size: 32px; flex-shrink: 0; }
+  .brb-title { font-size: 15px; font-weight: 800; color: #ff6666; margin-bottom: 6px; }
+  .brb-text  { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* ────────────────────────────────────────────────────────────────────
+     SLIDE 9 — QUICK START
+  ──────────────────────────────────────────────────────────────────── */
+  #s9 { background: radial-gradient(ellipse at 60% 40%, #0e1500 0%, #0d0d0d 70%); }
+
+  .qs-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px; margin-bottom: 28px;
+  }
+  .qs-step {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 16px;
+    text-align: center;
+  }
+  .qs-step-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), #ff5500);
+    color: #fff; font-size: 16px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+  }
+  .qs-step-icon  { font-size: 24px; margin-bottom: 8px; }
+  .qs-step-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+  .qs-step-text  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .done-banner {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0,229,204,.08), rgba(0,200,180,.04));
+    border: 1px solid rgba(0,229,204,.2);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .done-icon  { font-size: 40px; margin-bottom: 8px; }
+  .done-title { font-size: 22px; font-weight: 900; margin-bottom: 6px; }
+  .done-text  { font-size: 13px; color: var(--muted); }
+  .done-link  {
+    display: inline-block; margin-top: 16px;
+    background: linear-gradient(160deg, var(--teal), var(--teal2));
+    color: #fff; font-size: 13px; font-weight: 800;
+    padding: 9px 24px; border-radius: 8px; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,200,180,.35);
+  }
+
+  /* ── Progress bar at top ────────────────────────────────────────────── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--orange), var(--teal));
+    z-index: 1000;
+    transition: width .3s ease;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── Language toggle ─────────────────────────────────────────────────── */
+  #lang-toggle {
+    position: fixed;
+    top: 14px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 999;
+  }
+  .lt-btn {
+    padding: 6px 11px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    transition: all .15s;
+    letter-spacing: .5px;
+  }
+  .lt-btn.active { background: var(--orange); color: #000; }
+  .lt-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar" style="width:11%"></div>
+
+<!-- Language toggle -->
+<div id="lang-toggle">
+  <button class="lt-btn active" id="lt-en" onclick="setLang('en')">EN</button>
+  <button class="lt-btn"        id="lt-es" onclick="setLang('es')">ES</button>
+</div>
+
+<!-- Nav dots -->
+<div id="nav-dots">
+  <button class="dot active" data-index="0" title="Cover"></button>
+  <button class="dot" data-index="1" title="The Bar"></button>
+  <button class="dot" data-index="2" title="Load Cards"></button>
+  <button class="dot" data-index="3" title="Alerts"></button>
+  <button class="dot" data-index="4" title="Settings"></button>
+  <button class="dot" data-index="5" title="Auto Book"></button>
+  <button class="dot" data-index="6" title="Deadhead"></button>
+  <button class="dot" data-index="7" title="Filters"></button>
+  <button class="dot" data-index="8" title="Quick Start"></button>
+</div>
+
+<button class="arrow-btn" id="btn-prev" title="Previous slide">↑</button>
+<button class="arrow-btn" id="btn-next" title="Next slide">↓</button>
+<div id="slide-counter">1 / 9</div>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 1 — TITLE
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s1" data-index="0">
+  <div class="slide-inner">
+    <div class="title-badge" data-i18n="s1-badge">Visual Guide · v1.5.14</div>
+    <div class="title-logo">Pro<span>Hauling</span><br>Relay</div>
+    <div class="title-sub" data-i18n="s1-sub">Relay Load Monitor — Everything you need to know, one slide at a time.</div>
+    <div class="title-pills">
+      <div class="pill"><span class="pill-icon">🚛</span> <span data-i18n="s1-pill1">Real-Time Loads</span></div>
+      <div class="pill"><span class="pill-icon">🔔</span> <span data-i18n="s1-pill2">Smart Alerts</span></div>
+      <div class="pill"><span class="pill-icon">⚡</span> <span data-i18n="s1-pill3">Auto Book</span></div>
+      <div class="pill"><span class="pill-icon">🗺️</span> <span data-i18n="s1-pill4">Deadhead Check</span></div>
+      <div class="pill"><span class="pill-icon">🛡️</span> <span data-i18n="s1-pill5">Ban Protection</span></div>
+      <div class="pill"><span class="pill-icon">🌐</span> <span data-i18n="s1-pill6">EN / ES</span></div>
+    </div>
+    <div class="title-scroll-hint">
+      <span data-i18n="s1-hint">Scroll or use arrow keys</span>
+      <span style="animation: bounce-arrow 1.2s ease-in-out infinite">↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 2 — THE BAR
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s2" data-index="1">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s2-num">Slide 02 — Interface</div>
+    <div class="slide-title" data-i18n="s2-title">The Prohauling Bar</div>
+    <div class="slide-desc" data-i18n="s2-desc">A compact toolbar that lives at the top of the load board — always visible, always ready.</div>
+
+    <!-- Bar mockup -->
+    <div class="bar-mockup">
+      <div class="bm-brand"><div class="bm-brand-icon">🚛</div> PROHAULING</div>
+      <div class="bm-divider"></div>
+      <div class="bm-start">▶ START</div>
+      <div class="bm-divider"></div>
+      <div class="bm-stat"><div class="bm-stat-lbl">LOADS</div><div class="bm-stat-val orange">12</div></div>
+      <div class="bm-divider"></div>
+      <div class="bm-stat"><div class="bm-stat-lbl">SCAN</div><div class="bm-stat-val teal">3s</div></div>
+      <div class="bm-divider"></div>
+      <div class="bm-stat"><div class="bm-stat-lbl">LAST</div><div class="bm-stat-val">2s ago</div></div>
+      <div class="bm-divider"></div>
+      <div class="bm-badge">⚠ BAN RISK</div>
+      <div class="bm-gear">⚙ SETTINGS</div>
+    </div>
+
+    <div class="callout-grid">
+      <div class="callout-card">
+        <div class="callout-icon">▶</div>
+        <div><div class="callout-title" style="color:var(--teal)" data-i18n="s2-c1-title">START Button</div><div class="callout-text" data-i18n="s2-c1-text">Tap to begin scanning. Goes green. Tap again to stop. Turns amber when paused automatically.</div></div>
+      </div>
+      <div class="callout-card">
+        <div class="callout-icon">🔢</div>
+        <div><div class="callout-title" style="color:var(--orange)" data-i18n="s2-c2-title">LOADS Counter</div><div class="callout-text" data-i18n="s2-c2-text">Total loads currently visible on the page. Updates every scan cycle.</div></div>
+      </div>
+      <div class="callout-card">
+        <div class="callout-icon">⏱</div>
+        <div><div class="callout-title" style="color:var(--teal)" data-i18n="s2-c3-title">SCAN Interval</div><div class="callout-text" data-i18n="s2-c3-text">How often the extension refreshes. Adjustable 3–15 seconds in Settings.</div></div>
+      </div>
+      <div class="callout-card">
+        <div class="callout-icon">⚠️</div>
+        <div><div class="callout-title" style="color:#ff6666" data-i18n="s2-c4-title">BAN RISK Badge</div><div class="callout-text" data-i18n="s2-c4-text">Appears when scan speed is too aggressive. Slow down your interval to make it disappear.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 3 — LOAD CARDS
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s3" data-index="2">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s3-num">Slide 03 — Load Cards</div>
+    <div class="slide-title" data-i18n="s3-title">Reading Load Cards</div>
+    <div class="slide-desc" data-i18n="s3-desc">Every load gets a colored badge so you can spot opportunities at a glance — no reading required.</div>
+
+    <div class="load-cards-row">
+      <div class="load-card new-load">
+        <div class="lc-badge new" data-i18n="s3-badge-new">NEW</div>
+        <div class="lc-route">Chicago → Detroit</div>
+        <div class="lc-dist">285 mi · 4h 20m</div>
+        <div class="lc-price">$1,240</div>
+        <div class="lc-ppm">$4.35 / mi</div>
+        <div class="lc-dh">DH: 18 mi · ~22 min</div>
+      </div>
+      <div class="load-card price-up">
+        <div class="lc-badge up" data-i18n="s3-badge-up">↑ PRICE UP</div>
+        <div class="lc-route">Columbus → Pittsburgh</div>
+        <div class="lc-dist">184 mi · 2h 55m</div>
+        <div class="lc-price" style="color:var(--green)">$875</div>
+        <div class="lc-ppm">$4.75 / mi</div>
+        <div class="lc-dh" style="color:var(--green);border-color:rgba(68,221,136,.3);background:rgba(68,221,136,.1)">↑ Was $720</div>
+      </div>
+      <div class="load-card">
+        <div class="lc-badge book" data-i18n="s3-badge-book">AUTO BOOK</div>
+        <div class="lc-route">Indianapolis → Louisville</div>
+        <div class="lc-dist">114 mi · 1h 45m</div>
+        <div class="lc-price" style="color:var(--orange)">$540</div>
+        <div class="lc-ppm">$4.74 / mi</div>
+        <div class="lc-dh">DH: 6 mi · ~8 min</div>
+      </div>
+    </div>
+
+    <div class="badge-legend">
+      <div class="bl-item">
+        <div class="bl-dot" style="background:var(--teal)"></div>
+        <div><div class="bl-info-title" data-i18n="s3-l1-title">NEW Badge</div><div class="bl-info-text" data-i18n="s3-l1-text">Load just appeared — wasn't there last scan</div></div>
+      </div>
+      <div class="bl-item">
+        <div class="bl-dot" style="background:var(--green)"></div>
+        <div><div class="bl-info-title" data-i18n="s3-l2-title">↑ PRICE UP</div><div class="bl-info-text" data-i18n="s3-l2-text">The rate was raised since last seen</div></div>
+      </div>
+      <div class="bl-item">
+        <div class="bl-dot" style="background:#cc4488"></div>
+        <div><div class="bl-info-title" data-i18n="s3-l3-title">↓ PRICE DOWN</div><div class="bl-info-text" data-i18n="s3-l3-text">Rate dropped — may want to skip this one</div></div>
+      </div>
+      <div class="bl-item">
+        <div class="bl-dot" style="background:var(--orange)"></div>
+        <div><div class="bl-info-title" data-i18n="s3-l4-title">AUTO BOOK</div><div class="bl-info-text" data-i18n="s3-l4-text">Matches your auto-book criteria — booked automatically</div></div>
+      </div>
+      <div class="bl-item">
+        <div class="bl-dot" style="background:var(--amber)"></div>
+        <div><div class="bl-info-title" data-i18n="s3-l5-title">DH Warning</div><div class="bl-info-text" data-i18n="s3-l5-text">Deadhead drive time exceeds your limit</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 4 — ALERTS & SOUNDS
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s4" data-index="3">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s4-num">Slide 04 — Alerts</div>
+    <div class="slide-title" data-i18n="s4-title">Alerts &amp; Notifications</div>
+    <div class="slide-desc" data-i18n="s4-desc">Prohauling alerts you the moment something worth your attention shows up — even when you're away from the screen.</div>
+
+    <div class="alert-row">
+      <div class="alert-card">
+        <div class="alert-icon">🔊</div>
+        <div class="alert-title" data-i18n="s4-a1-title">Sound Alerts</div>
+        <div class="alert-text" data-i18n="s4-a1-text">A horn plays when a new load appears or a price jumps. Choose your horn style in Settings.</div>
+        <div class="alert-chips">
+          <span class="chip">Air Horn</span>
+          <span class="chip">Long Horn</span>
+          <span class="chip">Short Horn</span>
+          <span class="chip">Cash Register</span>
+          <span class="chip">Industrial</span>
+        </div>
+      </div>
+      <div class="alert-card">
+        <div class="alert-icon">💬</div>
+        <div class="alert-title" data-i18n="s4-a2-title">Telegram Alerts</div>
+        <div class="alert-text" data-i18n="s4-a2-text">Get a message on your phone via Telegram bot with load details — route, price, miles — the second it appears.</div>
+        <div class="alert-chips">
+          <span class="chip">New Loads</span>
+          <span class="chip">Price Changes</span>
+          <span class="chip">Auto Book</span>
+        </div>
+      </div>
+      <div class="alert-card">
+        <div class="alert-icon">📞</div>
+        <div class="alert-title" data-i18n="s4-a3-title">Voice Call Alerts</div>
+        <div class="alert-text" data-i18n="s4-a3-text">A robotic voice calls your number and reads out the load details so you don't miss high-value loads.</div>
+        <div class="alert-chips">
+          <span class="chip">Phone Call</span>
+          <span class="chip">Telnyx</span>
+          <span class="chip">Any Number</span>
+        </div>
+      </div>
+      <div class="alert-card">
+        <div class="alert-icon">🚫</div>
+        <div class="alert-title" data-i18n="s4-a4-title">Dismiss / Snooze</div>
+        <div class="alert-text" data-i18n="s4-a4-text">Tap ✕ on a load card to dismiss it. It won't trigger alerts again unless the price changes significantly.</div>
+        <div class="alert-chips">
+          <span class="chip">Per-Card</span>
+          <span class="chip">Price-Change Reset</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 5 — SETTINGS
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s5" data-index="4">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s5-num">Slide 05 — Settings</div>
+    <div class="slide-title" data-i18n="s5-title">Settings Panel</div>
+    <div class="slide-desc" data-i18n="s5-desc">Click the ⚙ SETTINGS button in the bar to open. All preferences save automatically to your browser.</div>
+
+    <div class="settings-grid">
+      <div class="settings-group">
+        <div class="sg-header">🔁 Scan</div>
+        <div class="sg-row"><span class="sg-label">Scan Interval</span><span class="sg-ctrl">5 sec</span></div>
+        <div class="sg-row"><span class="sg-label">Auto Pause on Click</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Pause on Tab Blur</span><div class="toggle-off"></div></div>
+      </div>
+      <div class="settings-group">
+        <div class="sg-header">💰 Price Filters</div>
+        <div class="sg-row"><span class="sg-label">Min Rate ($/mi)</span><span class="sg-ctrl">$3.50</span></div>
+        <div class="sg-row"><span class="sg-label">Min Total Pay</span><span class="sg-ctrl">$400</span></div>
+        <div class="sg-row"><span class="sg-label">Min Miles</span><span class="sg-ctrl">100 mi</span></div>
+      </div>
+      <div class="settings-group">
+        <div class="sg-header">⚡ Auto Book</div>
+        <div class="sg-row"><span class="sg-label">Auto Book Enabled</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Min Rate to Book</span><span class="sg-ctrl">$4.00</span></div>
+        <div class="sg-row"><span class="sg-label">Book Refresh (sec)</span><span class="sg-ctrl">8 sec</span></div>
+      </div>
+      <div class="settings-group">
+        <div class="sg-header">🗺️ Deadhead</div>
+        <div class="sg-row"><span class="sg-label">DH Check Enabled</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Max DH Time</span><span class="sg-ctrl">45 min</span></div>
+        <div class="sg-row"><span class="sg-label">Avg Speed (mph)</span><span class="sg-ctrl">55 mph</span></div>
+      </div>
+      <div class="settings-group">
+        <div class="sg-header">🔔 Alerts</div>
+        <div class="sg-row"><span class="sg-label">Sound Alerts</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Telegram Alerts</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Voice Call Alerts</span><div class="toggle-off"></div></div>
+      </div>
+      <div class="settings-group">
+        <div class="sg-header">🌐 Display</div>
+        <div class="sg-row"><span class="sg-label">Language</span><span class="sg-ctrl">EN</span></div>
+        <div class="sg-row"><span class="sg-label">Show DH on Cards</span><div class="toggle-on"></div></div>
+        <div class="sg-row"><span class="sg-label">Show Price/mi</span><div class="toggle-on"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 6 — AUTO BOOK ENGINE
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s6" data-index="5">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s6-num">Slide 06 — Auto Book</div>
+    <div class="slide-title" data-i18n="s6-title">Auto Book Engine</div>
+    <div class="slide-desc" data-i18n="s6-desc">Set your criteria once — Prohauling books matching loads for you, even while you're away from the screen.</div>
+
+    <div class="flow-steps" style="margin-bottom:22px">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-body-title" data-i18n="s6-step1-title">Set Your Minimums</div>
+          <div class="step-body-text" data-i18n="s6-step1-text">In Settings, enter your minimum rate per mile (e.g. $4.00/mi) and minimum total pay. Only loads above both thresholds qualify.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-body-title" data-i18n="s6-step2-title">Enable Auto Book</div>
+          <div class="step-body-text" data-i18n="s6-step2-text">Toggle on "Auto Book Enabled." A separate booking timer runs independently from your scan — set it 1–30 seconds.</div>
+          <div class="step-body-note" data-i18n="s6-step2-note">⏱ Two independent timers: scan timer + booking timer</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-body-title" data-i18n="s6-step3-title">Prohauling Books It</div>
+          <div class="step-body-text" data-i18n="s6-step3-text">When a qualifying load appears, Prohauling clicks the Book button automatically. The card gets an <span style="color:var(--orange);font-weight:800">AUTO BOOK</span> badge.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-body-title" data-i18n="s6-step4-title">You Get Notified</div>
+          <div class="step-body-text" data-i18n="s6-step4-text">A sound plays and — if configured — a Telegram message or voice call confirms the booking with full load details.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timer-diagram">
+      <div class="td-title" data-i18n="s6-td-title">How the two timers work</div>
+      <div class="td-bars">
+        <div class="td-bar-row">
+          <div class="td-bar-label" style="color:var(--teal)" data-i18n="s6-td-scan">Scan Timer (5s)</div>
+          <div class="td-bar-track"><div class="td-bar-fill" style="width:33%;background:linear-gradient(90deg,var(--teal),var(--teal2))"></div></div>
+          <span style="font-size:11px;color:var(--muted);white-space:nowrap" data-i18n="s6-td-scan-lbl">Refreshes load list</span>
+        </div>
+        <div class="td-bar-row">
+          <div class="td-bar-label" style="color:var(--orange)" data-i18n="s6-td-book">Book Timer (8s)</div>
+          <div class="td-bar-track"><div class="td-bar-fill" style="width:53%;background:linear-gradient(90deg,var(--orange),#ff5500)"></div></div>
+          <span style="font-size:11px;color:var(--muted);white-space:nowrap" data-i18n="s6-td-book-lbl">Tries to book</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 7 — DEADHEAD CHECK
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s7" data-index="6">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s7-num">Slide 07 — Deadhead</div>
+    <div class="slide-title" data-i18n="s7-title">Deadhead Time Check</div>
+    <div class="slide-desc" data-i18n="s7-desc">Prohauling calculates how long it actually takes you to drive empty to the pickup — and warns you before you commit.</div>
+
+    <div class="formula-box">
+      <div class="formula-label" data-i18n="s7-formula-label">How Deadhead Time is Calculated</div>
+      <div class="formula-math">
+        <span class="result">DH Time</span> <span class="op">=</span>
+        <span class="op">(</span><span class="var">Deadhead Miles</span> <span class="op">÷</span> <span class="var">Avg Speed</span><span class="op">)</span>
+        <span class="op">×</span> 60 <span class="op">×</span> 1.10
+      </div>
+      <div class="formula-note" data-i18n="s7-formula-note">The <strong style="color:var(--orange)">×1.10</strong> adds a 10% buffer for traffic, stops, and real-world delays.</div>
+    </div>
+
+    <div class="dh-example-row">
+      <div class="dh-ex">
+        <div class="dh-ex-title" data-i18n="s7-dh1-title">Short Deadhead</div>
+        <div class="dh-ex-route" data-i18n="s7-dh1-route">12 mi at 55 mph</div>
+        <div class="dh-ex-dist" data-i18n="s7-dh-limit">Your limit: 45 min</div>
+        <div class="dh-ex-result ok">~14 min ✓</div>
+        <div class="dh-ex-verdict" style="color:var(--green)" data-i18n="s7-dh1-verdict">Well within limit — go for it</div>
+      </div>
+      <div class="dh-ex">
+        <div class="dh-ex-title" data-i18n="s7-dh2-title">Borderline</div>
+        <div class="dh-ex-route" data-i18n="s7-dh2-route">35 mi at 55 mph</div>
+        <div class="dh-ex-dist" data-i18n="s7-dh-limit">Your limit: 45 min</div>
+        <div class="dh-ex-result warn">~42 min ⚠</div>
+        <div class="dh-ex-verdict" style="color:var(--amber)" data-i18n="s7-dh2-verdict">Close — badge shown, your call</div>
+      </div>
+      <div class="dh-ex">
+        <div class="dh-ex-title" data-i18n="s7-dh3-title">Too Far</div>
+        <div class="dh-ex-route" data-i18n="s7-dh3-route">55 mi at 55 mph</div>
+        <div class="dh-ex-dist" data-i18n="s7-dh-limit">Your limit: 45 min</div>
+        <div class="dh-ex-result bad">~66 min ✗</div>
+        <div class="dh-ex-verdict" style="color:var(--red)" data-i18n="s7-dh3-verdict">Exceeds limit — red DH badge</div>
+      </div>
+    </div>
+
+    <div class="callout-card" style="background:rgba(255,128,0,.06);border-color:rgba(255,128,0,.2)">
+      <div class="callout-icon">💡</div>
+      <div><div class="callout-title" data-i18n="s7-tip-title">Pro Tip</div><div class="callout-text" data-i18n="s7-tip-text">Set your Average Speed to match what you realistically drive in your area. City drivers → 35–40 mph. Highway runners → 55–65 mph. Each load can also be toggled individually.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 8 — FILTERS & BAN RISK
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s8" data-index="7">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s8-num">Slide 08 — Filters &amp; Safety</div>
+    <div class="slide-title" data-i18n="s8-title">Smart Filters &amp; Ban Protection</div>
+    <div class="slide-desc" data-i18n="s8-desc">Narrow down the loads you see and keep your account safe from automated bot detection.</div>
+
+    <div class="filter-list">
+      <div class="filter-item">
+        <div class="fi-icon">💵</div>
+        <div><div class="fi-title" data-i18n="s8-f1-title">Rate per Mile</div><div class="fi-text" data-i18n="s8-f1-text">Hide loads below your minimum $/mi threshold. Only loads worth your time appear.</div></div>
+      </div>
+      <div class="filter-item">
+        <div class="fi-icon">📦</div>
+        <div><div class="fi-title" data-i18n="s8-f2-title">Total Pay</div><div class="fi-text" data-i18n="s8-f2-text">Filter by minimum total payout per load, regardless of distance.</div></div>
+      </div>
+      <div class="filter-item">
+        <div class="fi-icon">📏</div>
+        <div><div class="fi-title" data-i18n="s8-f3-title">Min / Max Miles</div><div class="fi-text" data-i18n="s8-f3-text">Set a mileage range. Skip short local hauls or very long overnight runs.</div></div>
+      </div>
+      <div class="filter-item">
+        <div class="fi-icon">🕐</div>
+        <div><div class="fi-title" data-i18n="s8-f4-title">Pickup Window</div><div class="fi-text" data-i18n="s8-f4-text">Only show loads with pickups within a time range that fits your schedule.</div></div>
+      </div>
+      <div class="filter-item">
+        <div class="fi-icon">📍</div>
+        <div><div class="fi-title" data-i18n="s8-f5-title">Origin Zone</div><div class="fi-text" data-i18n="s8-f5-text">Filter loads by pickup city or region. Focus on your home area.</div></div>
+      </div>
+      <div class="filter-item">
+        <div class="fi-icon">🚫</div>
+        <div><div class="fi-title" data-i18n="s8-f6-title">Block Destinations</div><div class="fi-text" data-i18n="s8-f6-text">Never want to go to certain cities? Add them to your block list.</div></div>
+      </div>
+    </div>
+
+    <div class="ban-risk-box">
+      <div class="brb-icon">🛡️</div>
+      <div>
+        <div class="brb-title" data-i18n="s8-ban-title">BAN RISK Protection</div>
+        <div class="brb-text" data-i18n="s8-ban-text">
+          The platform monitors for bot-like behavior — refreshing too fast is a red flag. When your scan interval is set too aggressively (under ~3–4 seconds), the <strong style="color:#ff6666">⚠ BAN RISK</strong> badge appears in the bar. Increase your scan interval to make it disappear. Prohauling adds small random jitter to request timing to look more human, but staying in a safe range is your best protection.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════
+  SLIDE 9 — QUICK START
+════════════════════════════════════════════════════════════════════ -->
+<section class="slide" id="s9" data-index="8">
+  <div class="slide-inner">
+    <div class="slide-num" data-i18n="s9-num">Slide 09 — Quick Start</div>
+    <div class="slide-title" data-i18n="s9-title">Get Running in 5 Steps</div>
+    <div class="slide-desc" data-i18n="s9-desc">New to Prohauling? Here's all you need to start finding and booking loads right now.</div>
+
+    <div class="qs-steps">
+      <div class="qs-step">
+        <div class="qs-step-num">1</div>
+        <div class="qs-step-icon">🌐</div>
+        <div class="qs-step-title" data-i18n="s9-step1-title">Go to the Load Board</div>
+        <div class="qs-step-text" data-i18n="s9-step1-text">Open relay.amazon.com and log in. The Prohauling bar will appear at the top automatically.</div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-step-num">2</div>
+        <div class="qs-step-icon">⚙️</div>
+        <div class="qs-step-title" data-i18n="s9-step2-title">Open Settings</div>
+        <div class="qs-step-text" data-i18n="s9-step2-text">Click ⚙ SETTINGS and set your minimum rate, minimum pay, and scan interval.</div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-step-num">3</div>
+        <div class="qs-step-icon">🔔</div>
+        <div class="qs-step-title" data-i18n="s9-step3-title">Enable Alerts</div>
+        <div class="qs-step-text" data-i18n="s9-step3-text">Turn on sound alerts. Optionally add your Telegram bot token or phone number for remote alerts.</div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-step-num">4</div>
+        <div class="qs-step-icon">▶️</div>
+        <div class="qs-step-title" data-i18n="s9-step4-title">Press START</div>
+        <div class="qs-step-text" data-i18n="s9-step4-text">Hit the teal START button. The bar turns green and scanning begins. You'll hear a horn on new loads.</div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-step-num">5</div>
+        <div class="qs-step-icon">⚡</div>
+        <div class="qs-step-title" data-i18n="s9-step5-title">Enable Auto Book</div>
+        <div class="qs-step-text" data-i18n="s9-step5-text">Set your auto-book minimums in Settings and turn it on. Sit back — Prohauling handles bookings for you.</div>
+      </div>
+    </div>
+
+    <div class="done-banner">
+      <div class="done-icon">🚛</div>
+      <div class="done-title" data-i18n="s9-done-title">You're Ready to Roll!</div>
+      <div class="done-text" data-i18n="s9-done-text">For the full written manual with every detail, tap below.</div>
+      <a href="manual.html" class="done-link" data-i18n="s9-done-link">📖 Open Full Manual</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const SLIDE_T = {
+    en: {
+      's1-badge':'Visual Guide · v1.5.14','s1-sub':'Relay Load Monitor — Everything you need to know, one slide at a time.','s1-pill1':'Real-Time Loads','s1-pill2':'Smart Alerts','s1-pill3':'Auto Book','s1-pill4':'Deadhead Check','s1-pill5':'Ban Protection','s1-pill6':'EN / ES','s1-hint':'Scroll or use arrow keys',
+      's2-num':'Slide 02 — Interface','s2-title':'The Prohauling Bar','s2-desc':'A compact toolbar that lives at the top of the load board — always visible, always ready.','s2-c1-title':'START Button','s2-c1-text':'Tap to begin scanning. Goes green. Tap again to stop. Turns amber when paused automatically.','s2-c2-title':'LOADS Counter','s2-c2-text':'Total loads currently visible on the page. Updates every scan cycle.','s2-c3-title':'SCAN Interval','s2-c3-text':'How often the extension refreshes. Adjustable 3–15 seconds in Settings.','s2-c4-title':'BAN RISK Badge','s2-c4-text':'Appears when scan speed is too aggressive. Slow down your interval to make it disappear.',
+      's3-num':'Slide 03 — Load Cards','s3-title':'Reading Load Cards','s3-desc':'Every load gets a colored badge so you can spot opportunities at a glance — no reading required.','s3-badge-new':'NEW','s3-badge-up':'↑ PRICE UP','s3-badge-book':'AUTO BOOK','s3-l1-title':'NEW Badge','s3-l1-text':'Load just appeared — wasn\'t there last scan','s3-l2-title':'↑ PRICE UP','s3-l2-text':'The rate was raised since last seen','s3-l3-title':'↓ PRICE DOWN','s3-l3-text':'Rate dropped — may want to skip this one','s3-l4-title':'AUTO BOOK','s3-l4-text':'Matches your auto-book criteria — booked automatically','s3-l5-title':'DH Warning','s3-l5-text':'Deadhead drive time exceeds your limit',
+      's4-num':'Slide 04 — Alerts','s4-title':'Alerts &amp; Notifications','s4-desc':'Prohauling alerts you the moment something worth your attention shows up — even when you\'re away from the screen.','s4-a1-title':'Sound Alerts','s4-a1-text':'A horn plays when a new load appears or a price jumps. Choose your horn style in Settings.','s4-a2-title':'Telegram Alerts','s4-a2-text':'Get a message on your phone via Telegram bot with load details — route, price, miles — the second it appears.','s4-a3-title':'Voice Call Alerts','s4-a3-text':'A robotic voice calls your number and reads out the load details so you don\'t miss high-value loads.','s4-a4-title':'Dismiss / Snooze','s4-a4-text':'Tap ✕ on a load card to dismiss it. It won\'t trigger alerts again unless the price changes significantly.',
+      's5-num':'Slide 05 — Settings','s5-title':'Settings Panel','s5-desc':'Click the ⚙ SETTINGS button in the bar to open. All preferences save automatically to your browser.',
+      's6-num':'Slide 06 — Auto Book','s6-title':'Auto Book Engine','s6-desc':'Set your criteria once — Prohauling books matching loads for you, even while you\'re away from the screen.','s6-step1-title':'Set Your Minimums','s6-step1-text':'In Settings, enter your minimum rate per mile (e.g. $4.00/mi) and minimum total pay. Only loads above both thresholds qualify.','s6-step2-title':'Enable Auto Book','s6-step2-text':'Toggle on "Auto Book Enabled." A separate booking timer runs independently from your scan — set it 1–30 seconds.','s6-step2-note':'⏱ Two independent timers: scan timer + booking timer','s6-step3-title':'Prohauling Books It','s6-step3-text':'When a qualifying load appears, Prohauling clicks the Book button automatically. The card gets an <span style="color:var(--orange);font-weight:800">AUTO BOOK</span> badge.','s6-step4-title':'You Get Notified','s6-step4-text':'A sound plays and — if configured — a Telegram message or voice call confirms the booking with full load details.','s6-td-title':'How the two timers work','s6-td-scan':'Scan Timer (5s)','s6-td-scan-lbl':'Refreshes load list','s6-td-book':'Book Timer (8s)','s6-td-book-lbl':'Tries to book',
+      's7-num':'Slide 07 — Deadhead','s7-title':'Deadhead Time Check','s7-desc':'Prohauling calculates how long it actually takes you to drive empty to the pickup — and warns you before you commit.','s7-formula-label':'How Deadhead Time is Calculated','s7-formula-note':'The <strong style="color:var(--orange)">×1.10</strong> adds a 10% buffer for traffic, stops, and real-world delays.','s7-dh-limit':'Your limit: 45 min','s7-dh1-title':'Short Deadhead','s7-dh1-route':'12 mi at 55 mph','s7-dh1-verdict':'Well within limit — go for it','s7-dh2-title':'Borderline','s7-dh2-route':'35 mi at 55 mph','s7-dh2-verdict':'Close — badge shown, your call','s7-dh3-title':'Too Far','s7-dh3-route':'55 mi at 55 mph','s7-dh3-verdict':'Exceeds limit — red DH badge','s7-tip-title':'Pro Tip','s7-tip-text':'Set your Average Speed to match what you realistically drive in your area. City drivers → 35–40 mph. Highway runners → 55–65 mph. Each load can also be toggled individually.',
+      's8-num':'Slide 08 — Filters &amp; Safety','s8-title':'Smart Filters &amp; Ban Protection','s8-desc':'Narrow down the loads you see and keep your account safe from automated bot detection.','s8-f1-title':'Rate per Mile','s8-f1-text':'Hide loads below your minimum $/mi threshold. Only loads worth your time appear.','s8-f2-title':'Total Pay','s8-f2-text':'Filter by minimum total payout per load, regardless of distance.','s8-f3-title':'Min / Max Miles','s8-f3-text':'Set a mileage range. Skip short local hauls or very long overnight runs.','s8-f4-title':'Pickup Window','s8-f4-text':'Only show loads with pickups within a time range that fits your schedule.','s8-f5-title':'Origin Zone','s8-f5-text':'Filter loads by pickup city or region. Focus on your home area.','s8-f6-title':'Block Destinations','s8-f6-text':'Never want to go to certain cities? Add them to your block list.','s8-ban-title':'BAN RISK Protection','s8-ban-text':'The platform monitors for bot-like behavior — refreshing too fast is a red flag. When your scan interval is set too aggressively (under ~3–4 seconds), the <strong style="color:#ff6666">⚠ BAN RISK</strong> badge appears in the bar. Increase your scan interval to make it disappear. Prohauling adds small random jitter to request timing to look more human, but staying in a safe range is your best protection.',
+      's9-num':'Slide 09 — Quick Start','s9-title':'Get Running in 5 Steps','s9-desc':'New to Prohauling? Here\'s all you need to start finding and booking loads right now.','s9-step1-title':'Go to the Load Board','s9-step1-text':'Open relay.amazon.com and log in. The Prohauling bar will appear at the top automatically.','s9-step2-title':'Open Settings','s9-step2-text':'Click ⚙ SETTINGS and set your minimum rate, minimum pay, and scan interval.','s9-step3-title':'Enable Alerts','s9-step3-text':'Turn on sound alerts. Optionally add your Telegram bot token or phone number for remote alerts.','s9-step4-title':'Press START','s9-step4-text':'Hit the teal START button. The bar turns green and scanning begins. You\'ll hear a horn on new loads.','s9-step5-title':'Enable Auto Book','s9-step5-text':'Set your auto-book minimums in Settings and turn it on. Sit back — Prohauling handles bookings for you.','s9-done-title':'You\'re Ready to Roll!','s9-done-text':'For the full written manual with every detail, tap below.','s9-done-link':'📖 Open Full Manual'
+    },
+    es: {
+      's1-badge':'Guía Visual · v1.5.14','s1-sub':'Monitor de Cargas — Todo lo que necesitas saber, diapositiva a diapositiva.','s1-pill1':'Cargas en Tiempo Real','s1-pill2':'Alertas Inteligentes','s1-pill3':'Auto Reserva','s1-pill4':'Control de Deadhead','s1-pill5':'Protección Anti-Ban','s1-pill6':'EN / ES','s1-hint':'Desliza o usa las flechas del teclado',
+      's2-num':'Diapositiva 02 — Interfaz','s2-title':'La Barra de Prohauling','s2-desc':'Una barra de herramientas compacta en la parte superior del tablero de cargas — siempre visible, siempre lista.','s2-c1-title':'Botón START','s2-c1-text':'Toca para comenzar. Se pone verde. Toca de nuevo para detener. Se pone ámbar al pausarse automáticamente.','s2-c2-title':'Contador de CARGAS','s2-c2-text':'Total de cargas visibles en la página. Se actualiza en cada ciclo de escaneo.','s2-c3-title':'Intervalo de ESCANEO','s2-c3-text':'Con qué frecuencia se actualiza la extensión. Ajustable de 3 a 15 segundos en Configuración.','s2-c4-title':'Insignia RIESGO DE BAN','s2-c4-text':'Aparece cuando la velocidad de escaneo es demasiado agresiva. Reduce tu intervalo para que desaparezca.',
+      's3-num':'Diapositiva 03 — Tarjetas de Carga','s3-title':'Leyendo las Tarjetas de Carga','s3-desc':'Cada carga recibe una insignia de color para identificar oportunidades de un vistazo — sin leer todo.','s3-badge-new':'NUEVA','s3-badge-up':'↑ PRECIO SUBIÓ','s3-badge-book':'AUTO RESERVA','s3-l1-title':'Insignia NUEVA','s3-l1-text':'La carga acaba de aparecer — no estaba en el último escaneo','s3-l2-title':'↑ PRECIO SUBIÓ','s3-l2-text':'La tarifa subió desde la última vez que se vio','s3-l3-title':'↓ PRECIO BAJÓ','s3-l3-text':'La tarifa bajó — puede que quieras omitirla','s3-l4-title':'AUTO RESERVA','s3-l4-text':'Coincide con tus criterios de auto-reserva — reservada automáticamente','s3-l5-title':'Advertencia DH','s3-l5-text':'El tiempo de conducción vacío supera tu límite',
+      's4-num':'Diapositiva 04 — Alertas','s4-title':'Alertas y Notificaciones','s4-desc':'Prohauling te avisa en el momento en que aparece algo que vale tu atención — incluso lejos de la pantalla.','s4-a1-title':'Alertas de Sonido','s4-a1-text':'Suena un claxon cuando aparece una nueva carga o sube un precio. Elige tu estilo en Configuración.','s4-a2-title':'Alertas de Telegram','s4-a2-text':'Recibe un mensaje en tu teléfono por Telegram con detalles de la carga — ruta, precio, millas — al segundo que aparece.','s4-a3-title':'Alertas por Llamada de Voz','s4-a3-text':'Una voz robótica llama a tu número y lee los detalles para que no pierdas cargas de alto valor.','s4-a4-title':'Descartar / Posponer','s4-a4-text':'Toca ✕ en una tarjeta para descartarla. No volverá a activar alertas a menos que el precio cambie significativamente.',
+      's5-num':'Diapositiva 05 — Configuración','s5-title':'Panel de Configuración','s5-desc':'Haz clic en ⚙ CONFIGURACIÓN en la barra para abrirlo. Todas las preferencias se guardan automáticamente.',
+      's6-num':'Diapositiva 06 — Auto Reserva','s6-title':'Motor de Auto Reserva','s6-desc':'Configura tus criterios una vez — Prohauling reserva las cargas que coincidan, incluso cuando estás lejos.','s6-step1-title':'Establece tus Mínimos','s6-step1-text':'En Configuración, ingresa tu tarifa mínima por milla (ej. $4.00/mi) y pago total mínimo. Solo califican las cargas que superen ambos umbrales.','s6-step2-title':'Activa Auto Reserva','s6-step2-text':'Activa "Auto Reserva Habilitada." Un temporizador de reserva independiente corre por separado del escaneo — configúralo de 1 a 30 segundos.','s6-step2-note':'⏱ Dos temporizadores independientes: escaneo + reserva','s6-step3-title':'Prohauling la Reserva','s6-step3-text':'Cuando aparece una carga calificada, Prohauling hace clic en Reservar automáticamente. La tarjeta recibe una insignia <span style="color:var(--orange);font-weight:800">AUTO RESERVA</span>.','s6-step4-title':'Recibes la Notificación','s6-step4-text':'Suena un tono y — si está configurado — un mensaje de Telegram o llamada de voz confirma la reserva con todos los detalles.','s6-td-title':'Cómo funcionan los dos temporizadores','s6-td-scan':'Temporizador de Escaneo (5s)','s6-td-scan-lbl':'Actualiza lista de cargas','s6-td-book':'Temporizador de Reserva (8s)','s6-td-book-lbl':'Intenta reservar',
+      's7-num':'Diapositiva 07 — Deadhead','s7-title':'Verificación de Tiempo en Vacío','s7-desc':'Prohauling calcula cuánto tiempo te toma manejar vacío hasta la recogida — y te avisa antes de comprometerte.','s7-formula-label':'Cómo se Calcula el Tiempo en Vacío','s7-formula-note':'El <strong style="color:var(--orange)">×1.10</strong> agrega un margen del 10% para tráfico, paradas y retrasos del mundo real.','s7-dh-limit':'Tu límite: 45 min','s7-dh1-title':'Vacío Corto','s7-dh1-route':'12 mi a 55 mph','s7-dh1-verdict':'Dentro del límite — adelante','s7-dh2-title':'En el Límite','s7-dh2-route':'35 mi a 55 mph','s7-dh2-verdict':'Cerca — insignia visible, tú decides','s7-dh3-title':'Demasiado Lejos','s7-dh3-route':'55 mi a 55 mph','s7-dh3-verdict':'Supera el límite — insignia roja DH','s7-tip-title':'Consejo Pro','s7-tip-text':'Establece tu Velocidad Promedio según lo que manejas en tu zona. Ciudad → 35–40 mph. Autopista → 55–65 mph. Cada carga también se puede activar individualmente.',
+      's8-num':'Diapositiva 08 — Filtros y Seguridad','s8-title':'Filtros Inteligentes y Protección Anti-Ban','s8-desc':'Reduce las cargas que ves y mantén tu cuenta segura de la detección de bots.','s8-f1-title':'Tarifa por Milla','s8-f1-text':'Oculta cargas por debajo de tu umbral mínimo de $/mi. Solo aparecen las que valen tu tiempo.','s8-f2-title':'Pago Total','s8-f2-text':'Filtra por pago total mínimo por carga, independientemente de la distancia.','s8-f3-title':'Mínimo / Máximo de Millas','s8-f3-text':'Establece un rango de millas. Omite trayectos cortos o rutas largas de noche.','s8-f4-title':'Ventana de Recogida','s8-f4-text':'Muestra solo cargas con recogidas dentro de un horario que se ajuste a tu agenda.','s8-f5-title':'Zona de Origen','s8-f5-text':'Filtra cargas por ciudad o región de recogida. Enfócate en tu área local.','s8-f6-title':'Bloquear Destinos','s8-f6-text':'¿No quieres ir a ciertas ciudades? Agrégalas a tu lista de bloqueo.','s8-ban-title':'Protección RIESGO DE BAN','s8-ban-text':'La plataforma monitorea comportamientos de bot — actualizar muy rápido es una señal de alerta. Cuando el intervalo es demasiado agresivo (menos de ~3–4 segundos), aparece la insignia <strong style="color:#ff6666">⚠ RIESGO DE BAN</strong>. Aumenta tu intervalo para que desaparezca. Prohauling agrega variaciones aleatorias al tiempo de solicitud para parecer más humano, pero mantenerse en un rango seguro es tu mejor protección.',
+      's9-num':'Diapositiva 09 — Inicio Rápido','s9-title':'Listo en 5 Pasos','s9-desc':'¿Nuevo en Prohauling? Esto es todo lo que necesitas para empezar a encontrar y reservar cargas ahora mismo.','s9-step1-title':'Ve al Tablero de Cargas','s9-step1-text':'Abre relay.amazon.com e inicia sesión. La barra de Prohauling aparecerá automáticamente.','s9-step2-title':'Abre Configuración','s9-step2-text':'Haz clic en ⚙ CONFIGURACIÓN y establece tu tarifa mínima, pago mínimo e intervalo.','s9-step3-title':'Activa las Alertas','s9-step3-text':'Activa las alertas de sonido. Opcionalmente agrega tu token de Telegram o número telefónico.','s9-step4-title':'Presiona START','s9-step4-text':'Presiona el botón START. La barra se pone verde y comienza el escaneo. Escucharás un claxon con las nuevas cargas.','s9-step5-title':'Activa Auto Reserva','s9-step5-text':'Establece tus mínimos de auto-reserva y actívalo. Relájate — Prohauling se encarga de las reservas.','s9-done-title':'¡Estás Listo para Rodar!','s9-done-text':'Para el manual completo con todos los detalles, toca abajo.','s9-done-link':'📖 Abrir Manual Completo'
+    }
+  };
+
+  window.setLang = function(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (SLIDE_T[lang] && SLIDE_T[lang][key] !== undefined) {
+        el.innerHTML = SLIDE_T[lang][key];
+      }
+    });
+    var enBtn = document.getElementById('lt-en');
+    var esBtn = document.getElementById('lt-es');
+    if (enBtn) enBtn.classList.toggle('active', lang === 'en');
+    if (esBtn) esBtn.classList.toggle('active', lang === 'es');
+    try { localStorage.setItem('slides_lang', lang); } catch(e) {}
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var lang = 'en';
+    try { lang = localStorage.getItem('slides_lang') || localStorage.getItem('ph_lang') || 'en'; } catch(e) {}
+    setLang(lang);
+  });
+})();
+</script>
+<script src="slides.js"></script>
+</body>
+</html>

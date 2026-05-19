@@ -930,26 +930,23 @@
     }
 
     /* ═══════════════════════════════════════
-       DAY / NIGHT MODE
+       SYSTEM LIGHT MODE
     ═══════════════════════════════════════ */
-    body { transition: background-color .6s ease, color .3s ease; }
-
-    body.day-mode {
-      --bg:    #12100d;
-      --card:  #1b1812;
-      --card2: #211e18;
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg:    #12100d;
+        --card:  #1b1812;
+        --card2: #211e18;
+      }
+      .hero {
+        background: linear-gradient(135deg, #1f1000 0%, #341a00 60%, #1f1000 100%);
+      }
+      #speed, #how-it-works, #autobook, #faq {
+        background: #161410;
+        border-color: rgba(255,255,255,0.06);
+      }
+      footer { background: #0d0c09; }
     }
-    body.day-mode .hero {
-      background: linear-gradient(135deg, #1f1000 0%, #341a00 60%, #1f1000 100%);
-    }
-    body.day-mode #speed,
-    body.day-mode #how-it-works,
-    body.day-mode #autobook,
-    body.day-mode #faq {
-      background: #161410;
-      border-color: rgba(255,255,255,0.06);
-    }
-    body.day-mode footer { background: #0d0c09; }
   </style>
 </head>
 <body>
@@ -969,6 +966,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#speed"        data-section="speed"        id="nav-how-it-works">How It Works</a></li>
       <li><a href="#features"     data-section="features"     id="nav-features">Features</a></li>
+      <li><a href="slides.html"   id="nav-visual-guide">Visual Guide</a></li>
       <li><a href="#pricing"      data-section="pricing"      id="nav-pricing">Pricing</a></li>
       <li><a href="#faq"          data-section="faq"          id="nav-faq">FAQ</a></li>
     </ul>
@@ -987,6 +985,7 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="#speed"    class="mobile-nav-link" id="mobile-nav-how-it-works">How It Works</a>
   <a href="#features" class="mobile-nav-link" id="mobile-nav-features">Features</a>
+  <a href="slides.html" class="mobile-nav-link" id="mobile-nav-visual-guide">Visual Guide</a>
   <a href="#pricing"  class="mobile-nav-link" id="mobile-nav-pricing">Pricing</a>
   <a href="#faq"      class="mobile-nav-link" id="mobile-nav-faq">FAQ</a>
   <div class="mobile-lang-row">
@@ -1026,7 +1025,7 @@
         <div class="mock-dot mock-dot-red"></div>
         <div class="mock-dot mock-dot-yel"></div>
         <div class="mock-dot mock-dot-grn"></div>
-        <div class="mock-url">relay.amazon.com/loadboard</div>
+        <div class="mock-url">relay.com/loadboard</div>
       </div>
       <div class="mock-content">
         <div class="mock-banner">
@@ -1093,8 +1092,8 @@
   <div class="section-inner">
     <div class="text-center" style="margin-bottom:56px;">
       <span class="section-label reveal" id="speed-label">Speed Advantage</span>
-      <h2 class="section-title reveal delay-1" id="speed-title">Why you get the load first</h2>
-      <p class="section-sub reveal delay-2" style="margin: 0 auto;" id="speed-sub">Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the moment Amazon sends it to your computer, before anything appears on screen.</p>
+      <h2 class="section-title reveal delay-1" id="speed-title">See it first. Book it first.</h2>
+      <p class="section-sub reveal delay-2" style="margin: 0 auto;" id="speed-sub">Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the instant new data arrives at your computer, before anything appears on screen.</p>
     </div>
 
     <div class="speed-grid">
@@ -1104,7 +1103,7 @@
         <div class="speed-card-title" id="speed-bad-title">The Slow Way</div>
         <div class="speed-step">
           <div class="speed-step-num">1</div>
-          <div class="speed-step-text" id="speed-bad-step1">Amazon sends new load data to your computer</div>
+          <div class="speed-step-text" id="speed-bad-step1">New load data arrives at your computer</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">2</div>
@@ -1128,7 +1127,7 @@
         <div class="speed-card-title" id="speed-good-title">The Fast Way</div>
         <div class="speed-step">
           <div class="speed-step-num">1</div>
-          <div class="speed-step-text" id="speed-good-step1">Amazon sends new load data to your computer</div>
+          <div class="speed-step-text" id="speed-good-step1">New load data arrives at your computer</div>
         </div>
         <div class="speed-step">
           <div class="speed-step-num">2</div>
@@ -1163,7 +1162,7 @@
       <div class="feat-card reveal delay-1">
         <span class="feat-icon">&#9889;</span>
         <div class="feat-card-title" id="feat1-title">4-Step Auto-Booking Engine</div>
-        <div class="feat-card-desc" id="feat1-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon's secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
+        <div class="feat-card-desc" id="feat1-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses the secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
       </div>
 
       <div class="feat-card reveal delay-2">
@@ -1199,7 +1198,7 @@
       <div class="feat-card reveal delay-3">
         <span class="feat-icon">&#128268;</span>
         <div class="feat-card-title" id="feat7-title">Network-Level API Interception</div>
-        <div class="feat-card-desc" id="feat7-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon's front-end have no effect.</div>
+        <div class="feat-card-desc" id="feat7-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on the load board's front-end have no effect.</div>
       </div>
 
       <div class="feat-card reveal delay-4">
@@ -1311,6 +1310,13 @@
       </div>
 
     </div>
+
+    <div style="text-align:center;margin-top:40px;">
+      <a href="tutorial.html" class="btn btn-outline reveal" id="autobook-setup-btn" style="display:inline-flex;align-items:center;gap:8px;">
+        <span>&#128247;</span> <span id="autobook-setup-btn-text">Step-by-Step Setup Guide with Screenshots</span>
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1406,11 +1412,11 @@
 
       <div class="faq-item reveal delay-3">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq3-q">What happens if Amazon changes their website?</span>
+          <span id="faq3-q">What if the load board changes?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p id="faq3-a">Because Prohauling Relay intercepts Amazon's raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.</p>
+          <p id="faq3-a">Because Prohauling Relay intercepts raw API responses — not rendered HTML — it is completely independent of how the page looks. The load board's front-end can be fully redesigned and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.</p>
         </div>
       </div>
 
@@ -1513,11 +1519,13 @@ var translations = {
     /* Nav */
     'nav-how-it-works':       'How It Works',
     'nav-features':           'Features',
+    'nav-visual-guide':       'Visual Guide',
     'nav-pricing':            'Pricing',
     'nav-faq':                'FAQ',
     'nav-cta':                'Get Started Free',
     'mobile-nav-how-it-works':'How It Works',
     'mobile-nav-features':    'Features',
+    'mobile-nav-visual-guide':'Visual Guide',
     'mobile-nav-pricing':     'Pricing',
     'mobile-nav-faq':         'FAQ',
     'mobile-lang-label':      'Language:',
@@ -1545,18 +1553,18 @@ var translations = {
 
     /* Speed */
     'speed-label':            'Speed Advantage',
-    'speed-title':            'Why you get the load first',
-    'speed-sub':              'Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the moment Amazon sends it to your computer, before anything appears on screen.',
+    'speed-title':            'See it first. Book it first.',
+    'speed-sub':              'Most tools wait for the entire page to finish loading before they can even read a load. By then, another driver already booked it. Prohauling Relay works differently — it grabs the load data the instant new data arrives at your computer, before anything appears on screen.',
     'speed-bad-label':        'Other Extensions',
     'speed-bad-title':        'The Slow Way',
-    'speed-bad-step1':        'Amazon sends new load data to your computer',
+    'speed-bad-step1':        'New load data arrives at your computer',
     'speed-bad-step2':        'The page has to fully load before anything can happen',
     'speed-bad-step3':        'The extension reads the load info off the finished page',
     'speed-bad-step4':        'Finally checks if the load matches your settings',
     'speed-bad-result':       '&#10005; By the time it reads the load, other drivers already booked it',
     'speed-good-label':       'Prohauling Relay',
     'speed-good-title':       'The Fast Way',
-    'speed-good-step1':       'Amazon sends new load data to your computer',
+    'speed-good-step1':       'New load data arrives at your computer',
     'speed-good-step2':       'Prohauling Relay picks up the load data instantly — before the page even starts loading',
     'speed-good-step3':       'Checks your filters in less than a second',
     'speed-good-step4':       'Books the load while other extensions are still waiting for the page to load',
@@ -1567,7 +1575,7 @@ var translations = {
     'features-title':         'Everything a serious carrier needs',
     'features-sub':           'Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.',
     'feat1-title':            '4-Step Auto-Booking Engine',
-    'feat1-desc':             'When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses Amazon\'s secondary confirmation dialog, cutting booking time to the absolute minimum.',
+    'feat1-desc':             'When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses the secondary confirmation dialog, cutting booking time to the absolute minimum.',
     'feat2-title':            '9-Dimension Real-Time Filtering',
     'feat2-desc':             'Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.',
     'feat3-title':            '5-Channel Alert System',
@@ -1579,7 +1587,7 @@ var translations = {
     'feat6-title':            'Fleet &amp; Multi-Driver Management',
     'feat6-desc':             'Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.',
     'feat7-title':            'Network-Level API Interception',
-    'feat7-desc':             'By overriding the browser\'s native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on Amazon\'s front-end have no effect.',
+    'feat7-desc':             'By overriding the browser\'s native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on the load board\'s front-end have no effect.',
     'feat8-title':            '25 Themes &amp; Spanish Support',
     'feat8-desc':             'Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.',
 
@@ -1625,8 +1633,8 @@ var translations = {
     'faq1-a':                 'We can\'t provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and the platform. We recommend reading the current carrier agreement and using the tool in a way you\'re comfortable with.',
     'faq2-q':                 'Will it book loads I don\'t want?',
     'faq2-a':                 'Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.',
-    'faq3-q':                 'What happens if Amazon changes their website?',
-    'faq3-a':                 'Because Prohauling Relay intercepts Amazon\'s raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.',
+    'faq3-q':                 'What if the load board changes?',
+    'faq3-a':                 'Because Prohauling Relay intercepts raw API responses — not rendered HTML — it is completely independent of how the page looks. The load board\'s front-end can be fully redesigned and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.',
     'faq4-q':                 'Do I need to leave my computer on?',
     'faq4-a':                 'Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.',
     'faq5-q':                 'Can I use it for multiple drivers in my fleet?',
@@ -1656,18 +1664,21 @@ var translations = {
     'autobook-step5-title':   'Step 5 — Set up your Telegram &amp; phone alerts',
     'autobook-step5-desc':    'Every qualifying load triggers all your alerts at once. Here\'s how to set them up:<br><br><strong>Telegram:</strong> Open Telegram, search for <strong>@userinfobot</strong> and send it any message — it replies with your numeric Chat ID. Paste that ID into the extension settings. From that point on, every matching load sends you a message like this:<br><div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;overflow-x:auto;">🚛 <strong style="color:#FF8000;">QUALIFYING LOAD</strong><br>💰 Payout: <strong style="color:#fff;">$2,840</strong><br>📍 Route: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>📏 Distance: <strong style="color:#fff;">487 mi</strong><br>💵 Rate: <strong style="color:#fff;">$5.82/mi</strong><br>🏷 Equipment: <strong style="color:#fff;">Dry Van</strong></div><strong>Phone call:</strong> Enter your driver\'s phone number in the Driver settings. When a load matches, the extension places an automated call that speaks the load details out loud — payout, route, and distance.<br><br><span style="color:rgba(255,255,255,0.6);">This is especially useful during <strong style="color:#fff;">late-night shifts</strong>. If a driver is monitoring loads but gets drowsy, the phone call acts as an alarm — it rings even when the screen is locked or the driver stepped away. A load worth $3,000 at 2 AM won\'t go unnoticed.</span>',
     'autobook-step6-title':   'You\'re always in control',
-    'autobook-step6-desc':    'Auto-booking will never book a load that doesn\'t match your filters. The countdown window gives you time to cancel any booking before it goes through. You can turn it off with one click at any time.'
+    'autobook-step6-desc':    'Auto-booking will never book a load that doesn\'t match your filters. The countdown window gives you time to cancel any booking before it goes through. You can turn it off with one click at any time.',
+    'autobook-setup-btn-text': 'Step-by-Step Setup Guide with Screenshots'
   },
 
   es: {
     /* Nav */
     'nav-how-it-works':       'Cómo Funciona',
     'nav-features':           'Funciones',
+    'nav-visual-guide':       'Guía Visual',
     'nav-pricing':            'Precios',
     'nav-faq':                'Preguntas',
     'nav-cta':                'Comenzar Gratis',
     'mobile-nav-how-it-works':'Cómo Funciona',
     'mobile-nav-features':    'Funciones',
+    'mobile-nav-visual-guide':'Guía Visual',
     'mobile-nav-pricing':     'Precios',
     'mobile-nav-faq':         'Preguntas',
     'mobile-lang-label':      'Idioma:',
@@ -1695,18 +1706,18 @@ var translations = {
 
     /* Speed */
     'speed-label':            'Ventaja de Velocidad',
-    'speed-title':            'Por qué tú consigues la carga primero',
-    'speed-sub':              'La mayoría de las herramientas esperan a que toda la página cargue antes de poder leer una carga. Para entonces, otro conductor ya la reservó. Prohauling Relay funciona diferente — agarra los datos de la carga en el momento en que Amazon los envía a tu computadora, antes de que aparezca nada en pantalla.',
+    'speed-title':            'Tú la ves primero. Tú la reservas primero.',
+    'speed-sub':              'La mayoría de las herramientas esperan a que toda la página cargue antes de poder leer una carga. Para entonces, otro conductor ya la reservó. Prohauling Relay funciona diferente — agarra los datos de la carga en el instante en que llegan a tu computadora, antes de que aparezca nada en pantalla.',
     'speed-bad-label':        'Otras Extensiones',
     'speed-bad-title':        'La Manera Lenta',
-    'speed-bad-step1':        'Amazon envía los nuevos datos de carga a tu computadora',
+    'speed-bad-step1':        'Los nuevos datos de carga llegan a tu computadora',
     'speed-bad-step2':        'La página tiene que cargar por completo antes de que pase algo',
     'speed-bad-step3':        'La extensión lee la información de la carga de la página terminada',
     'speed-bad-step4':        'Finalmente verifica si la carga coincide con tu configuración',
     'speed-bad-result':       '&#10005; Para cuando lee la carga, otros conductores ya la reservaron',
     'speed-good-label':       'Prohauling Relay',
     'speed-good-title':       'La Manera Rápida',
-    'speed-good-step1':       'Amazon envía los nuevos datos de carga a tu computadora',
+    'speed-good-step1':       'Los nuevos datos de carga llegan a tu computadora',
     'speed-good-step2':       'Prohauling Relay toma los datos al instante — antes de que la página empiece a cargar',
     'speed-good-step3':       'Verifica tus filtros en menos de un segundo',
     'speed-good-step4':       'Reserva la carga mientras otras extensiones aún esperan que cargue la página',
@@ -1717,7 +1728,7 @@ var translations = {
     'features-title':         'Todo lo que un transportista serio necesita',
     'features-sub':           'Construido por transportistas, para transportistas. Sin relleno — solo las herramientas que ponen dinero en tu bolsillo.',
     'feat1-title':            'Motor de Auto-Reserva en 4 Pasos',
-    'feat1-desc':             'Cuando se detecta una carga que cumple los filtros, el motor: <strong>(1)</strong> localiza la tarjeta de carga en el DOM, <strong>(2)</strong> abre la vista de detalle, <strong>(3)</strong> espera la ventana de cuenta regresiva que configuraste, y luego <strong>(4)</strong> confirma la reserva — todo sin que toques nada. El modo <strong>Fast Book</strong> también descarta automáticamente el diálogo de confirmación secundario de Amazon, reduciendo el tiempo de reserva al mínimo absoluto.',
+    'feat1-desc':             'Cuando se detecta una carga que cumple los filtros, el motor: <strong>(1)</strong> localiza la tarjeta de carga en el DOM, <strong>(2)</strong> abre la vista de detalle, <strong>(3)</strong> espera la ventana de cuenta regresiva que configuraste, y luego <strong>(4)</strong> confirma la reserva — todo sin que toques nada. El modo <strong>Fast Book</strong> también descarta automáticamente el diálogo de confirmación secundario, reduciendo el tiempo de reserva al mínimo absoluto.',
     'feat2-title':            'Filtrado en Tiempo Real de 9 Dimensiones',
     'feat2-desc':             'Cada carga que llega es evaluada contra <strong>9 criterios de filtro simultáneamente</strong>: pago total mínimo, $/milla mínimo, distancia máxima, estados de origen, estados de destino, tipo de equipo, puntuación de IA de la plataforma (0–100), pago mínimo por hora y supresión de duplicados. Una carga debe pasar todos los filtros activos antes de que se tome cualquier acción.',
     'feat3-title':            'Sistema de Alertas de 5 Canales',
@@ -1729,7 +1740,7 @@ var translations = {
     'feat6-title':            'Gestión de Flota y Múltiples Conductores',
     'feat6-desc':             '¿Tienes una flota pequeña? Crea <strong>perfiles de conductor independientes</strong>, cada uno con su propio conjunto de filtros, destino de Telegram, preferencias de alerta y horario. Cambia entre conductores con un solo clic.',
     'feat7-title':            'Intercepción de API a Nivel de Red',
-    'feat7-desc':             'Al anular las APIs nativas del navegador — <strong>fetch() y XMLHttpRequest</strong> — Prohauling Relay recibe los datos de carga en el instante en que llega la respuesta del servidor, antes de que empiece el renderizado. Monitorea todos los endpoints del tablero: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Los cambios visuales en Amazon no tienen ningún efecto.',
+    'feat7-desc':             'Al anular las APIs nativas del navegador — <strong>fetch() y XMLHttpRequest</strong> — Prohauling Relay recibe los datos de carga en el instante en que llega la respuesta del servidor, antes de que empiece el renderizado. Monitorea todos los endpoints del tablero: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Los cambios visuales en el tablero de cargas no tienen ningún efecto.',
     'feat8-title':            '25 Temas y Soporte en Español',
     'feat8-desc':             'Elige entre <strong>25 temas de color</strong> para personalizar tu estilo. Soporte completo en <strong>inglés y español</strong> en toda la interfaz — para conductores y despachadores que trabajan en los dos idiomas.',
 
@@ -1775,8 +1786,8 @@ var translations = {
     'faq1-a':                 'No podemos dar asesoría legal, y los Términos de Servicio pueden cambiar. Prohauling Relay automatiza acciones que tú podrías hacer manualmente — monitorear el tablero de cargas y hacer clic en Reservar. Tú eres responsable de asegurarte de que tu uso cumple con los acuerdos que tienes con la plataforma. Te recomendamos leer el acuerdo actual de transportistas y usar la herramienta de una forma con la que te sientas cómodo.',
     'faq2-q':                 '¿Reservará cargas que no quiero?',
     'faq2-a':                 'Solo las cargas que pasen todos los filtros que configures activarán la auto-reserva. Tú estableces el pago mínimo, $/milla mínimo, estados de origen y destino, tipo de equipo y más. Además, cada auto-reserva tiene una ventana de cuenta regresiva configurable (5 segundos por defecto) — si ves la alerta y quieres cancelar, tienes tiempo de hacerlo. El control siempre está en tus manos.',
-    'faq3-q':                 '¿Qué pasa si Amazon cambia su sitio web?',
-    'faq3-a':                 'Como Prohauling Relay intercepta las respuestas de la API en bruto de Amazon — no el HTML renderizado — funciona completamente independiente de cómo se vea la página. Amazon puede rediseñar todo su front-end y la extensión sigue funcionando. Solo un cambio en la estructura del JSON de la respuesta de la API requeriría una actualización. Ese tipo de cambio ocurre con mucha menos frecuencia que un rediseño visual, y cuando sucede, la actualización se publica rápidamente.',
+    'faq3-q':                 '¿Qué pasa si el tablero de cargas cambia?',
+    'faq3-a':                 'Como Prohauling Relay intercepta las respuestas de la API en bruto — no el HTML renderizado — funciona completamente independiente de cómo se vea la página. El front-end del tablero puede rediseñarse por completo y la extensión sigue funcionando. Solo un cambio en la estructura del JSON de la respuesta de la API requeriría una actualización. Ese tipo de cambio ocurre con mucha menos frecuencia que un rediseño visual, y cuando sucede, la actualización se publica rápidamente.',
     'faq4-q':                 '¿Necesito dejar mi computadora encendida?',
     'faq4-a':                 'Sí. Prohauling Relay funciona como una extensión de Chrome dentro de tu navegador. Tu computadora debe estar encendida y Chrome debe tener abierto el tablero de cargas para que la extensión monitoree y reserve cargas. Para monitoreo nocturno o sin atención, muchos transportistas dejan una laptop dedicada encendida con Chrome abierto en el tablero.',
     'faq5-q':                 '¿Puedo usarlo para múltiples conductores en mi flota?',
@@ -1806,7 +1817,8 @@ var translations = {
     'autobook-step5-title':   'Paso 5 — Configura tus alertas de Telegram y teléfono',
     'autobook-step5-desc':    'Cada carga calificada activa todas tus alertas a la vez. Así se configuran:<br><br><strong>Telegram:</strong> Abre Telegram, busca <strong>@userinfobot</strong> y envíale cualquier mensaje — te responde con tu ID de Chat numérico. Pega ese ID en la configuración de la extensión. A partir de ese momento, cada carga que coincida te envía un mensaje así:<br><div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;overflow-x:auto;">🚛 <strong style="color:#FF8000;">CARGA CALIFICADA</strong><br>💰 Pago: <strong style="color:#fff;">$2,840</strong><br>📍 Ruta: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>📏 Distancia: <strong style="color:#fff;">487 mi</strong><br>💵 Tarifa: <strong style="color:#fff;">$5.82/mi</strong><br>🏷 Equipo: <strong style="color:#fff;">Van Seca</strong></div><strong>Llamada telefónica:</strong> Ingresa el número del conductor en la configuración del conductor. Cuando una carga coincide, la extensión realiza una llamada automática que habla los detalles en voz alta — pago, ruta y distancia.<br><br><span style="color:rgba(255,255,255,0.6);">Esto es especialmente útil durante los <strong style="color:#fff;">turnos nocturnos</strong>. Si un conductor está monitoreando cargas pero se queda dormido, la llamada actúa como alarma — suena incluso cuando la pantalla está bloqueada o el conductor se alejó. Una carga de $3,000 a las 2 AM no pasará desapercibida.</span>',
     'autobook-step6-title':   'Siempre tienes el control',
-    'autobook-step6-desc':    'La auto-reserva nunca reservará una carga que no coincida con tus filtros. La ventana de cuenta regresiva te da tiempo para cancelar cualquier reserva antes de que se confirme. Puedes apagarla con un clic en cualquier momento.'
+    'autobook-step6-desc':    'La auto-reserva nunca reservará una carga que no coincida con tus filtros. La ventana de cuenta regresiva te da tiempo para cancelar cualquier reserva antes de que se confirme. Puedes apagarla con un clic en cualquier momento.',
+    'autobook-setup-btn-text': 'Guía de Configuración Paso a Paso con Imágenes'
   }
 };
 
@@ -1884,7 +1896,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initMockCountdown();
   initMobileMenu();
   initNavHighlight();
-  initDayNight();
 });
 
 /* ─── 1. SCROLL REVEAL ─────────────────────────────────────────
@@ -2070,17 +2081,7 @@ function initNavHighlight() {
   });
 }
 
-/* ─── 6. DAY / NIGHT BACKGROUND ────────────────────────────────
-   Adds body.day-mode class when local hour is between 6 and 19.
-─────────────────────────────────────────────────────────────── */
-function initDayNight() {
-  var hour = new Date().getHours();
-  if (hour >= 6 && hour < 19) {
-    document.body.classList.add('day-mode');
-  }
-}
-
-/* ─── 7. FAQ SMOOTH ACCORDION ──────────────────────────────────
+/* ─── 6. FAQ SMOOTH ACCORDION ──────────────────────────────────
    Opens one item at a time with a max-height CSS transition.
    Closing all first prevents jarring simultaneous transitions.
 ─────────────────────────────────────────────────────────────── */
