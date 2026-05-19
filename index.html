@@ -1162,7 +1162,7 @@
       <div class="feat-card reveal delay-1">
         <span class="feat-icon">&#9889;</span>
         <div class="feat-card-title" id="feat1-title">4-Step Auto-Booking Engine</div>
-        <div class="feat-card-desc" id="feat1-desc">When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses the secondary confirmation dialog, cutting booking time to the absolute minimum.</div>
+        <div class="feat-card-desc" id="feat1-desc">When a matching load appears, the engine opens it, waits your countdown, and confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> skips the confirmation step entirely, getting you the load in the shortest time possible.</div>
       </div>
 
       <div class="feat-card reveal delay-2">
@@ -1175,12 +1175,6 @@
         <span class="feat-icon">&#128242;</span>
         <div class="feat-card-title" id="feat3-title">5-Channel Alert System</div>
         <div class="feat-card-desc" id="feat3-desc">All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you're watching the screen or not.</div>
-      </div>
-
-      <div class="feat-card reveal delay-4">
-        <span class="feat-icon">&#128264;</span>
-        <div class="feat-card-title" id="feat4-title">Voice Announcements</div>
-        <div class="feat-card-desc" id="feat4-desc">The extension uses the browser's built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.</div>
       </div>
 
       <div class="feat-card reveal delay-1">
@@ -1197,8 +1191,8 @@
 
       <div class="feat-card reveal delay-3">
         <span class="feat-icon">&#128268;</span>
-        <div class="feat-card-title" id="feat7-title">Network-Level API Interception</div>
-        <div class="feat-card-desc" id="feat7-desc">By overriding the browser's native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on the load board's front-end have no effect.</div>
+        <div class="feat-card-title" id="feat7-title">Reads Data Before It Hits the Screen</div>
+        <div class="feat-card-desc" id="feat7-desc">Prohauling Relay captures load data the instant it's downloaded — before it even appears on the page. That's why it's faster than any tool that waits for the page to load. Visual changes to the load board have zero effect on how it works.</div>
       </div>
 
       <div class="feat-card reveal delay-4">
@@ -1319,6 +1313,47 @@
 
   </div>
 </section>
+
+<!-- ══════════════════════════════════════
+     GUIDES / RESOURCES
+══════════════════════════════════════ -->
+<section id="guides" style="background:#0d0d0d;padding:60px 24px;">
+  <div class="section-inner" style="max-width:860px;">
+    <span class="section-label reveal" id="guides-label">Learn &amp; Set Up</span>
+    <h2 class="section-title reveal delay-1" id="guides-title">Everything you need to get started</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;" class="reveal delay-2">
+
+      <!-- Tutorial card -->
+      <a href="tutorial.html" style="text-decoration:none;" class="guide-card">
+        <div style="background:#151515;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
+          <div style="font-size:32px;">&#128247;</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide1-title">Auto-Booking Setup Guide</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
+          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide1-cta">View Setup Guide &rarr;</div>
+        </div>
+      </a>
+
+      <!-- Visual Guide card -->
+      <a href="slides.html" style="text-decoration:none;" class="guide-card">
+        <div style="background:#151515;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
+          <div style="font-size:32px;">&#127916;</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide2-title">Visual Guide</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
+          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide2-cta">Open Visual Guide &rarr;</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .guide-card div:first-child { }
+  .guide-card:hover > div { border-color: var(--orange) !important; transform: translateY(-2px); }
+  @media (max-width:560px) {
+    #guides > div > div[style*="grid"] { grid-template-columns: 1fr !important; }
+  }
+</style>
 
 <!-- ══════════════════════════════════════
      PRICING
@@ -1575,19 +1610,17 @@ var translations = {
     'features-title':         'Everything a serious carrier needs',
     'features-sub':           'Built by carriers, for carriers. No fluff — just the tools that put money in your pocket.',
     'feat1-title':            '4-Step Auto-Booking Engine',
-    'feat1-desc':             'When a qualifying load is detected, the engine: <strong>(1)</strong> locates the load card in the DOM, <strong>(2)</strong> opens the detail view, <strong>(3)</strong> waits out your configurable countdown window, then <strong>(4)</strong> confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> also auto-dismisses the secondary confirmation dialog, cutting booking time to the absolute minimum.',
+    'feat1-desc':             'When a matching load appears, the engine opens it, waits your countdown, and confirms the booking — all without you touching anything. <strong>Fast Book mode</strong> skips the confirmation step entirely, getting you the load in the shortest time possible.',
     'feat2-title':            '9-Dimension Real-Time Filtering',
     'feat2-desc':             'Every incoming load is evaluated against <strong>9 filter criteria simultaneously</strong>: minimum total payout, minimum $/mile, maximum distance, origin states, destination states, equipment type, platform AI score (0–100), minimum pay/hour, and duplicate suppression. A load must pass every active filter before any action is taken.',
     'feat3-title':            '5-Channel Alert System',
     'feat3-desc':             'All five channels fire simultaneously on a qualifying load: <strong>audio alert</strong> (custom sound library), <strong>voice synthesis</strong> (speaks payout, route, rate out loud), <strong>Telegram message</strong> to your phone, <strong>visual overlay banner</strong> on the load board, and <strong>flash animation</strong> on the load card. Never miss a load whether you\'re watching the screen or not.',
-    'feat4-title':            'Voice Announcements',
-    'feat4-desc':             'The extension uses the browser\'s built-in <strong>speech synthesis API</strong> to speak load details aloud — "Two thousand eight hundred forty dollars, Chicago to Dallas, five eighty-two per mile." You hear the load without looking at the screen — hands on the wheel, ears on the board.',
     'feat5-title':            'Schedule &amp; Shift Hours',
     'feat5-desc':             'Define up to <strong>5 time windows per week</strong>. Auto-booking activates only during your configured shift hours. Outside your schedule, the monitor still watches and alerts — it just won\'t book without you.',
     'feat6-title':            'Fleet &amp; Multi-Driver Management',
     'feat6-desc':             'Running a small fleet? Create <strong>independent driver profiles</strong>, each with its own filter set, Telegram target, alert preferences, and schedule. Switch between drivers in one click.',
-    'feat7-title':            'Network-Level API Interception',
-    'feat7-desc':             'By overriding the browser\'s native <strong>fetch() and XMLHttpRequest APIs</strong>, Prohauling Relay receives load data the instant the server response arrives — before rendering starts. Monitors all load board endpoints: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Layout changes on the load board\'s front-end have no effect.',
+    'feat7-title':            'Reads Data Before It Hits the Screen',
+    'feat7-desc':             'Prohauling Relay captures load data the instant it\'s downloaded — before it even appears on the page. That\'s why it\'s faster than any tool that waits for the page to load. Visual changes to the load board have zero effect on how it works.',
     'feat8-title':            '25 Themes &amp; Spanish Support',
     'feat8-desc':             'Choose from <strong>25 color themes</strong> to match your style. Full <strong>English and Spanish</strong> language support throughout the interface — for drivers and dispatchers who work in both.',
 
@@ -1600,6 +1633,16 @@ var translations = {
     'step2-desc':             'Open the load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.',
     'step3-title':            'Best Loads Get Booked',
     'step3-desc':             'A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don\'t — the load is yours. Your phone rings. You drive.',
+
+    /* Guides */
+    'guides-label':           'Learn &amp; Set Up',
+    'guides-title':           'Everything you need to get started',
+    'guide1-title':           'Auto-Booking Setup Guide',
+    'guide1-desc':            'Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.',
+    'guide1-cta':             'View Setup Guide &rarr;',
+    'guide2-title':           'Visual Guide',
+    'guide2-desc':            '9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.',
+    'guide2-cta':             'Open Visual Guide &rarr;',
 
     /* Pricing */
     'pricing-label':          'Simple Pricing',
@@ -1728,19 +1771,17 @@ var translations = {
     'features-title':         'Todo lo que un transportista serio necesita',
     'features-sub':           'Construido por transportistas, para transportistas. Sin relleno — solo las herramientas que ponen dinero en tu bolsillo.',
     'feat1-title':            'Motor de Auto-Reserva en 4 Pasos',
-    'feat1-desc':             'Cuando se detecta una carga que cumple los filtros, el motor: <strong>(1)</strong> localiza la tarjeta de carga en el DOM, <strong>(2)</strong> abre la vista de detalle, <strong>(3)</strong> espera la ventana de cuenta regresiva que configuraste, y luego <strong>(4)</strong> confirma la reserva — todo sin que toques nada. El modo <strong>Fast Book</strong> también descarta automáticamente el diálogo de confirmación secundario, reduciendo el tiempo de reserva al mínimo absoluto.',
+    'feat1-desc':             'Cuando aparece una carga que coincide, el motor la abre, espera tu cuenta regresiva y confirma la reserva — todo sin que toques nada. El modo <strong>Fast Book</strong> omite el paso de confirmación por completo, consiguiéndote la carga en el menor tiempo posible.',
     'feat2-title':            'Filtrado en Tiempo Real de 9 Dimensiones',
     'feat2-desc':             'Cada carga que llega es evaluada contra <strong>9 criterios de filtro simultáneamente</strong>: pago total mínimo, $/milla mínimo, distancia máxima, estados de origen, estados de destino, tipo de equipo, puntuación de IA de la plataforma (0–100), pago mínimo por hora y supresión de duplicados. Una carga debe pasar todos los filtros activos antes de que se tome cualquier acción.',
     'feat3-title':            'Sistema de Alertas de 5 Canales',
     'feat3-desc':             'Los cinco canales se disparan al mismo tiempo al detectar una carga calificada: <strong>alerta de audio</strong> (biblioteca de sonidos personalizada), <strong>síntesis de voz</strong> (anuncia el pago, ruta y tarifa en voz alta), <strong>mensaje de Telegram</strong> a tu teléfono, <strong>banner visual</strong> en el tablero de cargas y <strong>animación de destello</strong> en la tarjeta de carga. No te pierdes ninguna carga, estés mirando la pantalla o no.',
-    'feat4-title':            'Anuncios de Voz',
-    'feat4-desc':             'La extensión usa la API de síntesis de voz integrada del navegador para anunciar los detalles de la carga en voz alta — "Dos mil ochocientos cuarenta dólares, Chicago a Dallas, cinco con ochenta y dos por milla." Escuchas la carga sin mirar la pantalla — manos al volante, oídos en el tablero.',
     'feat5-title':            'Horario y Turnos de Trabajo',
     'feat5-desc':             'Define hasta <strong>5 ventanas de tiempo por semana</strong>. La auto-reserva se activa solo durante tus turnos configurados. Fuera de tu horario, el monitor sigue vigilando y alertando — solo que no reservará sin ti.',
     'feat6-title':            'Gestión de Flota y Múltiples Conductores',
     'feat6-desc':             '¿Tienes una flota pequeña? Crea <strong>perfiles de conductor independientes</strong>, cada uno con su propio conjunto de filtros, destino de Telegram, preferencias de alerta y horario. Cambia entre conductores con un solo clic.',
-    'feat7-title':            'Intercepción de API a Nivel de Red',
-    'feat7-desc':             'Al anular las APIs nativas del navegador — <strong>fetch() y XMLHttpRequest</strong> — Prohauling Relay recibe los datos de carga en el instante en que llega la respuesta del servidor, antes de que empiece el renderizado. Monitorea todos los endpoints del tablero: <code style="font-size:11px;color:var(--orange)">/tours/loadboard</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/search</code>, <code style="font-size:11px;color:var(--orange)">/loadboard/recommendations</code>. Los cambios visuales en el tablero de cargas no tienen ningún efecto.',
+    'feat7-title':            'Lee los Datos Antes de que Aparezcan en Pantalla',
+    'feat7-desc':             'Prohauling Relay captura los datos de la carga en el instante en que se descargan — antes de que aparezcan en la página. Por eso es más rápido que cualquier herramienta que espera a que cargue la página. Los cambios visuales en el tablero no tienen ningún efecto en su funcionamiento.',
     'feat8-title':            '25 Temas y Soporte en Español',
     'feat8-desc':             'Elige entre <strong>25 temas de color</strong> para personalizar tu estilo. Soporte completo en <strong>inglés y español</strong> en toda la interfaz — para conductores y despachadores que trabajan en los dos idiomas.',
 
@@ -1753,6 +1794,16 @@ var translations = {
     'step2-desc':             'Abre el tablero de cargas y déjalo corriendo. Prohauling Relay intercepta cada respuesta de la API en segundo plano — escaneando cargas nuevas en el instante en que aparecen, las 24 horas.',
     'step3-title':            'Las Mejores Cargas se Reservan',
     'step3-desc':             'Una carga calificada activa los 5 canales de alerta a la vez y arranca la cuenta regresiva de auto-reserva. Los 4 pasos de reserva se ejecutan solos. Si quieres cancelar, tienes la ventana. Si no — la carga es tuya. Tu teléfono suena. Tú manejas.',
+
+    /* Guides */
+    'guides-label':           'Aprende y Configura',
+    'guides-title':           'Todo lo que necesitas para empezar',
+    'guide1-title':           'Guía de Configuración de Auto-Reserva',
+    'guide1-desc':            'Tutorial paso a paso con capturas reales — agrega un conductor, configura tus ranuras y activa la auto-reserva en minutos.',
+    'guide1-cta':             'Ver Guía de Configuración &rarr;',
+    'guide2-title':           'Guía Visual',
+    'guide2-desc':            'Recorrido visual de 9 diapositivas por cada función — interfaz, alertas, auto-reserva, control de deadhead, filtros y más. Disponible en inglés y español.',
+    'guide2-cta':             'Abrir Guía Visual &rarr;',
 
     /* Pricing */
     'pricing-label':          'Precios Simples',
