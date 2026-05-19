@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prohauling Relay — Auto-Book Amazon Relay Loads Faster Than Any Human</title>
-  <meta name="description" content="Chrome extension for Amazon Relay carriers. Network-level load interception, auto-booking with countdown cancel, Telegram alerts, voice announcements, and fleet management. 7-day free trial.">
+  <title>Prohauling Relay — Auto-Book Relay Loads Faster Than Any Human</title>
+  <meta name="description" content="Chrome extension for Relay carriers. Network-level load interception, auto-booking with countdown cancel, Telegram alerts, voice announcements, and fleet management. 7-day free trial.">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -887,12 +887,69 @@
     .text-center { text-align: center; }
     .highlight { color: var(--orange); }
 
-    @media (max-width: 520px) {
-      section { padding: 64px 20px; }
-      .hero { padding: 72px 20px 60px; }
-      .pricing-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
+    @media (max-width: 680px) {
+      .hero-ctas { flex-direction: column; align-items: stretch; }
+      .hero-ctas .btn { width: 100%; justify-content: center; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .faq-question { min-height: 54px; }
     }
+
+    @media (max-width: 520px) {
+      nav { padding: 0 16px; }
+      section { padding: 60px 16px; }
+      .hero { padding: 64px 16px 52px; }
+      .stats-strip { padding: 36px 16px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr) !important; gap: 28px 0; }
+      .stats-inner .stat-item { border-right: none; }
+      .stats-inner .stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.07); }
+      .mock-url { display: none; }
+      .mock-load-price { font-size: 22px; }
+      .feat-card { padding: 22px 18px; }
+      .price-card { padding: 28px 22px 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .step-card { padding: 24px 16px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .speed-card { padding: 24px 18px; }
+      .section-sub { font-size: 14.5px; }
+      .faq-question { padding: 16px 18px; font-size: 14px; }
+      .faq-answer { padding-left: 18px; padding-right: 18px; }
+      .faq-item.open .faq-answer { padding: 0 18px 16px; }
+      .footer-links { gap: 14px; }
+      .price-number { font-size: 46px; }
+      .feat-card-desc { overflow-wrap: break-word; word-break: break-word; }
+    }
+
+    @media (max-width: 400px) {
+      nav { padding: 0 12px; }
+      section { padding: 52px 12px; }
+      .hero { padding: 56px 12px 44px; }
+      .hero-eyebrow { font-size: 10px; padding: 4px 10px; }
+      .feat-card-desc { font-size: 13px; }
+      .price-dollar, .price-cents { font-size: 18px; }
+      .price-number { font-size: 42px; }
+    }
+
+    /* ═══════════════════════════════════════
+       DAY / NIGHT MODE
+    ═══════════════════════════════════════ */
+    body { transition: background-color .6s ease, color .3s ease; }
+
+    body.day-mode {
+      --bg:    #12100d;
+      --card:  #1b1812;
+      --card2: #211e18;
+    }
+    body.day-mode .hero {
+      background: linear-gradient(135deg, #1f1000 0%, #341a00 60%, #1f1000 100%);
+    }
+    body.day-mode #speed,
+    body.day-mode #how-it-works,
+    body.day-mode #autobook,
+    body.day-mode #faq {
+      background: #161410;
+      border-color: rgba(255,255,255,0.06);
+    }
+    body.day-mode footer { background: #0d0c09; }
   </style>
 </head>
 <body>
@@ -906,7 +963,7 @@
       <img src="icons/icon128.png" alt="Prohauling Relay" onerror="this.style.display='none'">
       <div>
         <div class="nav-logo-name">Prohauling Relay</div>
-        <div class="nav-logo-sub">Amazon Relay Load Monitor</div>
+        <div class="nav-logo-sub">Relay Load Monitor</div>
       </div>
     </a>
     <ul class="nav-links" id="navLinks">
@@ -947,7 +1004,7 @@
 ══════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-eyebrow reveal" id="hero-eyebrow">
-    <span>&#9889;</span> Network-Level Speed · Auto-Booking · Amazon Relay
+    <span>&#9889;</span> Network-Level Speed · Auto-Booking · Relay Platform
   </div>
 
   <h1 class="reveal delay-1" id="hero-h1">Stop Watching the Load Board.<br><span>Let It Book Itself.</span></h1>
@@ -1177,7 +1234,7 @@
       <div class="step-card reveal delay-2" style="position:relative;">
         <div class="step-num">2</div>
         <div class="step-title" id="step2-title">Extension Monitors 24/7</div>
-        <div class="step-desc" id="step2-desc">Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.</div>
+        <div class="step-desc" id="step2-desc">Open the load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.</div>
         <div class="step-connector"></div>
       </div>
 
@@ -1202,7 +1259,7 @@
       <p class="section-sub reveal delay-2" style="margin:0 auto;" id="autobook-sub">Auto-booking is off by default. You turn it on when you're ready. Here's how it works once you do.</p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:960px;margin:0 auto;">
+    <div class="autobook-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:960px;margin:0 auto;">
 
       <div class="feat-card reveal delay-1" style="border-color:rgba(255,128,0,0.2);">
         <span class="feat-icon">&#9881;</span>
@@ -1225,7 +1282,7 @@
       <div class="feat-card reveal delay-4" style="border-color:rgba(255,128,0,0.2);">
         <span class="feat-icon">&#9889;</span>
         <div class="feat-card-title" id="autobook-step4-title">Step 4 — Turn it on and walk away</div>
-        <div class="feat-card-desc" id="autobook-step4-desc">Flip the auto-booking switch, leave Amazon Relay open in Chrome, and you're done. The extension watches the board. When a load matches every filter you set, it opens it, waits for your countdown, and books it — no clicks needed.</div>
+        <div class="feat-card-desc" id="autobook-step4-desc">Flip the auto-booking switch, leave the load board open in Chrome, and you're done. The extension watches the board. When a load matches every filter you set, it opens it, waits for your countdown, and books it — no clicks needed.</div>
       </div>
 
       <div class="feat-card reveal delay-1" style="border-color:rgba(255,128,0,0.2);grid-column:1/-1;">
@@ -1234,7 +1291,7 @@
         <div class="feat-card-desc" id="autobook-step5-desc">
           Every qualifying load triggers all your alerts at once. Here's how to set them up:<br><br>
           <strong>Telegram:</strong> Open Telegram, search for <strong>@userinfobot</strong> and send it any message — it replies with your numeric Chat ID. Paste that ID into the extension settings. From that point on, every matching load sends you a message like this:<br>
-          <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;">
+          <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;overflow-x:auto;">
             🚛 <strong style="color:#FF8000;">QUALIFYING LOAD</strong><br>
             💰 Payout: <strong style="color:#fff;">$2,840</strong><br>
             📍 Route: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>
@@ -1329,11 +1386,11 @@
 
       <div class="faq-item reveal delay-1">
         <button class="faq-question" onclick="toggleFaq(this)">
-          <span id="faq1-q">Is using this extension against Amazon Relay's Terms of Service?</span>
+          <span id="faq1-q">Is using this extension against the platform's Terms of Service?</span>
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p id="faq1-a">We can't provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay's current carrier agreement and using the tool in a way you're comfortable with.</p>
+          <p id="faq1-a">We can't provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and the platform. We recommend reading the current carrier agreement and using the tool in a way you're comfortable with.</p>
         </div>
       </div>
 
@@ -1363,7 +1420,7 @@
           <div class="faq-icon">+</div>
         </button>
         <div class="faq-answer">
-          <p id="faq4-a">Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.</p>
+          <p id="faq4-a">Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.</p>
         </div>
       </div>
 
@@ -1466,7 +1523,7 @@ var translations = {
     'mobile-cta':             'Get Started Free',
 
     /* Hero */
-    'hero-eyebrow':           '<span>&#9889;</span> Network-Level Speed · Auto-Booking · Amazon Relay',
+    'hero-eyebrow':           '<span>&#9889;</span> Network-Level Speed · Auto-Booking · Relay Platform',
     'hero-h1':                'Stop Watching the Load Board.<br><span>Let It Book Itself.</span>',
     'hero-sub':               'Set your rates, your routes, and your schedule — then step away from the screen. Prohauling Relay watches the load board for you around the clock and books the right loads automatically. You focus on driving.',
     'hero-cta-primary':       'Start 7-Day Free Trial',
@@ -1531,7 +1588,7 @@ var translations = {
     'step1-title':            'Install &amp; Configure',
     'step1-desc':             'Add Prohauling Relay to Chrome. Enter your license key, set your minimum payout, preferred lanes, equipment type, and the schedule windows you want to work. Takes about five minutes.',
     'step2-title':            'Extension Monitors 24/7',
-    'step2-desc':             'Open the Amazon Relay load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.',
+    'step2-desc':             'Open the load board and leave it running. Prohauling Relay intercepts every API response in the background — scanning new loads the instant they appear, around the clock.',
     'step3-title':            'Best Loads Get Booked',
     'step3-desc':             'A qualifying load triggers all 5 alert channels at once and starts the auto-book countdown. All 4 booking steps execute automatically. If you want to cancel, you have the window. If you don\'t — the load is yours. Your phone rings. You drive.',
 
@@ -1563,14 +1620,14 @@ var translations = {
     /* FAQ */
     'faq-label':              'FAQ',
     'faq-title':              'Common questions',
-    'faq1-q':                 'Is using this extension against Amazon Relay\'s Terms of Service?',
-    'faq1-a':                 'We can\'t provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and Amazon Relay. We recommend reading Amazon Relay\'s current carrier agreement and using the tool in a way you\'re comfortable with.',
+    'faq1-q':                 'Is using this extension against the platform\'s Terms of Service?',
+    'faq1-a':                 'We can\'t provide legal advice, and Terms of Service can change. Prohauling Relay automates actions you could perform manually — monitoring the load board and clicking Book. You are responsible for ensuring your use complies with any agreements between you and the platform. We recommend reading the current carrier agreement and using the tool in a way you\'re comfortable with.',
     'faq2-q':                 'Will it book loads I don\'t want?',
     'faq2-a':                 'Only loads that pass every filter you configure will trigger auto-booking. You set the minimum payout, minimum $/mile, origin and destination states, equipment type, and more. On top of that, every auto-book has a configurable countdown window (default 5 seconds) — if you see the alert and want to cancel, you have time to do so. You stay in control at all times.',
     'faq3-q':                 'What happens if Amazon changes their website?',
     'faq3-a':                 'Because Prohauling Relay intercepts Amazon\'s raw API responses — not rendered HTML — it is completely independent of how the page looks. Amazon can redesign their entire front-end and the extension keeps working. Only a change to the underlying JSON data structure of the API response itself would require an update. That type of change is far less frequent than a visual redesign, and when it does happen, an update is pushed quickly.',
     'faq4-q':                 'Do I need to leave my computer on?',
-    'faq4-a':                 'Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the Amazon Relay load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.',
+    'faq4-a':                 'Yes. Prohauling Relay runs as a Chrome extension inside your browser. Your computer needs to be on and Chrome needs to have the load board open for the extension to monitor and auto-book loads. For overnight or unattended monitoring, many carriers leave a dedicated laptop running with Chrome open to the load board.',
     'faq5-q':                 'Can I use it for multiple drivers in my fleet?',
     'faq5-a':                 'Yes. The fleet management module lets you create multiple driver profiles, each with its own independent filter configuration, Telegram notification target, phone alert numbers, and schedule windows. Switch between active driver profiles with one click. One license covers all your profiles on the same installation.',
     'faq6-q':                 'Is the 7-day trial really free? No credit card?',
@@ -1580,7 +1637,24 @@ var translations = {
     'footer-privacy':         'Privacy Policy',
     'footer-terms':           'Terms of Service',
     'footer-manual':          'Manual',
-    'footer-license':         'Get License'
+    'footer-license':         'Get License',
+
+    /* Auto-Book Setup */
+    'autobook-label':         'Auto-Booking Setup',
+    'autobook-title':         'Set it once. Let it work for you.',
+    'autobook-sub':           'Auto-booking is off by default. You turn it on when you\'re ready. Here\'s how it works once you do.',
+    'autobook-step1-title':   'Step 1 — Tell it what you want',
+    'autobook-step1-desc':    'Open the extension and set your minimums: the lowest payout you\'ll accept, your minimum dollars per mile, the states you want to run from and to, and your equipment type. You can be as specific or as open as you want.',
+    'autobook-step2-title':   'Step 2 — Set your countdown window',
+    'autobook-step2-desc':    'Choose how many seconds the extension waits before booking — anywhere from 3 to 30 seconds. When a good load shows up, a countdown starts on your screen. If you want to cancel, just click. If you don\'t — it books for you.',
+    'autobook-step3-title':   'Step 3 — Set your schedule (optional)',
+    'autobook-step3-desc':    'Only want it to book loads on weekday mornings? Set your work windows. Auto-booking only runs during those hours. Outside your schedule, it still alerts you — it just won\'t book without you there.',
+    'autobook-step4-title':   'Step 4 — Turn it on and walk away',
+    'autobook-step4-desc':    'Flip the auto-booking switch, leave the load board open in Chrome, and you\'re done. The extension watches the board. When a load matches every filter you set, it opens it, waits for your countdown, and books it — no clicks needed.',
+    'autobook-step5-title':   'Step 5 — Set up your Telegram &amp; phone alerts',
+    'autobook-step5-desc':    'Every qualifying load triggers all your alerts at once. Here\'s how to set them up:<br><br><strong>Telegram:</strong> Open Telegram, search for <strong>@userinfobot</strong> and send it any message — it replies with your numeric Chat ID. Paste that ID into the extension settings. From that point on, every matching load sends you a message like this:<br><div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;overflow-x:auto;">🚛 <strong style="color:#FF8000;">QUALIFYING LOAD</strong><br>💰 Payout: <strong style="color:#fff;">$2,840</strong><br>📍 Route: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>📏 Distance: <strong style="color:#fff;">487 mi</strong><br>💵 Rate: <strong style="color:#fff;">$5.82/mi</strong><br>🏷 Equipment: <strong style="color:#fff;">Dry Van</strong></div><strong>Phone call:</strong> Enter your driver\'s phone number in the Driver settings. When a load matches, the extension places an automated call that speaks the load details out loud — payout, route, and distance.<br><br><span style="color:rgba(255,255,255,0.6);">This is especially useful during <strong style="color:#fff;">late-night shifts</strong>. If a driver is monitoring loads but gets drowsy, the phone call acts as an alarm — it rings even when the screen is locked or the driver stepped away. A load worth $3,000 at 2 AM won\'t go unnoticed.</span>',
+    'autobook-step6-title':   'You\'re always in control',
+    'autobook-step6-desc':    'Auto-booking will never book a load that doesn\'t match your filters. The countdown window gives you time to cancel any booking before it goes through. You can turn it off with one click at any time.'
   },
 
   es: {
@@ -1598,7 +1672,7 @@ var translations = {
     'mobile-cta':             'Comenzar Gratis',
 
     /* Hero */
-    'hero-eyebrow':           '<span>&#9889;</span> Velocidad de Red · Auto-Reserva · Amazon Relay',
+    'hero-eyebrow':           '<span>&#9889;</span> Velocidad de Red · Auto-Reserva · Relay Platform',
     'hero-h1':                'Deja de Mirar el Tablero.<br><span>Deja que se Reserve Solo.</span>',
     'hero-sub':               'Configura tus tarifas, tus rutas y tu horario — y luego aléjate de la pantalla. Prohauling Relay vigila el tablero de cargas las 24 horas y reserva las cargas correctas automáticamente. Tú concéntrate en manejar.',
     'hero-cta-primary':       'Prueba Gratis 7 Días',
@@ -1663,7 +1737,7 @@ var translations = {
     'step1-title':            'Instala y Configura',
     'step1-desc':             'Agrega Prohauling Relay a Chrome. Ingresa tu clave de licencia, configura tu pago mínimo, rutas preferidas, tipo de equipo y los turnos en que quieres trabajar. Toma unos cinco minutos.',
     'step2-title':            'La Extensión Monitorea 24/7',
-    'step2-desc':             'Abre el tablero de cargas de Amazon Relay y déjalo corriendo. Prohauling Relay intercepta cada respuesta de la API en segundo plano — escaneando cargas nuevas en el instante en que aparecen, las 24 horas.',
+    'step2-desc':             'Abre el tablero de cargas y déjalo corriendo. Prohauling Relay intercepta cada respuesta de la API en segundo plano — escaneando cargas nuevas en el instante en que aparecen, las 24 horas.',
     'step3-title':            'Las Mejores Cargas se Reservan',
     'step3-desc':             'Una carga calificada activa los 5 canales de alerta a la vez y arranca la cuenta regresiva de auto-reserva. Los 4 pasos de reserva se ejecutan solos. Si quieres cancelar, tienes la ventana. Si no — la carga es tuya. Tu teléfono suena. Tú manejas.',
 
@@ -1695,14 +1769,14 @@ var translations = {
     /* FAQ */
     'faq-label':              'Preguntas Frecuentes',
     'faq-title':              'Preguntas comunes',
-    'faq1-q':                 '¿Usar esta extensión va contra los Términos de Servicio de Amazon Relay?',
-    'faq1-a':                 'No podemos dar asesoría legal, y los Términos de Servicio pueden cambiar. Prohauling Relay automatiza acciones que tú podrías hacer manualmente — monitorear el tablero de cargas y hacer clic en Reservar. Tú eres responsable de asegurarte de que tu uso cumple con los acuerdos que tienes con Amazon Relay. Te recomendamos leer el acuerdo actual de transportistas de Amazon Relay y usar la herramienta de una forma con la que te sientas cómodo.',
+    'faq1-q':                 '¿Usar esta extensión va contra los Términos de Servicio de la plataforma?',
+    'faq1-a':                 'No podemos dar asesoría legal, y los Términos de Servicio pueden cambiar. Prohauling Relay automatiza acciones que tú podrías hacer manualmente — monitorear el tablero de cargas y hacer clic en Reservar. Tú eres responsable de asegurarte de que tu uso cumple con los acuerdos que tienes con la plataforma. Te recomendamos leer el acuerdo actual de transportistas y usar la herramienta de una forma con la que te sientas cómodo.',
     'faq2-q':                 '¿Reservará cargas que no quiero?',
     'faq2-a':                 'Solo las cargas que pasen todos los filtros que configures activarán la auto-reserva. Tú estableces el pago mínimo, $/milla mínimo, estados de origen y destino, tipo de equipo y más. Además, cada auto-reserva tiene una ventana de cuenta regresiva configurable (5 segundos por defecto) — si ves la alerta y quieres cancelar, tienes tiempo de hacerlo. El control siempre está en tus manos.',
     'faq3-q':                 '¿Qué pasa si Amazon cambia su sitio web?',
     'faq3-a':                 'Como Prohauling Relay intercepta las respuestas de la API en bruto de Amazon — no el HTML renderizado — funciona completamente independiente de cómo se vea la página. Amazon puede rediseñar todo su front-end y la extensión sigue funcionando. Solo un cambio en la estructura del JSON de la respuesta de la API requeriría una actualización. Ese tipo de cambio ocurre con mucha menos frecuencia que un rediseño visual, y cuando sucede, la actualización se publica rápidamente.',
     'faq4-q':                 '¿Necesito dejar mi computadora encendida?',
-    'faq4-a':                 'Sí. Prohauling Relay funciona como una extensión de Chrome dentro de tu navegador. Tu computadora debe estar encendida y Chrome debe tener abierto el tablero de cargas de Amazon Relay para que la extensión monitoree y reserve cargas. Para monitoreo nocturno o sin atención, muchos transportistas dejan una laptop dedicada encendida con Chrome abierto en el tablero.',
+    'faq4-a':                 'Sí. Prohauling Relay funciona como una extensión de Chrome dentro de tu navegador. Tu computadora debe estar encendida y Chrome debe tener abierto el tablero de cargas para que la extensión monitoree y reserve cargas. Para monitoreo nocturno o sin atención, muchos transportistas dejan una laptop dedicada encendida con Chrome abierto en el tablero.',
     'faq5-q':                 '¿Puedo usarlo para múltiples conductores en mi flota?',
     'faq5-a':                 'Sí. El módulo de gestión de flota te permite crear múltiples perfiles de conductor, cada uno con su propia configuración de filtros, destino de notificación de Telegram, números de alerta telefónica y ventanas de horario. Cambia entre perfiles de conductor activos con un clic. Una licencia cubre todos tus perfiles en la misma instalación.',
     'faq6-q':                 '¿La prueba de 7 días es realmente gratis? ¿Sin tarjeta de crédito?',
@@ -1712,7 +1786,24 @@ var translations = {
     'footer-privacy':         'Política de Privacidad',
     'footer-terms':           'Términos de Servicio',
     'footer-manual':          'Manual',
-    'footer-license':         'Obtener Licencia'
+    'footer-license':         'Obtener Licencia',
+
+    /* Configuración Auto-Reserva */
+    'autobook-label':         'Configuración de Auto-Reserva',
+    'autobook-title':         'Configúralo una vez. Deja que trabaje por ti.',
+    'autobook-sub':           'La auto-reserva está desactivada por defecto. Tú la enciendes cuando estés listo. Así es como funciona una vez que lo haces.',
+    'autobook-step1-title':   'Paso 1 — Dile lo que quieres',
+    'autobook-step1-desc':    'Abre la extensión y establece tus mínimos: el pago más bajo que aceptarás, tu mínimo de dólares por milla, los estados de donde quieres salir y llegar, y el tipo de equipo. Puedes ser tan específico o tan abierto como quieras.',
+    'autobook-step2-title':   'Paso 2 — Configura tu ventana de cuenta regresiva',
+    'autobook-step2-desc':    'Elige cuántos segundos espera la extensión antes de reservar — entre 3 y 30 segundos. Cuando aparece una buena carga, comienza una cuenta regresiva en tu pantalla. Si quieres cancelar, solo haz clic. Si no — reserva por ti.',
+    'autobook-step3-title':   'Paso 3 — Configura tu horario (opcional)',
+    'autobook-step3-desc':    '¿Solo quieres que reserve cargas las mañanas entre semana? Establece tus turnos de trabajo. La auto-reserva solo funciona durante esas horas. Fuera de tu horario, sigue alertándote — solo que no reservará sin que estés.',
+    'autobook-step4-title':   'Paso 4 — Enciéndela y aléjate',
+    'autobook-step4-desc':    'Activa el interruptor de auto-reserva, deja el tablero de cargas abierto en Chrome, y listo. La extensión vigila el tablero. Cuando una carga coincide con todos los filtros que configuraste, la abre, espera tu cuenta regresiva y la reserva — sin clics necesarios.',
+    'autobook-step5-title':   'Paso 5 — Configura tus alertas de Telegram y teléfono',
+    'autobook-step5-desc':    'Cada carga calificada activa todas tus alertas a la vez. Así se configuran:<br><br><strong>Telegram:</strong> Abre Telegram, busca <strong>@userinfobot</strong> y envíale cualquier mensaje — te responde con tu ID de Chat numérico. Pega ese ID en la configuración de la extensión. A partir de ese momento, cada carga que coincida te envía un mensaje así:<br><div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:8px;padding:12px 14px;margin:10px 0;font-size:12px;color:rgba(255,255,255,0.7);font-family:monospace;line-height:1.9;overflow-x:auto;">🚛 <strong style="color:#FF8000;">CARGA CALIFICADA</strong><br>💰 Pago: <strong style="color:#fff;">$2,840</strong><br>📍 Ruta: <strong style="color:#fff;">Chicago, IL → Dallas, TX</strong><br>📏 Distancia: <strong style="color:#fff;">487 mi</strong><br>💵 Tarifa: <strong style="color:#fff;">$5.82/mi</strong><br>🏷 Equipo: <strong style="color:#fff;">Van Seca</strong></div><strong>Llamada telefónica:</strong> Ingresa el número del conductor en la configuración del conductor. Cuando una carga coincide, la extensión realiza una llamada automática que habla los detalles en voz alta — pago, ruta y distancia.<br><br><span style="color:rgba(255,255,255,0.6);">Esto es especialmente útil durante los <strong style="color:#fff;">turnos nocturnos</strong>. Si un conductor está monitoreando cargas pero se queda dormido, la llamada actúa como alarma — suena incluso cuando la pantalla está bloqueada o el conductor se alejó. Una carga de $3,000 a las 2 AM no pasará desapercibida.</span>',
+    'autobook-step6-title':   'Siempre tienes el control',
+    'autobook-step6-desc':    'La auto-reserva nunca reservará una carga que no coincida con tus filtros. La ventana de cuenta regresiva te da tiempo para cancelar cualquier reserva antes de que se confirme. Puedes apagarla con un clic en cualquier momento.'
   }
 };
 
@@ -1790,6 +1881,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initMockCountdown();
   initMobileMenu();
   initNavHighlight();
+  initDayNight();
 });
 
 /* ─── 1. SCROLL REVEAL ─────────────────────────────────────────
@@ -1975,7 +2067,17 @@ function initNavHighlight() {
   });
 }
 
-/* ─── 6. FAQ SMOOTH ACCORDION ──────────────────────────────────
+/* ─── 6. DAY / NIGHT BACKGROUND ────────────────────────────────
+   Adds body.day-mode class when local hour is between 6 and 19.
+─────────────────────────────────────────────────────────────── */
+function initDayNight() {
+  var hour = new Date().getHours();
+  if (hour >= 6 && hour < 19) {
+    document.body.classList.add('day-mode');
+  }
+}
+
+/* ─── 7. FAQ SMOOTH ACCORDION ──────────────────────────────────
    Opens one item at a time with a max-height CSS transition.
    Closing all first prevents jarring simultaneous transitions.
 ─────────────────────────────────────────────────────────────── */
