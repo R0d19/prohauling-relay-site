@@ -1086,6 +1086,46 @@
 </div>
 
 <!-- ══════════════════════════════════════
+     GUIDES / RESOURCES
+══════════════════════════════════════ -->
+<section id="guides" style="background:#111213;border-top:1px solid rgba(255,255,255,0.05);padding:60px 24px;">
+  <div class="section-inner" style="max-width:860px;">
+    <span class="section-label reveal" id="guides-label">Learn &amp; Set Up</span>
+    <h2 class="section-title reveal delay-1" id="guides-title">Everything you need to get started</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;" class="reveal delay-2">
+
+      <!-- Tutorial card -->
+      <a href="tutorial.html" style="text-decoration:none;" class="guide-card">
+        <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
+          <div style="font-size:32px;">&#128247;</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide1-title">Auto-Booking Setup Guide</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
+          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide1-cta">View Setup Guide &rarr;</div>
+        </div>
+      </a>
+
+      <!-- Visual Guide card -->
+      <a href="slides.html" style="text-decoration:none;" class="guide-card">
+        <div style="background:#1a1a1a;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
+          <div style="font-size:32px;">&#127916;</div>
+          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide2-title">Visual Guide</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
+          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide2-cta">Open Visual Guide &rarr;</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .guide-card:hover > div { border-color: var(--orange) !important; transform: translateY(-2px); }
+  @media (max-width:560px) {
+    #guides > div > div[style*="grid"] { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+<!-- ══════════════════════════════════════
      SPEED SECTION
 ══════════════════════════════════════ -->
 <section id="speed">
@@ -1313,47 +1353,6 @@
 
   </div>
 </section>
-
-<!-- ══════════════════════════════════════
-     GUIDES / RESOURCES
-══════════════════════════════════════ -->
-<section id="guides" style="background:#0d0d0d;padding:60px 24px;">
-  <div class="section-inner" style="max-width:860px;">
-    <span class="section-label reveal" id="guides-label">Learn &amp; Set Up</span>
-    <h2 class="section-title reveal delay-1" id="guides-title">Everything you need to get started</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;" class="reveal delay-2">
-
-      <!-- Tutorial card -->
-      <a href="tutorial.html" style="text-decoration:none;" class="guide-card">
-        <div style="background:#151515;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
-          <div style="font-size:32px;">&#128247;</div>
-          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide1-title">Auto-Booking Setup Guide</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide1-desc">Step-by-step walkthrough with real screenshots — add a driver, configure your slots, and turn on auto-booking in minutes.</div>
-          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide1-cta">View Setup Guide &rarr;</div>
-        </div>
-      </a>
-
-      <!-- Visual Guide card -->
-      <a href="slides.html" style="text-decoration:none;" class="guide-card">
-        <div style="background:#151515;border:1px solid rgba(255,128,0,0.2);border-radius:16px;padding:28px 24px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px;height:100%;">
-          <div style="font-size:32px;">&#127916;</div>
-          <div style="font-size:17px;font-weight:800;color:#fff;" id="guide2-title">Visual Guide</div>
-          <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
-          <div style="margin-top:auto;padding-top:16px;font-size:13px;font-weight:700;color:var(--orange);" id="guide2-cta">Open Visual Guide &rarr;</div>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<style>
-  .guide-card div:first-child { }
-  .guide-card:hover > div { border-color: var(--orange) !important; transform: translateY(-2px); }
-  @media (max-width:560px) {
-    #guides > div > div[style*="grid"] { grid-template-columns: 1fr !important; }
-  }
-</style>
 
 <!-- ══════════════════════════════════════
      PRICING
