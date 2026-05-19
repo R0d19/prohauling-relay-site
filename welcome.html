@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Prohauling Relay</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --orange: #FF8000;
+      --bg: #0d0d0d;
+      --card: #151515;
+      --text: #e0e0e0;
+      --muted: rgba(255,255,255,0.55);
+      --border: rgba(255,255,255,0.08);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Top nav ──────────────────────────────────────── */
+    .topnav {
+      width: 100%;
+      background: rgba(13,13,13,0.95);
+      border-bottom: 1px solid rgba(255,128,0,0.12);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .topnav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .topnav-logo img { width: 32px; height: 32px; border-radius: 7px; }
+    .topnav-logo-name { font-size: 15px; font-weight: 900; color: #fff; }
+    .topnav-back {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color .15s;
+    }
+    .topnav-back:hover { color: var(--orange); }
+
+    /* ── Lang bar ─────────────────────────────────────── */
+    .lang-bar {
+      width: 100%;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 13px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .4px;
+      cursor: pointer;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .lang-pill:hover {
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.75);
+      border-color: rgba(255,255,255,0.25);
+    }
+    .lang-pill.active {
+      background: rgba(255,128,0,0.14);
+      border-color: rgba(255,128,0,0.45);
+      color: var(--orange);
+    }
+
+    /* ── Hero strip ───────────────────────────────────── */
+    .hero {
+      width: 100%;
+      background: linear-gradient(135deg, #140800 0%, #261000 50%, #140800 100%);
+      border-bottom: 3px solid var(--orange);
+      padding: 52px 24px 44px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(34,197,94,0.13);
+      border: 1px solid rgba(34,197,94,0.32);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4ade80;
+      letter-spacing: .4px;
+    }
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+    }
+    .hero h1 span { color: var(--orange); }
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.52);
+      max-width: 460px;
+      line-height: 1.6;
+    }
+    .notice {
+      max-width: 520px;
+      width: 100%;
+      border-radius: 9px;
+      padding: 12px 18px;
+      font-size: 12px;
+      line-height: 1.8;
+      text-align: left;
+    }
+    .notice-blue  { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.28); color: rgba(255,255,255,0.78); }
+    .notice-orange{ background: rgba(255,128,0,0.09);  border: 1px solid rgba(255,128,0,0.28);  color: rgba(255,255,255,0.72); }
+    .notice-red   { background: rgba(239,68,68,0.07);  border: 1px solid rgba(239,68,68,0.28);  color: rgba(255,255,255,0.72); }
+    .notice b { font-weight: 700; }
+    .notice .bl { color: #60a5fa; }
+    .notice .or { color: var(--orange); }
+    .notice .rd { color: #ef4444; }
+
+    /* ── Main content ─────────────────────────────────── */
+    .content {
+      width: 100%;
+      max-width: 820px;
+      padding: 52px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 52px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 22px;
+    }
+
+    /* ── Steps ────────────────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 48px;
+    }
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d07000, #ffa800);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(255,140,0,0.3);
+      flex-shrink: 0;
+    }
+    .step-line {
+      width: 2px;
+      flex: 1;
+      min-height: 20px;
+      background: rgba(255,128,0,0.18);
+      margin-top: 8px;
+    }
+    .step-body { padding-top: 10px; flex: 1; }
+    .step-icon { font-size: 20px; margin-bottom: 7px; line-height: 1; }
+    .step-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 9px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+    }
+    .step-desc b { color: rgba(255,255,255,0.85); font-weight: 700; }
+    .step-desc .hl { color: var(--orange); font-weight: 700; }
+    .relay-link {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 2px solid rgba(255,128,0,0.45);
+      padding-bottom: 1px;
+      transition: border-color .15s;
+    }
+    .relay-link:hover { border-color: var(--orange); }
+
+    /* ── Pin guide card ───────────────────────────────── */
+    .pin-guide {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+    }
+    .pin-steps { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+    .pin-step { display: flex; align-items: flex-start; gap: 14px; }
+    .pin-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255,128,0,0.15);
+      border: 1px solid rgba(255,128,0,0.38);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--orange);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pin-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.65;
+    }
+    .pin-text b { color: rgba(255,255,255,0.88); font-weight: 700; }
+
+    /* ── CTA block ────────────────────────────────────── */
+    .cta-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .cta-block-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .cta-block-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.42);
+      max-width: 380px;
+      line-height: 1.6;
+    }
+    .cta-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .cta-btn-primary {
+      display: inline-block;
+      padding: 13px 28px;
+      background: var(--orange);
+      color: #000;
+      font-weight: 900;
+      font-size: 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: opacity .15s, transform .1s;
+    }
+    .cta-btn-primary:hover { opacity: .88; transform: translateY(-2px); }
+    .cta-btn-secondary {
+      display: inline-block;
+      padding: 13px 28px;
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.6);
+      font-weight: 700;
+      font-size: 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background .15s, color .15s;
+    }
+    .cta-btn-secondary:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: .4px;
+    }
+    footer a { color: rgba(255,255,255,0.28); text-decoration: none; }
+    footer a:hover { color: var(--orange); }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 27px; }
+      .step-title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top nav -->
+<nav class="topnav">
+  <a href="index.html" class="topnav-logo">
+    <img src="icons/icon128.png" alt="Prohauling Relay" onerror="this.style.display='none'">
+    <span class="topnav-logo-name">Prohauling Relay</span>
+  </a>
+  <a href="index.html" class="topnav-back" id="backLink">← Back to home</a>
+</nav>
+
+<!-- Lang bar -->
+<div class="lang-bar">
+  <button class="lang-pill active" id="btnEn" onclick="setLang('en')">🇺🇸 English</button>
+  <button class="lang-pill"        id="btnEs" onclick="setLang('es')">🇪🇸 Español</button>
+</div>
+
+
+<!-- ════════════════════  ENGLISH  ════════════════════════════════════════════ -->
+<div id="lang-en" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+
+<div class="hero">
+  <div class="hero-badge">✅ Extension Installed Successfully</div>
+
+  <div class="notice notice-blue">
+    🛡️ <b class="bl">About the Chrome safety warning:</b> When installing a new extension, Chrome may show <em>"Not trusted by Enhanced Safe Browsing."</em> This is normal for any recently published extension — it simply means it hasn't yet accumulated enough installs for Google's automatic trust system. Prohauling Relay is safe, reviewed by Google, and published on the official Chrome Web Store.
+  </div>
+
+  <h1>Welcome to <span>Prohauling</span> Relay</h1>
+  <p class="hero-sub">You're 5 steps away from your first load alert. Follow the steps below — it takes less than a minute.</p>
+
+  <div class="notice notice-orange">
+    🖥️ <b class="or">Font too big or too small?</b> Adjust your browser zoom:<br>
+    &bull; <b>Mac:</b> <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">⌘ +</kbd> to zoom in &nbsp;/&nbsp;
+    <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">⌘ −</kbd> to zoom out<br>
+    &bull; <b>Windows &amp; Chromebook:</b> <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">Ctrl +</kbd> to zoom in &nbsp;/&nbsp;
+    <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">Ctrl −</kbd> to zoom out
+  </div>
+
+  <div class="notice notice-red">
+    🔴 <b class="rd">VPN detected?</b> Please disconnect your VPN before using Prohauling Relay. Amazon Relay may not load correctly while a VPN is active.
+  </div>
+</div>
+
+<div class="content">
+
+  <div>
+    <div class="section-label">How to get started</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon"><img src="icons/icon128.png" alt="" style="width:26px;height:26px;border-radius:6px;vertical-align:middle;" onerror="this.style.display='none'"></div>
+          <div class="step-title"><a href="https://relay.amazon.com" target="_blank" rel="noopener" class="relay-link">Go to Amazon Relay ↗</a></div>
+          <div class="step-desc">
+            Open a new tab and navigate to <span class="hl">relay.amazon.com</span><br><br>
+            Sign in to your Amazon Relay account as you normally do.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">🚛</div>
+          <div class="step-title">Navigate to the Load Board</div>
+          <div class="step-desc">
+            After login, navigate to the <b>Load Board</b> inside Amazon Relay.<br><br>
+            The <b>Prohauling bar appears automatically</b> at the top of the page — you will see it as soon as you are on the load board.<br><br>
+            <b>The bar only shows on the load board.</b> It will not appear on other pages like Trips or Settings.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">⚙️</div>
+          <div class="step-title">Open Settings &amp; Set Your Preferences</div>
+          <div class="step-desc">
+            On the load board, click <b>⚙ Settings</b> in the Prohauling bar.<br><br>
+            Set your preferences before you start scanning:<br><br>
+            &bull; <b>Sound</b> — pick your alert sound and turn it on<br>
+            &bull; <b>Refresh Interval</b> — how often to scan (5 s recommended)<br>
+            &bull; <b>Random Refresh</b> — randomizes timing to avoid detection<br>
+            &bull; <b>Show Load Banner</b> — full-screen alert when a load is found<br><br>
+            To set price and distance filters, use the <b>Amazon Relay filter panel</b> directly on the load board — Prohauling reads those filters automatically.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">▶️</div>
+          <div class="step-title">Press Start</div>
+          <div class="step-desc">
+            Once your settings are ready, press the <b>Start</b> button in the Prohauling bar.<br><br>
+            The extension begins scanning for high-paying loads immediately. You will see the load count update in real time.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">5</div></div>
+        <div class="step-body">
+          <div class="step-icon">🔔</div>
+          <div class="step-title">Wait for Your Alert</div>
+          <div class="step-desc">
+            When Prohauling finds a load that matches your filters, it will:<br><br>
+            &bull; Play a <b>sound alert</b><br>
+            &bull; Highlight the load card with an <b>orange frame</b><br>
+            &bull; Show you the <b>route, payout, $/mi, and distance</b><br>
+            &bull; Pause scanning so you have time to review it<br><br>
+            If you like the load — click <b>📋 Book This Load</b> inside the card.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pin guide -->
+  <div class="pin-guide">
+    <div class="section-label" style="margin-bottom:0;">📌 Pin the extension to your Chrome bar</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Pin the extension to your Chrome toolbar after it loads for the first time — it makes opening it one click away.</p>
+    <div class="pin-steps">
+      <div class="pin-step">
+        <div class="pin-num">1</div>
+        <div class="pin-text">Click the <b>puzzle piece icon</b> 🧩 in the top-right corner of Chrome — next to your profile photo.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">2</div>
+        <div class="pin-text">Find <b>Prohauling Relay</b> in the list of extensions.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">3</div>
+        <div class="pin-text">Click the <b>pin icon</b> 📌 next to it. The Prohauling icon will appear permanently in your toolbar.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">4</div>
+        <div class="pin-text">From now on, just click the <b>Prohauling icon</b> in your Chrome bar any time you want to open the extension.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-block-title">Ready to start scanning?</div>
+    <div class="cta-block-sub">Head to Amazon Relay and the Prohauling bar will appear automatically on the load board.</div>
+    <div class="cta-buttons">
+      <a href="https://relay.amazon.com" target="_blank" rel="noopener" class="cta-btn-primary">Open Amazon Relay ↗</a>
+      <a href="checkout.html" class="cta-btn-secondary">Get a License</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Prohauling Relay &nbsp;·&nbsp;
+  <a href="privacy-policy.html">Privacy</a> &nbsp;·&nbsp;
+  <a href="manual.html">Manual</a> &nbsp;·&nbsp;
+  <a href="https://t.me/Pr0HaulingBot" target="_blank" rel="noopener">Support</a>
+</footer>
+
+</div><!-- /#lang-en -->
+
+
+<!-- ════════════════════  ESPAÑOL  ════════════════════════════════════════════ -->
+<div id="lang-es" style="display:none;width:100%;flex-direction:column;align-items:center;">
+
+<div class="hero">
+  <div class="hero-badge">✅ Extensión Instalada Correctamente</div>
+
+  <div class="notice notice-blue">
+    🛡️ <b class="bl">Sobre la advertencia de seguridad de Chrome:</b> Al instalar una extensión nueva, Chrome puede mostrar <em>"No es de confianza según Navegación segura mejorada."</em> Esto es normal para cualquier extensión recién publicada — simplemente significa que aún no tiene suficientes instalaciones para el sistema automático de confianza de Google. Prohauling Relay es segura, revisada por Google y publicada en la Chrome Web Store oficial.
+  </div>
+
+  <h1>Bienvenido a <span>Prohauling</span> Relay</h1>
+  <p class="hero-sub">Estás a 5 pasos de tu primera alerta de carga. Sigue los pasos a continuación — toma menos de un minuto.</p>
+
+  <div class="notice notice-orange">
+    🖥️ <b class="or">¿El texto se ve muy grande o muy pequeño?</b> Ajusta el zoom del navegador:<br>
+    &bull; <b>Mac:</b> <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">⌘ +</kbd> para agrandar &nbsp;/&nbsp;
+    <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">⌘ −</kbd> para reducir<br>
+    &bull; <b>Windows y Chromebook:</b> <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">Ctrl +</kbd> para agrandar &nbsp;/&nbsp;
+    <kbd style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:monospace;">Ctrl −</kbd> para reducir
+  </div>
+
+  <div class="notice notice-red">
+    🔴 <b class="rd">¿Tienes una VPN activa?</b> Por favor desconéctala antes de usar Prohauling Relay. Amazon Relay puede no funcionar correctamente con una VPN activada.
+  </div>
+</div>
+
+<div class="content">
+
+  <div>
+    <div class="section-label">Cómo empezar</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon"><img src="icons/icon128.png" alt="" style="width:26px;height:26px;border-radius:6px;vertical-align:middle;" onerror="this.style.display='none'"></div>
+          <div class="step-title"><a href="https://relay.amazon.com" target="_blank" rel="noopener" class="relay-link">Ve a Amazon Relay ↗</a></div>
+          <div class="step-desc">
+            Abre una nueva pestaña y ve a <span class="hl">relay.amazon.com</span><br><br>
+            Inicia sesión en tu cuenta de Amazon Relay como lo haces normalmente.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">🚛</div>
+          <div class="step-title">Navega al Tablero de Cargas</div>
+          <div class="step-desc">
+            Después de iniciar sesión, navega al <b>Tablero de Cargas</b> dentro de Amazon Relay.<br><br>
+            La <b>barra de Prohauling aparece automáticamente</b> en la parte superior de la página — la verás en cuanto estés en el tablero de cargas.<br><br>
+            <b>La barra solo se muestra en el tablero de cargas.</b> No aparecerá en otras páginas como Viajes o Configuración.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">⚙️</div>
+          <div class="step-title">Abre Ajustes y Configura tus Preferencias</div>
+          <div class="step-desc">
+            En el tablero de cargas, haz clic en <b>⚙ Ajustes</b> en la barra de Prohauling.<br><br>
+            Configura tus preferencias antes de empezar a escanear:<br><br>
+            &bull; <b>Sonido</b> — elige tu sonido de alerta y actívalo<br>
+            &bull; <b>Intervalo de refresco</b> — con qué frecuencia escanear (5 s recomendado)<br>
+            &bull; <b>Intervalo Aleatorio</b> — varía el tiempo para evitar detección<br>
+            &bull; <b>Mostrar Banner</b> — alerta en pantalla completa al encontrar una carga<br><br>
+            Para configurar filtros de precio y distancia, usa el <b>panel de filtros de Amazon Relay</b> directamente en el tablero — Prohauling los lee automáticamente.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-icon">▶️</div>
+          <div class="step-title">Presiona Iniciar</div>
+          <div class="step-desc">
+            Una vez que tus ajustes estén listos, presiona el botón <b>Iniciar</b> en la barra de Prohauling.<br><br>
+            La extensión comienza a escanear cargas de alto pago de inmediato. Verás el conteo actualizarse en tiempo real.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-left"><div class="step-num">5</div></div>
+        <div class="step-body">
+          <div class="step-icon">🔔</div>
+          <div class="step-title">Espera Tu Alerta</div>
+          <div class="step-desc">
+            Cuando Prohauling encuentre una carga que coincida con tus filtros:<br><br>
+            &bull; Reproducirá una <b>alerta de sonido</b><br>
+            &bull; Resaltará la tarjeta de carga con un <b>marco naranja</b><br>
+            &bull; Te mostrará la <b>ruta, pago total, $/milla y distancia</b><br>
+            &bull; Pausará el escaneo para que tengas tiempo de revisarla<br><br>
+            Si te gusta la carga — haz clic en <b>📋 Reservar esta Carga</b> dentro de la tarjeta.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pin guide -->
+  <div class="pin-guide">
+    <div class="section-label" style="margin-bottom:0;">📌 Ancla la extensión a tu barra de Chrome</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Ancla la extensión a tu barra de Chrome después de cargarla por primera vez — así la abres con un solo clic.</p>
+    <div class="pin-steps">
+      <div class="pin-step">
+        <div class="pin-num">1</div>
+        <div class="pin-text">Haz clic en el <b>ícono de pieza de rompecabezas</b> 🧩 en la esquina superior derecha de Chrome — junto a tu foto de perfil.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">2</div>
+        <div class="pin-text">Busca <b>Prohauling Relay</b> en la lista de extensiones.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">3</div>
+        <div class="pin-text">Haz clic en el <b>ícono de pin</b> 📌 que aparece al lado. El ícono de Prohauling quedará fijo en tu barra permanentemente.</div>
+      </div>
+      <div class="pin-step">
+        <div class="pin-num">4</div>
+        <div class="pin-text">A partir de ahora, solo haz clic en el <b>ícono de Prohauling</b> en tu barra de Chrome cada vez que quieras abrir la extensión.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-block-title">¿Listo para empezar?</div>
+    <div class="cta-block-sub">Ve a Amazon Relay y la barra de Prohauling aparecerá automáticamente en el tablero de cargas.</div>
+    <div class="cta-buttons">
+      <a href="https://relay.amazon.com" target="_blank" rel="noopener" class="cta-btn-primary">Abrir Amazon Relay ↗</a>
+      <a href="checkout.html" class="cta-btn-secondary">Obtener Licencia</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Prohauling Relay &nbsp;·&nbsp;
+  <a href="privacy-policy.html">Privacidad</a> &nbsp;·&nbsp;
+  <a href="manual.html">Manual</a> &nbsp;·&nbsp;
+  <a href="https://t.me/Pr0HaulingBot" target="_blank" rel="noopener">Soporte</a>
+</footer>
+
+</div><!-- /#lang-es -->
+
+
+<script>
+  function setLang(lang) {
+    document.getElementById('lang-en').style.display = lang === 'en' ? 'flex' : 'none';
+    document.getElementById('lang-es').style.display = lang === 'es' ? 'flex' : 'none';
+    document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+    document.getElementById('btnEs').classList.toggle('active', lang === 'es');
+    document.getElementById('backLink').textContent = lang === 'en' ? '← Back to home' : '← Inicio';
+    localStorage.setItem('prh_lang', lang);
+  }
+
+  // restore saved language
+  var saved = localStorage.getItem('prh_lang');
+  if (saved === 'es') setLang('es');
+</script>
+
+</body>
+</html>

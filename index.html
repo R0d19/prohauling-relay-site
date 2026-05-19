@@ -939,7 +939,7 @@
     }
     .guides-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 24px;
       margin-top: 44px;
     }
@@ -1185,10 +1185,11 @@
       .guide-card-desc  { color: rgba(26,20,16,0.62); }
 
       /* Language toggle + theme toggle */
-      .lang-toggle { background: rgba(26,20,16,0.08); border-color: rgba(26,20,16,0.18); }
-      .lang-btn { color: rgba(26,20,16,0.5); }
-      .lang-btn:hover:not(.active) { color: rgba(26,20,16,0.8); }
-      #theme-toggle { border-color: rgba(26,20,16,0.2) !important; color: rgba(26,20,16,0.6) !important; }
+      .lang-toggle { background: rgba(26,20,16,0.09); border: 1px solid rgba(26,20,16,0.22) !important; }
+      .lang-btn { color: rgba(26,20,16,0.55) !important; }
+      .lang-btn.active { background: var(--orange); color: #000 !important; }
+      .lang-btn:hover:not(.active) { color: rgba(26,20,16,0.85) !important; }
+      #theme-toggle { border: 1px solid rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
     }
 
     /* ─── force-light: JS-toggled, mirrors the media query above ─── */
@@ -1437,6 +1438,16 @@
           <div class="guide-card-title" id="guide2-title">Visual Guide</div>
           <div class="guide-card-desc" id="guide2-desc">9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.</div>
           <div class="guide-card-cta" id="guide2-cta">Open Visual Guide &rarr;</div>
+        </div>
+      </a>
+
+      <!-- Getting Started card -->
+      <a href="welcome.html" class="guide-card-link">
+        <div class="guide-card-inner">
+          <div class="guide-card-icon">🚀</div>
+          <div class="guide-card-title" id="guide3-title">Getting Started</div>
+          <div class="guide-card-desc" id="guide3-desc">New to Prohauling Relay? Follow the 5-step setup guide — from installing the extension to your first load alert. Includes Chrome safety notes and VPN tips.</div>
+          <div class="guide-card-cta" id="guide3-cta">View Setup Guide &rarr;</div>
         </div>
       </a>
 
@@ -1984,6 +1995,9 @@ var translations = {
     'guide2-title':           'Visual Guide',
     'guide2-desc':            '9-slide visual walkthrough of every feature — interface, alerts, auto-booking, deadhead check, filters, and more. Available in English and Spanish.',
     'guide2-cta':             'Open Visual Guide &rarr;',
+    'guide3-title':           'Getting Started',
+    'guide3-desc':            'New to Prohauling Relay? Follow the 5-step setup guide — from installing the extension to your first load alert. Includes Chrome safety notes and VPN tips.',
+    'guide3-cta':             'View Setup Guide &rarr;',
 
     /* Pricing */
     'pricing-label':          'Simple Pricing',
@@ -2146,6 +2160,9 @@ var translations = {
     'guide2-title':           'Guía Visual',
     'guide2-desc':            'Recorrido visual de 9 diapositivas por cada función — interfaz, alertas, auto-reserva, control de deadhead, filtros y más. Disponible en inglés y español.',
     'guide2-cta':             'Abrir Guía Visual &rarr;',
+    'guide3-title':           'Primeros Pasos',
+    'guide3-desc':            '¿Nuevo en Prohauling Relay? Sigue la guía de 5 pasos — desde instalar la extensión hasta tu primera alerta de carga. Incluye notas de seguridad de Chrome y consejos sobre VPN.',
+    'guide3-cta':             'Ver Guía &rarr;',
 
     /* Pricing */
     'pricing-label':          'Precios Simples',
