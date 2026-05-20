@@ -152,8 +152,8 @@
     .lang-toggle {
       display: flex;
       align-items: center;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
@@ -165,12 +165,12 @@
       cursor: pointer;
       background: none;
       border: none;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.7);
       transition: all .15s;
       letter-spacing: .5px;
     }
     .lang-btn.active { background: var(--orange); color: #000; }
-    .lang-btn:hover:not(.active) { color: rgba(255,255,255,0.7); }
+    .lang-btn:hover:not(.active) { color: #fff; }
 
     /* Hamburger */
     .hamburger {
@@ -196,34 +196,40 @@
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     @media (max-width: 680px) {
-      .nav-links { display: none; }
-      .nav-cta-desktop { display: none; }
-      #theme-toggle { display: none; }
-      .hamburger { display: flex; }
+      nav { padding: 0 14px; }
+      .nav-inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 0 0;
+        gap: 6px;
+        align-items: center;
+      }
+      .nav-logo { flex: 1; min-width: 0; }
+      .nav-logo-name { font-size: 15px; }
+      .nav-logo-sub  { display: none; }
+      .nav-cta-desktop { display: inline-flex; font-size: 12px; padding: 8px 13px; }
+      #theme-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 6px 9px; }
+      .hamburger { display: none; }
+      .nav-links {
+        display: flex;
+        order: 10;
+        width: 100%;
+        overflow-x: auto;
+        gap: 0;
+        padding: 6px 0 10px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        margin-top: 2px;
+      }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a { font-size: 12.5px; white-space: nowrap; padding: 2px 10px 2px 0; }
+      .nav-links li:last-child a { padding-right: 0; }
     }
 
-    /* Mobile slide-down menu */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 64px; left: 0; right: 0;
-      z-index: 99;
-      background: rgba(18,18,18,0.98);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,128,0,0.15);
-      padding: 8px 20px 20px;
-      flex-direction: column;
-      gap: 0;
-      transform: translateY(-6px);
-      opacity: 0;
-      transition: opacity .2s ease, transform .2s ease;
-    }
-    .mobile-menu.open {
-      display: flex;
-      transform: translateY(0);
-      opacity: 1;
-    }
+    /* Mobile slide-down menu — hidden; full nav shown inline on mobile */
+    .mobile-menu { display: none !important; }
+    .mobile-menu.open { display: none !important; }
     .mobile-nav-links-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1098,13 +1104,12 @@
       .nav-logo-sub  { color: rgba(26,20,16,0.45); }
       .nav-links a { color: rgba(26,20,16,0.58); }
       .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+      .lang-toggle { background: rgba(26,20,16,0.09); border-color: rgba(26,20,16,0.28); }
+      .lang-btn { color: rgba(26,20,16,0.6); }
+      .lang-btn:hover:not(.active) { color: #1a1410; }
       .hamburger span { background: #1a1410; }
-      .mobile-menu { background: rgba(255,246,232,0.99); border-bottom-color: rgba(200,100,20,0.15); }
-      .mobile-menu .mobile-nav-link { color: rgba(26,20,16,0.65); }
-      .mobile-menu .mobile-nav-link:hover { color: var(--orange); background: rgba(200,100,20,0.07); }
-      .mobile-menu-divider { background: rgba(200,100,20,0.12); }
-      .mobile-lang-label { color: rgba(26,20,16,0.42); }
-      #theme-toggle-mobile { border-color: rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
+      .nav-links { border-top-color: rgba(200,100,20,0.12); }
+      #theme-toggle { border-color: rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
 
       /* Hero — slightly brighter version of the page gradient */
       .hero { background: linear-gradient(160deg, #fff8f0 0%, #ffc86a 50%, #ffe8c0 100%); }
@@ -1322,10 +1327,11 @@
     html.force-light .guide-card-inner { background:#fff; border-color:rgba(200,100,20,0.2); }
     html.force-light .guide-card-title { color:#1a1410; }
     html.force-light .guide-card-desc  { color:rgba(26,20,16,0.62); }
-    html.force-light #theme-toggle { border-color:rgba(26,20,16,0.2) !important; color:rgba(26,20,16,0.6) !important; }
-    html.force-light .lang-toggle { background:rgba(26,20,16,0.08); border-color:rgba(26,20,16,0.18); }
-    html.force-light .lang-btn { color:rgba(26,20,16,0.5); }
-    html.force-light .lang-btn:hover:not(.active) { color:rgba(26,20,16,0.8); }
+    html.force-light #theme-toggle { border-color:rgba(26,20,16,0.22) !important; color:rgba(26,20,16,0.6) !important; }
+    html.force-light .lang-toggle { background:rgba(26,20,16,0.09); border-color:rgba(26,20,16,0.28); }
+    html.force-light .lang-btn { color:rgba(26,20,16,0.6); }
+    html.force-light .lang-btn:hover:not(.active) { color:#1a1410; }
+    html.force-light .nav-links { border-top-color:rgba(200,100,20,0.12); }
   </style>
 </head>
 <body>
