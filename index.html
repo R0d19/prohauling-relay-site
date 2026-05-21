@@ -201,21 +201,29 @@
         flex-wrap: wrap;
         height: auto;
         padding: 10px 0 0;
-        gap: 6px;
+        gap: 0;
         align-items: center;
+        justify-content: flex-start;
       }
-      /* Row 1: Logo — flex space — ☀️ — Get Started */
-      .nav-logo { flex: 1; min-width: 0; }
-      .nav-logo-name { font-size: 15px; }
-      .nav-logo-sub  { display: none; }
-      .nav-cta-desktop { display: inline-flex; font-size: 12px; padding: 8px 13px; }
-      #theme-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 6px 9px; }
-      .hamburger { display: none; }
-      /* Row 2: EN/ES — scrollable nav links */
+
+      /* ── Row 1: Logo | space | ☀️ | Get Started ── */
+      .nav-logo       { flex: 1; min-width: 0; gap: 8px; }
+      .nav-logo img   { width: 30px; height: 30px; border-radius: 7px; }
+      .nav-logo-name  { font-size: 13px; }
+      .nav-logo-sub   { display: none; }
+      #theme-toggle   { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 6px 9px; flex-shrink: 0; margin-right: 8px; }
+      .nav-cta-desktop { display: inline-flex; font-size: 11.5px; padding: 8px 12px; flex-shrink: 0; white-space: nowrap; }
+      .hamburger      { display: none; }
+
+      /* ── Row 2: EN/ES | scrollable nav links ── */
       .nav-lang-desktop {
         order: 10;
         flex-shrink: 0;
         margin-right: 10px;
+        padding: 7px 0 10px;
+        border-top: 1px solid rgba(255,255,255,0.07);
+        margin-top: 8px;
+        align-self: center;
       }
       .nav-links {
         display: flex;
@@ -226,14 +234,12 @@
         padding: 7px 0 10px;
         scrollbar-width: none;
         -ms-overflow-style: none;
-        border-top: 1px solid rgba(255,255,255,0.06);
-        margin-top: 2px;
-        align-self: center;
+        border-top: 1px solid rgba(255,255,255,0.07);
+        margin-top: 8px;
+        align-items: center;
       }
-      /* Give the lang toggle the same vertical rhythm as the links row */
-      .nav-lang-desktop { padding: 7px 0 10px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 2px; align-self: center; }
       .nav-links::-webkit-scrollbar { display: none; }
-      .nav-links a { font-size: 12.5px; white-space: nowrap; padding: 2px 12px 2px 0; }
+      .nav-links a { font-size: 12.5px; white-space: nowrap; padding: 0 14px 0 0; }
       .nav-links li:last-child a { padding-right: 0; }
     }
 
