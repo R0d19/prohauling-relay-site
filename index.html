@@ -204,26 +204,36 @@
         gap: 6px;
         align-items: center;
       }
+      /* Row 1: Logo — flex space — ☀️ — Get Started */
       .nav-logo { flex: 1; min-width: 0; }
       .nav-logo-name { font-size: 15px; }
       .nav-logo-sub  { display: none; }
       .nav-cta-desktop { display: inline-flex; font-size: 12px; padding: 8px 13px; }
       #theme-toggle { display: inline-flex; align-items: center; justify-content: center; font-size: 14px; padding: 6px 9px; }
       .hamburger { display: none; }
+      /* Row 2: EN/ES — scrollable nav links */
+      .nav-lang-desktop {
+        order: 10;
+        flex-shrink: 0;
+        margin-right: 10px;
+      }
       .nav-links {
         display: flex;
         order: 10;
-        width: 100%;
+        flex: 1;
         overflow-x: auto;
         gap: 0;
-        padding: 6px 0 10px;
+        padding: 7px 0 10px;
         scrollbar-width: none;
         -ms-overflow-style: none;
         border-top: 1px solid rgba(255,255,255,0.06);
         margin-top: 2px;
+        align-self: center;
       }
+      /* Give the lang toggle the same vertical rhythm as the links row */
+      .nav-lang-desktop { padding: 7px 0 10px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 2px; align-self: center; }
       .nav-links::-webkit-scrollbar { display: none; }
-      .nav-links a { font-size: 12.5px; white-space: nowrap; padding: 2px 10px 2px 0; }
+      .nav-links a { font-size: 12.5px; white-space: nowrap; padding: 2px 12px 2px 0; }
       .nav-links li:last-child a { padding-right: 0; }
     }
 
@@ -1109,6 +1119,7 @@
       .lang-btn:hover:not(.active) { color: #1a1410; }
       .hamburger span { background: #1a1410; }
       .nav-links { border-top-color: rgba(200,100,20,0.12); }
+      .nav-lang-desktop { border-top-color: rgba(200,100,20,0.12) !important; }
       #theme-toggle { border-color: rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
 
       /* Hero — slightly brighter version of the page gradient */
@@ -1332,6 +1343,7 @@
     html.force-light .lang-btn { color:rgba(26,20,16,0.6); }
     html.force-light .lang-btn:hover:not(.active) { color:#1a1410; }
     html.force-light .nav-links { border-top-color:rgba(200,100,20,0.12); }
+    html.force-light .nav-lang-desktop { border-top-color:rgba(200,100,20,0.12) !important; }
   </style>
 </head>
 <body>
