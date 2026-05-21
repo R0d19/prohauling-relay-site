@@ -196,56 +196,28 @@
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     @media (max-width: 680px) {
-      nav { padding: 0 14px; }
-      .nav-inner {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px 0 0;
-        gap: 0;
-        align-items: center;
-        justify-content: flex-start;
-      }
-
-      /* ── Row 1: Logo | ☀️ | Get Started ── */
-      .nav-logo       { flex: 1 1 0 !important; min-width: 0 !important; overflow: hidden; gap: 8px; }
-      .nav-logo img   { width: 30px !important; height: 30px !important; flex-shrink: 0; }
-      .nav-logo-name  { font-size: 13px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .nav-logo-sub   { display: none !important; }
-      #theme-toggle   { display: inline-flex !important; align-items: center; justify-content: center; font-size: 13px !important; padding: 5px 8px !important; flex-shrink: 0; margin-right: 6px; }
-      .nav-cta-desktop { display: inline-flex !important; font-size: 11px !important; padding: 7px 11px !important; flex-shrink: 0; white-space: nowrap; }
-      .hamburger      { display: none !important; }
-
-      /* ── Row 2: EN/ES | scrollable nav links ── */
-      .nav-lang-desktop {
-        order: 10;
-        flex-shrink: 0;
-        margin-right: 10px;
-        padding: 7px 0 10px;
-        border-top: 1px solid rgba(255,255,255,0.07);
-        margin-top: 6px;
-      }
-      .nav-links {
-        display: flex !important;
-        order: 10;
-        flex: 1;
-        overflow-x: auto;
-        gap: 0;
-        padding: 7px 0 10px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        border-top: 1px solid rgba(255,255,255,0.07);
-        margin-top: 6px;
-        align-items: center;
-        list-style: none;
-      }
-      .nav-links::-webkit-scrollbar { display: none; }
-      .nav-links a { font-size: 12.5px !important; white-space: nowrap; padding: 0 14px 0 0; }
-      .nav-links li:last-child a { padding-right: 0; }
+      .nav-links     { display: none; }
+      .nav-lang-desktop { display: none; }
+      .nav-cta-desktop  { display: none; }
+      #theme-toggle  { display: none; }
+      .hamburger     { display: flex; }
     }
 
-    /* Mobile slide-down menu — hidden; full nav shown inline on mobile */
-    .mobile-menu { display: none !important; }
-    .mobile-menu.open { display: none !important; }
+    /* ── Mobile dropdown menu ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      z-index: 99;
+      background: rgba(15,15,15,0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,128,0,0.15);
+      padding: 12px 18px 18px;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
     .mobile-nav-links-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1385,25 +1357,24 @@
   </div>
 </nav>
 
-<!-- Mobile nav -->
+<!-- Mobile nav dropdown -->
 <div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-nav-links-grid">
-    <a href="#speed"      class="mobile-nav-link" id="mobile-nav-how-it-works">How It Works</a>
-    <a href="#features"   class="mobile-nav-link" id="mobile-nav-features">Features</a>
-    <a href="slides.html" class="mobile-nav-link" id="mobile-nav-visual-guide">Visual Guide</a>
-    <a href="#pricing"    class="mobile-nav-link" id="mobile-nav-pricing">Pricing</a>
-    <a href="#faq"        class="mobile-nav-link" id="mobile-nav-faq">FAQ</a>
+  <!-- Nav links: all visible, scrollable row -->
+  <div style="display:flex;overflow-x:auto;gap:0;padding:4px 0 12px;border-bottom:1px solid rgba(255,255,255,0.07);scrollbar-width:none;-ms-overflow-style:none;">
+    <a href="#speed"      class="mobile-nav-link" id="mobile-nav-how-it-works" style="white-space:nowrap;padding:6px 16px 6px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">How It Works</a>
+    <a href="#features"   class="mobile-nav-link" id="mobile-nav-features"     style="white-space:nowrap;padding:6px 16px 6px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">Features</a>
+    <a href="slides.html" class="mobile-nav-link" id="mobile-nav-visual-guide" style="white-space:nowrap;padding:6px 16px 6px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">Visual Guide</a>
+    <a href="#pricing"    class="mobile-nav-link" id="mobile-nav-pricing"      style="white-space:nowrap;padding:6px 16px 6px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">Pricing</a>
+    <a href="#faq"        class="mobile-nav-link" id="mobile-nav-faq"          style="white-space:nowrap;padding:6px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,0.65);">FAQ</a>
   </div>
-  <div class="mobile-menu-divider"></div>
-  <div class="mobile-menu-bottom">
-    <a href="checkout.html" class="mobile-cta" id="mobile-cta">Get Started Free</a>
-    <div class="mobile-menu-controls">
-      <div class="lang-toggle" id="langToggleMobile">
-        <button class="lang-btn active" id="langBtnEnMobile" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn"        id="langBtnEsMobile" onclick="setLanguage('es')">ES</button>
-      </div>
-      <button id="theme-toggle-mobile" onclick="toggleTheme()" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:15px;line-height:1;color:var(--muted);">☀️</button>
+  <!-- Controls row: EN/ES | ☀️ | Get Started -->
+  <div style="display:flex;align-items:center;gap:10px;padding-top:12px;">
+    <div class="lang-toggle" id="langToggleMobile">
+      <button class="lang-btn active" id="langBtnEnMobile" onclick="setLanguage('en')">EN</button>
+      <button class="lang-btn"        id="langBtnEsMobile" onclick="setLanguage('es')">ES</button>
     </div>
+    <button id="theme-toggle-mobile" onclick="toggleTheme()" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 9px;cursor:pointer;font-size:15px;line-height:1;color:rgba(255,255,255,0.6);flex-shrink:0;">☀️</button>
+    <a href="checkout.html" id="mobile-cta" style="flex:1;display:block;background:var(--orange);color:#000;font-weight:800;font-size:14px;text-align:center;padding:11px;border-radius:10px;">Get Started Free</a>
   </div>
 </div>
 
