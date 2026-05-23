@@ -29,10 +29,9 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
+      overflow-x: clip;
       animation: bodyFadeIn .35s ease;
     }
-
-    #page-wrap { overflow-x: hidden; }
 
     @keyframes bodyFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
@@ -1326,7 +1325,6 @@
   </style>
 </head>
 <body>
-<div id="page-wrap">
 
 <!-- ══════════════════════════════════════
      STICKY NAV
@@ -2772,6 +2770,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-</div><!-- #page-wrap -->
 </body>
 </html>
