@@ -1099,6 +1099,10 @@
       .nav-links { border-top-color: rgba(200,100,20,0.12); }
       .nav-lang-desktop { border-top-color: rgba(200,100,20,0.12) !important; }
       #theme-toggle { border-color: rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
+      .mobile-menu { background: rgba(255,246,232,0.99); border-bottom-color: rgba(200,100,20,0.15); }
+      .mobile-menu .mobile-nav-link { color: rgba(26,20,16,0.65) !important; }
+      .mobile-menu .mobile-nav-link:hover { color: var(--orange) !important; background: rgba(200,100,20,0.07); }
+      #theme-toggle-mobile { border-color: rgba(26,20,16,0.22) !important; color: rgba(26,20,16,0.6) !important; }
 
       /* Hero — slightly brighter version of the page gradient */
       .hero { background: linear-gradient(160deg, #fff8f0 0%, #ffc86a 50%, #ffe8c0 100%); }
@@ -1224,11 +1228,11 @@
     html.force-light .nav-links a:hover,html.force-light .nav-links a.active { color:var(--orange); }
     html.force-light .hamburger span { background:#1a1410; }
     html.force-light .mobile-menu { background:rgba(255,246,232,0.99); border-bottom-color:rgba(200,100,20,0.15); }
-    html.force-light .mobile-menu .mobile-nav-link { color:rgba(26,20,16,0.65); }
-    html.force-light .mobile-menu .mobile-nav-link:hover { color:var(--orange); background:rgba(200,100,20,0.07); }
+    html.force-light .mobile-menu .mobile-nav-link { color:rgba(26,20,16,0.65) !important; }
+    html.force-light .mobile-menu .mobile-nav-link:hover { color:var(--orange) !important; background:rgba(200,100,20,0.07); }
     html.force-light .mobile-menu-divider { background:rgba(200,100,20,0.12); }
     html.force-light .mobile-lang-label { color:rgba(26,20,16,0.42); }
-    html.force-light #theme-toggle-mobile { border-color:rgba(26,20,16,0.22); color:rgba(26,20,16,0.6); }
+    html.force-light #theme-toggle-mobile { border-color:rgba(26,20,16,0.22) !important; color:rgba(26,20,16,0.6) !important; }
     /* Hero */
     html.force-light .hero { background:linear-gradient(160deg,#fff8f0 0%,#ffc86a 50%,#ffe8c0 100%); }
     html.force-light .hero h1 { color:#1a1410; }
