@@ -2131,7 +2131,7 @@
           <div class="guide-card-icon">🚛</div>
           <div class="guide-card-title" id="guide3-title">Getting Started</div>
           <div class="guide-card-desc" id="guide3-desc">New to Prohauling Relay? Follow the 5-step setup guide — from installing the extension to your first load alert. Includes Chrome safety notes and VPN tips.</div>
-          <div class="guide-card-cta" id="guide3-cta">View Setup Guide &rarr;</div>
+          <div class="guide-card-cta" id="guide3-cta">Open Getting Started Guide &rarr;</div>
         </div>
       </a>
 
@@ -2743,7 +2743,7 @@ var translations = {
     'guide2-cta':             'Open Visual Guide &rarr;',
     'guide3-title':           'Getting Started',
     'guide3-desc':            'New to Prohauling Relay? Follow the 5-step setup guide — from installing the extension to your first load alert. Includes Chrome safety notes and VPN tips.',
-    'guide3-cta':             'View Setup Guide &rarr;',
+    'guide3-cta':             'Open Getting Started Guide &rarr;',
 
     /* Pricing */
     'pricing-label':          'Simple Pricing',
@@ -2926,7 +2926,7 @@ var translations = {
     'guide2-cta':             'Abrir Guía Visual &rarr;',
     'guide3-title':           'Primeros Pasos',
     'guide3-desc':            '¿Nuevo en Prohauling Relay? Sigue la guía de 5 pasos — desde instalar la extensión hasta tu primera alerta de carga. Incluye notas de seguridad de Chrome y consejos sobre VPN.',
-    'guide3-cta':             'Ver Guía &rarr;',
+    'guide3-cta':             'Abrir Guía de Inicio &rarr;',
 
     /* Pricing */
     'pricing-label':          'Precios Simples',
@@ -3326,6 +3326,7 @@ function goToStore() {
   closeTrialModal();
 }
 function openTrialModal() {
+  try { if (localStorage.getItem('ph_trial_done')) { goToStore(); return; } } catch(e) {}
   var modal = document.getElementById('trialModal');
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -3368,6 +3369,7 @@ function submitTrial() {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     if (data.success || data.already_exists) {
+      try { localStorage.setItem('ph_trial_done', '1'); } catch(e) {}
       document.getElementById('modal-form-view').style.display = 'none';
       document.getElementById('modal-success-view').style.display = 'block';
       // Auto-redirect to Chrome Store after 1.5 seconds
