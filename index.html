@@ -1635,16 +1635,16 @@
       gap: 16px;
     }
 
+    .bento-wide { grid-column: span 2; }
+
     @media (max-width: 780px) {
       .bento-grid { grid-template-columns: 1fr 1fr; }
       .bento-wide { grid-column: 1 / -1; }
     }
     @media (max-width: 640px) {
-      .bento-grid { grid-template-columns: 1fr; }
-      .bento-wide { grid-column: auto; }
+      .bento-grid { grid-template-columns: 1fr !important; }
+      .bento-wide { grid-column: auto !important; }
     }
-
-    .bento-wide { grid-column: span 2; }
 
     .bento-card {
       background: var(--card);
