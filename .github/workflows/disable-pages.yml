@@ -14,15 +14,50 @@ jobs:
       pages: write
       administration: write
     steps:
-      - name: Disable GitHub Pages if enabled
+      - name: Check and disable GitHub Pages if enabled
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          STATUS=$(gh api repos/${{ github.repository }}/pages --silent 2>&1 || echo "NOT_FOUND")
-          if echo "$STATUS" | grep -q "NOT_FOUND\|404"; then
-            echo "GitHub Pages already disabled. Nothing to do."
+          # Capture both stdout and stderr; don't suppress with --silent
+          HTTP_STATUS=$(gh api repos/${{ github.repository }}/pages \
+            -H "Accept: application/vnd.github+json" \
+            --include 2>&1 | grep "^HTTP" | awk '{print $2}' || echo "ERROR")
+
+          if [ "$HTTP_STATUS" = "404" ]; then
+            echo "✅ GitHub Pages is disabled. Nothing to do."
+            exit 0
+          fi
+
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "⚠️  GitHub Pages is ENABLED — disabling now."
+            DELETE_STATUS=$(gh api --method DELETE \
+              repos/${{ github.repository }}/pages \
+              -H "Accept: application/vnd.github+json" \
+              --include 2>&1 | grep "^HTTP" | awk '{print $2}' || echo "ERROR")
+
+            if [ "$DELETE_STATUS" = "204" ] || [ "$DELETE_STATUS" = "200" ]; then
+              echo "✅ GitHub Pages disabled successfully (HTTP $DELETE_STATUS)."
+            else
+              echo "❌ Failed to disable GitHub Pages (HTTP $DELETE_STATUS)."
+              exit 1
+            fi
           else
-            echo "GitHub Pages is ENABLED — disabling now."
-            gh api --method DELETE repos/${{ github.repository }}/pages
-            echo "GitHub Pages disabled successfully."
+            echo "⚠️  Unexpected response: HTTP $HTTP_STATUS — may be a permission issue."
+            echo "    Ensure GITHUB_TOKEN has 'administration: write' permission."
+            exit 1
+          fi
+
+      - name: Verify Pages is now disabled
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          sleep 3
+          VERIFY=$(gh api repos/${{ github.repository }}/pages \
+            -H "Accept: application/vnd.github+json" \
+            --include 2>&1 | grep "^HTTP" | awk '{print $2}' || echo "ERROR")
+          if [ "$VERIFY" = "404" ]; then
+            echo "✅ Verified: GitHub Pages is disabled."
+          else
+            echo "❌ GitHub Pages may still be active (HTTP $VERIFY). Manual check needed."
+            exit 1
           fi
