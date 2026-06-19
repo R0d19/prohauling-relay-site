@@ -173,6 +173,8 @@
     footer a { color: rgba(255,255,255,0.3); text-decoration: none; }
     footer a:hover { color: var(--orange); }
 
+    #page-wrap { overflow-x: hidden; width: 100%; max-width: 100vw; position: relative; }
+
     /* ── MOBILE ── */
     @media (max-width: 600px) {
       nav { padding: 0 16px; }
@@ -184,6 +186,7 @@
   </style>
 </head>
 <body>
+<div id="page-wrap">
 
 <nav>
   <a class="nav-logo" href="/">
@@ -306,75 +309,8 @@
   <a href="mailto:support@prohauling-relay.com">support@prohauling-relay.com</a>
 </footer>
 
-<script>
-const T = {
-  en: {
-    'nav-back-text':  'Back to site',
-    'hero-label':     'Setup Guide',
-    'hero-title':     'Auto-Booking Setup',
-    'hero-sub':       'Follow these steps to set up drivers, configure your filters, and let Prohauling Relay book loads for you automatically.',
-    's1-title':       'Open Drivers &amp; Auto Book Schedule',
-    's1-desc':        'Click the <strong>Drivers + Auto Book Schedule</strong> tab in the extension. If you haven\'t added any drivers yet, you\'ll see the empty state below. Before the engine can book anything, it needs at least one driver profile with a Telegram ID and phone number.',
-    's1-callout':     'Click here to add your first driver',
-    's1-tip':         '<strong>Tip:</strong> Each driver needs a Telegram Chat ID. Have them message <strong>@GetMyid_Bot</strong> on Telegram — it replies with their numeric chat ID instantly.',
-    's2-title':       'Add a Driver Profile',
-    's2-desc':        'Click <strong>+ Add New Driver</strong> and fill in the form. Enter the driver\'s full name, phone number (with country code), Telegram Chat ID, trailer type, and preferred language. Truck is optional — it\'s just for your reference.',
-    's2-tip':         '<strong>Tip:</strong> The <strong>Language</strong> field controls the language of the phone call alerts (via Telnyx) and on-screen alerts for that driver — choose English or Spanish.',
-    's3-title':       'Set Global Settings &amp; Configure a Slot',
-    's3-desc':        'Once a driver is saved, you\'ll see the <strong>Global Settings</strong> and your first booking slot. Set the <strong>Auto Book Refresh Interval</strong> (how often the engine re-checks loads) and your <strong>Deadhead Avg Speed</strong> (used to estimate travel time). Then configure <strong>Slot 1</strong> with your route, minimum pay, and filters.',
-    's3-tip':         '<strong>Tip:</strong> Enable <strong>Deadhead Time Check</strong> in the slot — it skips a load automatically if the driver can\'t reach the pickup on time based on their current location and your deadhead speed setting.',
-    's4-title':       'Review the Full Slot Configuration',
-    's4-desc':        'Each slot has three main sections: <strong>Pay &amp; Load Filters</strong> (minimum payout, $/mile, distance, duration), <strong>AI Settings</strong> (AI score threshold, confidence minimum, dynamic booking mode), and <strong>Schedule</strong> (which days and hours the slot is active). Set them to match your preferred loads.',
-    's4-tip':         '<strong>Tip:</strong> Use <strong>AI Adjusts Booking Mode Dynamically</strong> — the engine switches automatically between Straight Book, Countdown, and Alert-Only based on the AI score, so the best loads book instantly and borderline loads give you time to decide.',
-    's5-title':       'Turn It On and Walk Away',
-    's5-desc':        'Once your driver and slots are configured, switch the main <strong>Auto-Booking</strong> toggle to ON from the extension panel. Leave the load board open in Chrome. Prohauling Relay will monitor every load in the background, apply all your filters, and auto-book qualifying loads — even while you\'re away from the screen.',
-    's5-tip':         '<strong>Tip:</strong> You can run up to <strong>5 booking slots per driver</strong>, each with completely independent route, filter, and schedule settings. Use multiple slots to cover different lanes at the same time.',
-    'done-title':     'You\'re all set.',
-    'done-desc':      'Auto-booking is configured. Qualifying loads will be booked automatically according to your filters and schedule.',
-  },
-  es: {
-    'nav-back-text':  'Volver al sitio',
-    'hero-label':     'Guía de Configuración',
-    'hero-title':     'Configuración de Auto-Reserva',
-    'hero-sub':       'Sigue estos pasos para configurar conductores, establecer tus filtros y dejar que Prohauling Relay reserve cargas por ti automáticamente.',
-    's1-title':       'Abre Conductores y Horario de Auto-Reserva',
-    's1-desc':        'Haz clic en la pestaña <strong>Conductores + Horario de Auto-Reserva</strong> en la extensión. Si no has agregado conductores todavía, verás la pantalla vacía que se muestra abajo. Antes de que el motor pueda reservar algo, necesita al menos un perfil de conductor con ID de Telegram y número de teléfono.',
-    's1-callout':     'Haz clic aquí para agregar tu primer conductor',
-    's1-tip':         '<strong>Consejo:</strong> Cada conductor necesita un ID de Chat de Telegram. Pídeles que le envíen un mensaje a <strong>@GetMyid_Bot</strong> en Telegram — les responde con su ID numérico de inmediato.',
-    's2-title':       'Agrega un Perfil de Conductor',
-    's2-desc':        'Haz clic en <strong>+ Agregar Nuevo Conductor</strong> y llena el formulario. Ingresa el nombre completo del conductor, número de teléfono (con código de país), ID de Chat de Telegram, tipo de remolque e idioma preferido. El camión es opcional — es solo para tu referencia.',
-    's2-tip':         '<strong>Consejo:</strong> El campo <strong>Idioma</strong> controla el idioma de las llamadas telefónicas (vía Telnyx) y las alertas en pantalla para ese conductor — elige Inglés o Español.',
-    's3-title':       'Configura los Ajustes Globales y un Ranura',
-    's3-desc':        'Una vez guardado el conductor, verás los <strong>Ajustes Globales</strong> y tu primera ranura de reserva. Establece el <strong>Intervalo de Actualización de Auto-Reserva</strong> (con qué frecuencia el motor revisa las cargas) y tu <strong>Velocidad Promedio en Vacío</strong> (usada para estimar el tiempo de viaje). Luego configura la <strong>Ranura 1</strong> con tu ruta, pago mínimo y filtros.',
-    's3-tip':         '<strong>Consejo:</strong> Activa <strong>Verificación de Tiempo en Vacío</strong> en la ranura — omite una carga automáticamente si el conductor no puede llegar al punto de recogida a tiempo según su ubicación actual y tu velocidad en vacío configurada.',
-    's4-title':       'Revisa la Configuración Completa de la Ranura',
-    's4-desc':        'Cada ranura tiene tres secciones principales: <strong>Filtros de Pago y Carga</strong> (pago mínimo, $/milla, distancia, duración), <strong>Ajustes de IA</strong> (umbral de puntuación IA, confianza mínima, modo de reserva dinámico), y <strong>Horario</strong> (qué días y horas está activa la ranura). Ajústalos según las cargas que prefieres.',
-    's4-tip':         '<strong>Consejo:</strong> Usa <strong>IA Ajusta el Modo de Reserva Dinámicamente</strong> — el motor cambia automáticamente entre Reserva Directa, Cuenta Regresiva y Solo-Alerta según la puntuación IA, para que las mejores cargas se reserven al instante y las cargas límite te den tiempo para decidir.',
-    's5-title':       'Actívalo y Aléjate',
-    's5-desc':        'Una vez configurados el conductor y las ranuras, activa el interruptor principal de <strong>Auto-Reserva</strong> desde el panel de la extensión. Deja el tablero de cargas abierto en Chrome. Prohauling Relay monitoreará cada carga en segundo plano, aplicará todos tus filtros y reservará las cargas calificadas — incluso mientras estás lejos de la pantalla.',
-    's5-tip':         '<strong>Consejo:</strong> Puedes ejecutar hasta <strong>5 ranuras de reserva por conductor</strong>, cada una con configuración de ruta, filtros y horario completamente independiente. Usa múltiples ranuras para cubrir diferentes rutas al mismo tiempo.',
-    'done-title':     'Todo listo.',
-    'done-desc':      'La auto-reserva está configurada. Las cargas calificadas se reservarán automáticamente según tus filtros y horario.',
-  }
-};
+<script src="tutorial.js"></script>
 
-function setLang(lang) {
-  Object.keys(T[lang]).forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) el.innerHTML = T[lang][id];
-  });
-  document.getElementById('lb-en').classList.toggle('active', lang === 'en');
-  document.getElementById('lb-es').classList.toggle('active', lang === 'es');
-  document.documentElement.lang = lang;
-  try { localStorage.setItem('ph_lang', lang); } catch(e) {}
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  var lang = 'en';
-  try { lang = localStorage.getItem('ph_lang') || 'en'; } catch(e) {}
-  setLang(lang);
-});
-</script>
-
+</div><!-- end #page-wrap -->
 </body>
 </html>

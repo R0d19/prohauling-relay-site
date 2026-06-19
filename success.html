@@ -21,6 +21,8 @@
       padding: 32px 16px;
     }
 
+    #page-wrap { overflow-x: hidden; width: 100%; max-width: 100vw; position: relative; }
+
     .card {
       background: #151515;
       border: 1px solid rgba(255,128,0,0.2);
@@ -145,6 +147,7 @@
   </style>
 </head>
 <body>
+<div id="page-wrap">
 <div class="card">
 
   <!-- Header -->
@@ -219,83 +222,8 @@
 
 </div>
 
-<script>
-// ── Replace with your deployed backend URL ────────────────────────────────────
-const BACKEND_URL = 'https://prohauling-backend-production.up.railway.app';
+<script src="success.js"></script>
 
-// ── Fetch real key from backend using Stripe session_id ───────────────────────
-// Stripe appends ?session_id=xxxx to the success URL automatically.
-// We poll up to 6 times (1 s apart) to absorb the webhook race condition —
-// the redirect can land before the webhook fires and creates the key in the DB.
-(async () => {
-  const params    = new URLSearchParams(window.location.search);
-  const sessionId = params.get('session_id');
-  const keyDisplay  = document.getElementById('keyDisplay');
-  const copyBtn     = document.getElementById('copyBtn');
-  const saveNotice  = document.getElementById('saveNotice');
-  const errorNotice = document.getElementById('errorNotice');
-
-  // If user refreshed the page, reuse the stored key
-  const cached = sessionStorage.getItem('ph_delivery_key');
-  if (cached) {
-    showKey(cached);
-    return;
-  }
-
-  if (!sessionId) {
-    keyDisplay.innerHTML = '<span style="color:#f87171;font-size:13px;">No session ID found.</span>';
-    errorNotice.style.display = 'block';
-    return;
-  }
-
-  // Poll up to 6 times, 1 second apart
-  const MAX_ATTEMPTS = 6;
-  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    keyDisplay.innerHTML = `<span class="key-loading">Retrieving your key… (${attempt}/${MAX_ATTEMPTS})</span>`;
-    try {
-      const res  = await fetch(`${BACKEND_URL}/api/payment/key-by-session/${sessionId}`);
-      const data = await res.json();
-
-      if (data.success && data.licenseKey) {
-        sessionStorage.setItem('ph_delivery_key', data.licenseKey);
-        showKey(data.licenseKey);
-        return;
-      }
-
-      // pending = webhook not yet processed — wait and retry
-      if (data.pending && attempt < MAX_ATTEMPTS) {
-        await new Promise(r => setTimeout(r, 1000));
-        continue;
-      }
-    } catch (_) {
-      if (attempt < MAX_ATTEMPTS) {
-        await new Promise(r => setTimeout(r, 1000));
-        continue;
-      }
-    }
-  }
-
-  // All retries exhausted
-  keyDisplay.innerHTML = '<span style="color:#f87171;font-size:13px;">Could not retrieve key.</span>';
-  errorNotice.style.display = 'block';
-
-  function showKey(key) {
-    keyDisplay.textContent = key;
-    saveNotice.style.display = 'block';
-    copyBtn.disabled = false;
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText(key).then(() => {
-        copyBtn.textContent = '✓ Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => {
-          copyBtn.textContent = '📋 Copy License Key';
-          copyBtn.classList.remove('copied');
-        }, 2500);
-      });
-    });
-  }
-})();
-</script>
-
+</div><!-- end #page-wrap -->
 </body>
 </html>

@@ -11,6 +11,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: system-ui, -apple-system, sans-serif; background: #111213; color: #e0e0e0; line-height: 1.7; min-height: 100vh; }
+    #page-wrap { overflow-x: hidden; width: 100%; max-width: 100vw; position: relative; }
     header {
       background: linear-gradient(135deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
       border-bottom: 2px solid #c85a00;
@@ -36,6 +37,7 @@
   </style>
 </head>
 <body>
+<div id="page-wrap">
 
 <header>
   <img src="icons/icon128.png" alt="Prohauling Relay">
@@ -46,54 +48,73 @@
 </header>
 
 <main>
-<p class="updated">Last updated: April 7, 2026</p>
+<p class="updated">Last updated: June 3, 2026</p>
 
 <h2>1. Overview</h2>
-<p>Prohauling Relay ("the Extension") is a Chrome browser extension designed for Amazon Relay truck drivers. This Privacy Policy explains what data the Extension accesses, how it is used, and what is never collected or transmitted.</p>
+<p>Prohauling Relay ("the Service") includes a Chrome browser extension and the website at prohauling-relay.com. This Privacy Policy explains what data is collected through both the extension and the website, how it is used, and your rights regarding that data.</p>
 
-<h2>2. Data We Do NOT Collect</h2>
-<p>The Extension does <strong>not</strong> collect, store, transmit, or share any personal information. Specifically:</p>
+<h2>2. Data Collected Through the Website (prohauling-relay.com)</h2>
+<p>When you sign up for a free trial or purchase a subscription through our website, we collect:</p>
 <ul>
-  <li>No names, email addresses, or account information are collected.</li>
-  <li>No Amazon Relay credentials or login data are accessed or stored.</li>
-  <li>No load data, route information, or earnings data is sent to any external server.</li>
-  <li>No browsing history is tracked or recorded.</li>
-  <li>No analytics or usage tracking of any kind is performed.</li>
+  <li><strong>Email address:</strong> Collected when you start a free trial via the signup form. Used to send trial confirmation, welcome instructions, and subscription reminders.</li>
+  <li><strong>Payment information:</strong> Handled entirely by Stripe. We do not receive or store your credit card number. We receive only a Stripe customer ID and subscription status.</li>
+  <li><strong>License key records:</strong> When a subscription is activated, a license key is generated and associated with your email address in our backend database.</li>
 </ul>
 
-<h2>3. Data Stored Locally on Your Device</h2>
-<p>The Extension stores the following data exclusively on your local device using the browser's built-in <code>localStorage</code>. This data never leaves your computer:</p>
+<h2>3. Data Stored by the Extension (on your device)</h2>
+<p>The Extension stores the following data exclusively on your local device using the browser's built-in <code>localStorage</code>. This data never leaves your computer unless explicitly noted:</p>
 <ul>
   <li><strong>User preferences:</strong> Refresh interval, filter settings, sound preferences, theme selection, and language choice.</li>
   <li><strong>Installation date:</strong> Used only to calculate trial period duration. Stored as a timestamp with no identifying information.</li>
-  <li><strong>License key:</strong> If you enter a license key to activate the extension, it is stored locally on your device only.</li>
+  <li><strong>License key:</strong> Stored locally. Sent to our backend server for validation when the extension starts.</li>
+  <li><strong>Driver configuration:</strong> Telegram Chat IDs and phone numbers you enter are stored locally on your device and transmitted to our backend only when a load is matched and an alert must be sent.</li>
 </ul>
 
-<h2>4. Page Content Access</h2>
-<p>The Extension reads the content of pages on <strong>relay.amazon.com</strong> only. This is necessary to detect new loads and apply filters. This page content is processed locally in your browser and is never transmitted externally.</p>
+<h2>4. Data Used for Telegram and Phone Call Alerts</h2>
+<p>When you configure Telegram or phone call notifications:</p>
+<ul>
+  <li><strong>Telegram Chat ID:</strong> Stored locally and transmitted to our backend server when a qualifying load is found, solely to send the load notification message.</li>
+  <li><strong>Driver phone number:</strong> Stored locally and transmitted to our backend server when a qualifying load is found, solely to place the automated wake-up call via Telnyx.</li>
+</ul>
+<p>This data is not sold, shared with third parties for marketing, or used for any purpose other than delivering the alert you configured.</p>
 
-<h2>5. Permissions Explanation</h2>
+<h2>5. Page Content Access (Amazon Relay)</h2>
+<p>The Extension reads the content of pages on <strong>relay.amazon.com</strong> only. This is necessary to intercept API responses and detect new loads. This page content is processed locally in your browser. Load data itself is never transmitted to external servers.</p>
+
+<h2>6. Third-Party Services</h2>
+<p>We use the following third-party services. Each is subject to its own privacy policy:</p>
+<ul>
+  <li><strong>Stripe</strong> (payments) — <a href="https://stripe.com/privacy" target="_blank">stripe.com/privacy</a></li>
+  <li><strong>Telnyx</strong> (automated phone calls) — <a href="https://telnyx.com/privacy-policy" target="_blank">telnyx.com/privacy-policy</a></li>
+  <li><strong>Telegram</strong> (load notification messages) — <a href="https://telegram.org/privacy" target="_blank">telegram.org/privacy</a></li>
+  <li><strong>Railway</strong> (backend hosting) — <a href="https://railway.app/privacy" target="_blank">railway.app/privacy</a></li>
+  <li><strong>Vercel</strong> (website hosting) — <a href="https://vercel.com/legal/privacy-policy" target="_blank">vercel.com/legal/privacy-policy</a></li>
+  <li><strong>Google Fonts</strong> (website typography) — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+</ul>
+
+<h2>7. Permissions Explanation (Chrome Extension)</h2>
 <ul>
   <li><strong>notifications:</strong> Used to display desktop alerts when a qualifying load is found. No notification content is stored or transmitted.</li>
   <li><strong>storage:</strong> Used to save your settings locally across browser sessions.</li>
-  <li><strong>host_permissions (relay.amazon.com):</strong> Required to read the load board page and inject the monitoring bar.</li>
+  <li><strong>host_permissions (relay.amazon.com):</strong> Required to read the load board API responses and inject the monitoring interface.</li>
 </ul>
 
-<h2>6. Third-Party Services</h2>
-<p>The Extension does not communicate with any third-party services, analytics platforms, or advertising networks. The only external resource loaded is the Google Fonts stylesheet (for the Caveat font used in the toolbar), which is subject to <a href="https://policies.google.com/privacy" target="_blank">Google's Privacy Policy</a>.</p>
+<h2>8. Your Rights and Data Deletion</h2>
+<p>You may request deletion of your account data (email address, license key records) at any time by emailing <a href="mailto:support@prohauling-relay.com">support@prohauling-relay.com</a>. We will delete your records within 30 days of receiving a verified request. Telegram Chat IDs and phone numbers are stored only on your local device and can be cleared by uninstalling the extension or clearing its settings.</p>
 
-<h2>7. Children's Privacy</h2>
-<p>This Extension is intended for adult truck drivers. It is not directed at children under 13 and does not knowingly collect data from minors.</p>
+<h2>9. Children's Privacy</h2>
+<p>This Service is intended for adult truck drivers and dispatchers. It is not directed at children under 13 and does not knowingly collect data from minors.</p>
 
-<h2>8. Changes to This Policy</h2>
-<p>If this Privacy Policy changes, the updated version will be made available in the Extension's Chrome Web Store listing. Continued use of the Extension after changes constitutes acceptance of the updated policy.</p>
+<h2>10. Changes to This Policy</h2>
+<p>If this Privacy Policy changes materially, we will update the "Last updated" date above and notify active subscribers by email. Continued use of the Service after changes constitutes acceptance of the updated policy.</p>
 
-<h2>9. Contact</h2>
-<p>For questions about this Privacy Policy, contact us through the Chrome Web Store listing page.</p>
+<h2>11. Contact</h2>
+<p>For questions about this Privacy Policy or to request data deletion, contact us at: <a href="mailto:support@prohauling-relay.com">support@prohauling-relay.com</a></p>
 
 <hr>
 <p class="footer">Copyright &copy; 2026 Prohauling Relay. All rights reserved.</p>
 
 </main>
+</div><!-- end #page-wrap -->
 </body>
 </html>
