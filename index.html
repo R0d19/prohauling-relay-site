@@ -2127,11 +2127,11 @@
       <li><a href="#faq"          data-section="faq"          id="nav-faq">FAQ</a></li>
     </ul>
     <div class="lang-toggle nav-lang-desktop" id="langToggleDesktop">
-      <button class="lang-btn active" id="langBtnEnDesktop" onclick="setLanguage('en')">EN</button>
-      <button class="lang-btn"        id="langBtnEsDesktop" onclick="setLanguage('es')">ES</button>
+      <button class="lang-btn active" id="langBtnEnDesktop">EN</button>
+      <button class="lang-btn"        id="langBtnEsDesktop">ES</button>
     </div>
-    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:15px;line-height:1;color:var(--muted);transition:border-color .15s,color .15s;" title="Toggle light/dark mode">☀️</button>
-    <a href="#" onclick="openTrialModal();return false;" class="btn btn-primary nav-cta-desktop" style="font-size:13px;padding:9px 18px;" id="nav-cta">Get Started Free</a>
+    <button id="theme-toggle" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:15px;line-height:1;color:var(--muted);transition:border-color .15s,color .15s;" title="Toggle light/dark mode">☀️</button>
+    <a href="#" class="btn btn-primary nav-cta-desktop" style="font-size:13px;padding:9px 18px;" id="nav-cta">Get Started Free</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -2151,11 +2151,11 @@
   <!-- Controls row: EN/ES | ☀️ | Get Started -->
   <div style="display:flex;align-items:center;gap:10px;padding-top:12px;">
     <div class="lang-toggle" id="langToggleMobile">
-      <button class="lang-btn active" id="langBtnEnMobile" onclick="setLanguage('en')">EN</button>
-      <button class="lang-btn"        id="langBtnEsMobile" onclick="setLanguage('es')">ES</button>
+      <button class="lang-btn active" id="langBtnEnMobile">EN</button>
+      <button class="lang-btn"        id="langBtnEsMobile">ES</button>
     </div>
-    <button id="theme-toggle-mobile" onclick="toggleTheme()" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 9px;cursor:pointer;font-size:15px;line-height:1;color:rgba(255,255,255,0.6);flex-shrink:0;">☀️</button>
-    <a href="#" onclick="openTrialModal();return false;" id="mobile-cta" style="flex:1;display:block;background:var(--orange);color:#000;font-weight:800;font-size:14px;text-align:center;padding:11px;border-radius:10px;">Get Started Free</a>
+    <button id="theme-toggle-mobile" aria-label="Toggle light/dark mode" style="background:none;border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 9px;cursor:pointer;font-size:15px;line-height:1;color:rgba(255,255,255,0.6);flex-shrink:0;">☀️</button>
+    <a href="#" id="mobile-cta" style="flex:1;display:block;background:var(--orange);color:#000;font-weight:800;font-size:14px;text-align:center;padding:11px;border-radius:10px;">Get Started Free</a>
   </div>
 </div>
 
@@ -2176,7 +2176,7 @@
       </p>
 
       <div class="hero-ctas reveal delay-3">
-        <button onclick="openTrialModal()" class="btn btn-primary btn-lg" id="hero-cta-primary">Start 7-Day Free Trial</button>
+        <button class="btn btn-primary btn-lg" id="hero-cta-primary">Start 7-Day Free Trial</button>
         <a href="#pricing" class="btn btn-outline btn-lg" id="hero-cta-secondary">See Pricing</a>
       </div>
       <span class="hero-annotation reveal delay-3">no credit card, seriously</span>
@@ -2325,7 +2325,7 @@
       <a href="tutorial.html" class="guide-card-link">
         <div class="guide-card-inner">
           <div class="guide-thumb-wrap">
-            <img src="tutorial/step4-overview.webp" alt="Auto-Booking Setup Preview" class="guide-thumb" loading="lazy" width="5108" height="2678" onclick="openLightbox(this,event)">
+            <img src="tutorial/step4-overview.webp" alt="Auto-Booking Setup Preview" class="guide-thumb" loading="lazy" width="5108" height="2678">
             <div class="guide-thumb-hint">Tap to zoom</div>
           </div>
           <div class="guide-card-title" id="guide1-title">Auto-Booking Setup Guide</div>
@@ -2338,7 +2338,7 @@
       <a href="slides.html" class="guide-card-link">
         <div class="guide-card-inner">
           <div class="guide-thumb-wrap">
-            <img src="tutorial/step1b-add-driver.webp" alt="Visual Guide Preview" class="guide-thumb" loading="lazy" width="2470" height="750" onclick="openLightbox(this,event)">
+            <img src="tutorial/step1b-add-driver.webp" alt="Visual Guide Preview" class="guide-thumb" loading="lazy" width="2470" height="750">
             <div class="guide-thumb-hint">Tap to zoom</div>
           </div>
           <div class="guide-card-title" id="guide2-title">Visual Guide</div>
@@ -2683,7 +2683,7 @@
           <li id="plan1-f6">Fleet &amp; multi-driver profiles</li>
           <li id="plan1-f7">25 themes · English &amp; Spanish</li>
         </ul>
-        <button onclick="openTrialModal()" class="btn-plan btn-plan-secondary" id="plan1-cta">Start 7-Day Free Trial</button>
+        <button class="btn-plan btn-plan-secondary" id="plan1-cta">Start 7-Day Free Trial</button>
       </div>
 
       <div class="price-card featured reveal delay-2">
@@ -2703,7 +2703,7 @@
           <li id="plan2-f3">Priority support</li>
           <li id="plan2-f4">All future feature updates included</li>
         </ul>
-        <button onclick="openTrialModal()" class="btn-plan btn-plan-primary" id="plan2-cta">Start 7-Day Free Trial</button>
+        <button class="btn-plan btn-plan-primary" id="plan2-cta">Start 7-Day Free Trial</button>
       </div>
 
     </div>
@@ -2725,7 +2725,7 @@
     <div class="faq-list">
 
       <div class="faq-item reveal delay-1">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq1-q">Is using this extension against the platform's Terms of Service?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2735,7 +2735,7 @@
       </div>
 
       <div class="faq-item reveal delay-2">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq2-q">Will it book loads I don't want?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2745,7 +2745,7 @@
       </div>
 
       <div class="faq-item reveal delay-3">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq3-q">What if the load board changes?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2755,7 +2755,7 @@
       </div>
 
       <div class="faq-item reveal delay-4">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq4-q">Do I need to leave my computer on?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2765,7 +2765,7 @@
       </div>
 
       <div class="faq-item reveal delay-5">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq5-q">Can I use it for multiple drivers in my fleet?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2775,7 +2775,7 @@
       </div>
 
       <div class="faq-item reveal delay-6">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq6-q">Is the 7-day trial really free? No credit card?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2785,7 +2785,7 @@
       </div>
 
       <div class="faq-item reveal delay-7">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq7-q">What happens when a load is booked overnight?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2795,7 +2795,7 @@
       </div>
 
       <div class="faq-item reveal delay-8">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq8-q">Does the driver need access to Amazon Relay at home?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2805,7 +2805,7 @@
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq9-q">How does the phone call work?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2815,7 +2815,7 @@
       </div>
 
       <div class="faq-item reveal">
-        <button class="faq-question" onclick="toggleFaq(this)">
+        <button class="faq-question">
           <span id="faq10-q">What information is in the Telegram message?</span>
           <div class="faq-icon">+</div>
         </button>
@@ -2860,7 +2860,7 @@
 ══════════════════════════════════════ -->
 <div id="trialModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
   <div style="background:#151515;border:1px solid rgba(255,128,0,0.3);border-top:3px solid #FF8000;border-radius:20px;width:100%;max-width:420px;padding:36px 32px;position:relative;box-shadow:0 32px 80px rgba(0,0,0,0.6);">
-    <button onclick="closeTrialModal()" style="position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(255,255,255,0.3);font-size:22px;cursor:pointer;line-height:1;">&#10005;</button>
+    <button style="position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(255,255,255,0.3);font-size:22px;cursor:pointer;line-height:1;">&#10005;</button>
 
     <div id="modal-form-view">
       <div style="font-size:28px;margin-bottom:12px;">&#9889;</div>
@@ -2869,9 +2869,9 @@
 
       <input type="email" id="trialEmail" placeholder="your@email.com"
         style="width:100%;background:#1a1a1a;border:1px solid rgba(255,128,0,0.3);border-radius:10px;padding:13px 16px;font-size:15px;color:#fff;outline:none;margin-bottom:12px;box-sizing:border-box;"
-        onkeydown="if(event.key==='Enter')submitTrial()">
+        >
 
-      <button onclick="submitTrial()" id="modal-submit-btn"
+      <button id="modal-submit-btn"
         style="width:100%;background:#FF8000;color:#000;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;transition:background .15s;">
         <span id="modal-btn-text">Start Free Trial</span>
       </button>
@@ -2885,7 +2885,7 @@
       <h3 id="modal-success-title" style="font-size:20px;font-weight:900;color:#22c55e;margin:0 0 12px;">You're in!</h3>
       <p id="modal-success-sub" style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.7;margin:0 0 16px;">Taking you to the Chrome Web Store now. Install the extension, open your load board, and Auto-Book is ready to go.</p>
       <p style="font-size:12px;color:rgba(255,255,255,0.3);margin:0 0 20px;line-height:1.6;">📬 Welcome email on its way — if you don't see it, check your spam folder and mark it as "Not spam".</p>
-      <button onclick="goToStore()" style="background:#FF8000;color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:800;cursor:pointer;">Install Extension →</button>
+      <button style="background:#FF8000;color:#000;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:800;cursor:pointer;">Install Extension →</button>
     </div>
   </div>
 </div>
@@ -2894,8 +2894,8 @@
 
 
 <!-- ── Lightbox ── -->
-<div id="lightbox" onclick="closeLightbox()">
-  <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+<div id="lightbox">
+  <button id="lightbox-close" aria-label="Close">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 

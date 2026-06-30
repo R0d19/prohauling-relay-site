@@ -333,6 +333,39 @@
       .hero h1 { font-size: 27px; }
       .step-title { font-size: 16px; }
     }
+
+    /* ── Trial signup form ─────────────────────────── */
+    .trial-form-block { width: 100%; max-width: 500px; margin: 22px auto 0; }
+    .trial-form-row { display: flex; gap: 10px; align-items: stretch; }
+    .trial-email-input {
+      flex: 1; background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,128,0,0.35); border-radius: 10px;
+      color: #fff; font-size: 15px; padding: 13px 16px; outline: none;
+      transition: border-color .2s;
+    }
+    .trial-email-input::placeholder { color: rgba(255,255,255,0.3); }
+    .trial-email-input:focus { border-color: var(--orange); }
+    .trial-submit-btn {
+      background: var(--orange); color: #000; font-weight: 800; font-size: 14px;
+      border: none; border-radius: 10px; padding: 13px 20px;
+      cursor: pointer; white-space: nowrap; transition: opacity .2s;
+    }
+    .trial-submit-btn:hover { opacity: .88; }
+    .trial-submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .trial-error { color: #ff5555; font-size: 13px; margin-top: 8px; text-align: left; }
+    .trial-success-wrap { text-align: center; padding: 14px 0; }
+    .trial-success-msg { color: #4ade80; font-weight: 700; font-size: 15px; margin-bottom: 16px; }
+    .chrome-install-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--orange); color: #000; font-weight: 800; font-size: 15px;
+      padding: 14px 28px; border-radius: 12px; text-decoration: none;
+      transition: opacity .2s, transform .2s;
+    }
+    .chrome-install-btn:hover { opacity: .88; transform: translateY(-2px); }
+    @media (max-width: 480px) {
+      .trial-form-row { flex-direction: column; }
+      .trial-email-input, .trial-submit-btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -349,8 +382,8 @@
 
 <!-- Lang bar -->
 <div class="lang-bar">
-  <button class="lang-pill active" id="btnEn" onclick="setLang('en')">🇺🇸 English</button>
-  <button class="lang-pill"        id="btnEs" onclick="setLang('es')">🇪🇸 Español</button>
+  <button class="lang-pill active" id="btnEn">🇺🇸 English</button>
+  <button class="lang-pill"        id="btnEs">🇪🇸 Español</button>
 </div>
 
 
@@ -358,14 +391,30 @@
 <div id="lang-en" style="width:100%;display:flex;flex-direction:column;align-items:center;">
 
 <div class="hero">
-  <div class="hero-badge">✅ Extension Installed Successfully</div>
+  <div class="hero-badge">🚀 Start Your 7-Day Free Trial</div>
+
+  <h1>Welcome to <span>Prohauling</span> Relay</h1>
+  <p class="hero-sub">Enter your email to activate your free trial, then install the extension and follow the setup steps below.</p>
+
+  <div class="trial-form-block">
+    <div id="twf-en">
+      <div class="trial-form-row">
+        <input type="email" id="tw-email-en" class="trial-email-input" placeholder="your@email.com" autocomplete="email" />
+        <button class="trial-submit-btn" id="tw-btn-en">
+          <span id="tw-btn-text-en">Activate Trial</span>
+        </button>
+      </div>
+      <div id="tw-error-en" class="trial-error" style="display:none;"></div>
+    </div>
+    <div id="tw-success-en" class="trial-success-wrap" style="display:none;">
+      <div class="trial-success-msg">✅ Trial activated! Install the extension below — then come back to this page to pin it to your toolbar.</div>
+      <a href="https://chromewebstore.google.com/detail/prohauling-relay/kffhjamcojjcihbnakfehcogdcdknheb" target="_blank" rel="noopener" class="chrome-install-btn">Install Prohauling on Chrome ↗</a>
+    </div>
+  </div>
 
   <div class="notice notice-blue">
     🛡️ <b class="bl">About the Chrome safety warning:</b> When installing a new extension, Chrome may show <em>"Not trusted by Enhanced Safe Browsing."</em> This is normal for any recently published extension — it simply means it hasn't yet accumulated enough installs for Google's automatic trust system. Prohauling Relay is safe, reviewed by Google, and published on the official Chrome Web Store.
   </div>
-
-  <h1>Welcome to <span>Prohauling</span> Relay</h1>
-  <p class="hero-sub">You're 5 steps away from your first load alert. Follow the steps below — it takes less than a minute.</p>
 
   <div class="notice notice-orange">
     🖥️ <b class="or">Font too big or too small?</b> Adjust your browser zoom:<br>
@@ -384,8 +433,8 @@
 
   <!-- Pin guide — TOP PRIORITY -->
   <div class="pin-guide" style="border-color:rgba(255,128,0,0.35);background:rgba(255,128,0,0.06);">
-    <div class="section-label" style="margin-bottom:0;">📌 Pin Prohauling to your Chrome toolbar — do this now</div>
-    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Takes 5 seconds. Without this, the extension is buried in a menu every time. Pin it once and it's always one click away.</p>
+    <div class="section-label" style="margin-bottom:0;">📌 After installing, pin Prohauling to your Chrome toolbar</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Once the extension is installed, follow these 4 steps to pin it. Takes 5 seconds — without this, the extension is buried in a menu every time.</p>
     <div class="pin-steps">
       <div class="pin-step">
         <div class="pin-num">1</div>
@@ -485,8 +534,8 @@
 
   <!-- Pin guide -->
   <div class="pin-guide">
-    <div class="section-label" style="margin-bottom:0;">📌 Pin Prohauling to your Chrome toolbar — do this now</div>
-    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Takes 5 seconds. Without this, the extension is buried in a menu every time. Pin it once and it's always one click away.</p>
+    <div class="section-label" style="margin-bottom:0;">📌 After installing, pin Prohauling to your Chrome toolbar</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Once the extension is installed, follow these 4 steps to pin it. Takes 5 seconds — without this, the extension is buried in a menu every time.</p>
     <div class="pin-steps">
       <div class="pin-step">
         <div class="pin-num">1</div>
@@ -533,14 +582,30 @@
 <div id="lang-es" style="display:none;width:100%;flex-direction:column;align-items:center;">
 
 <div class="hero">
-  <div class="hero-badge">✅ Extensión Instalada Correctamente</div>
+  <div class="hero-badge">🚀 Inicia Tu Prueba Gratuita de 7 Días</div>
+
+  <h1>Bienvenido a <span>Prohauling</span> Relay</h1>
+  <p class="hero-sub">Ingresa tu correo para activar tu prueba gratuita, luego instala la extensión y sigue los pasos de configuración.</p>
+
+  <div class="trial-form-block">
+    <div id="twf-es">
+      <div class="trial-form-row">
+        <input type="email" id="tw-email-es" class="trial-email-input" placeholder="tu@correo.com" autocomplete="email" />
+        <button class="trial-submit-btn" id="tw-btn-es">
+          <span id="tw-btn-text-es">Activar Prueba</span>
+        </button>
+      </div>
+      <div id="tw-error-es" class="trial-error" style="display:none;"></div>
+    </div>
+    <div id="tw-success-es" class="trial-success-wrap" style="display:none;">
+      <div class="trial-success-msg">✅ ¡Prueba activada! Instala la extensión abajo — luego vuelve a esta página para anclarla en tu barra.</div>
+      <a href="https://chromewebstore.google.com/detail/prohauling-relay/kffhjamcojjcihbnakfehcogdcdknheb" target="_blank" rel="noopener" class="chrome-install-btn">Instalar Prohauling en Chrome ↗</a>
+    </div>
+  </div>
 
   <div class="notice notice-blue">
     🛡️ <b class="bl">Sobre la advertencia de seguridad de Chrome:</b> Al instalar una extensión nueva, Chrome puede mostrar <em>"No es de confianza según Navegación segura mejorada."</em> Esto es normal para cualquier extensión recién publicada — simplemente significa que aún no tiene suficientes instalaciones para el sistema automático de confianza de Google. Prohauling Relay es segura, revisada por Google y publicada en la Chrome Web Store oficial.
   </div>
-
-  <h1>Bienvenido a <span>Prohauling</span> Relay</h1>
-  <p class="hero-sub">Estás a 5 pasos de tu primera alerta de carga. Sigue los pasos a continuación — toma menos de un minuto.</p>
 
   <div class="notice notice-orange">
     🖥️ <b class="or">¿El texto se ve muy grande o muy pequeño?</b> Ajusta el zoom del navegador:<br>
@@ -559,8 +624,8 @@
 
   <!-- Pin guide — PRIORIDAD -->
   <div class="pin-guide" style="border-color:rgba(255,128,0,0.35);background:rgba(255,128,0,0.06);">
-    <div class="section-label" style="margin-bottom:0;">📌 Ancla Prohauling a tu barra de Chrome — hazlo ahora</div>
-    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Son 5 segundos. Sin esto, la extensión queda enterrada en un menú cada vez. Anclala una vez y siempre estará a un clic.</p>
+    <div class="section-label" style="margin-bottom:0;">📌 Después de instalar, ancla Prohauling a tu barra de Chrome</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Una vez instalada la extensión, sigue estos 4 pasos para anclarla. Son 5 segundos — sin esto, la extensión queda enterrada en un menú cada vez.</p>
     <div class="pin-steps">
       <div class="pin-step">
         <div class="pin-num">1</div>
@@ -660,8 +725,8 @@
 
   <!-- Pin guide -->
   <div class="pin-guide">
-    <div class="section-label" style="margin-bottom:0;">📌 Ancla Prohauling a tu barra de Chrome — hazlo ahora</div>
-    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Son 5 segundos. Sin esto, la extensión queda enterrada en un menú cada vez. Anclala una vez y siempre estará a un clic.</p>
+    <div class="section-label" style="margin-bottom:0;">📌 Después de instalar, ancla Prohauling a tu barra de Chrome</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.42);margin-top:8px;">Una vez instalada la extensión, sigue estos 4 pasos para anclarla. Son 5 segundos — sin esto, la extensión queda enterrada en un menú cada vez.</p>
     <div class="pin-steps">
       <div class="pin-step">
         <div class="pin-num">1</div>
