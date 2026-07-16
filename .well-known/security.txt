@@ -1,0 +1,4 @@
+Contact: mailto:support@prohauling-relay.com
+Expires: 2027-07-16T00:00:00.000Z
+Preferred-Languages: en, es
+Canonical: https://prohauling-relay.com/.well-known/security.txt

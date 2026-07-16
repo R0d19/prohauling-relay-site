@@ -24,6 +24,14 @@
           "value": "max-age=63072000; includeSubDomains; preload"
         },
         {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin-allow-popups"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "same-origin"
+        },
+        {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://prohauling-backend-production.up.railway.app https://pagead2.googlesyndication.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
         }
